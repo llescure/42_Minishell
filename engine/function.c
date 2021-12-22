@@ -1,34 +1,5 @@
 #include "minishell.h"
 
-int get_absolute_path(t_shell *shell)
-{
-    int i;
-    int compt;
-    char cwd[PATH_MAX];
-
-    compt = 0;
-    i = 0;
-
-    if (getcwd(cwd, sizeof(cwd)) != NULL)
-        shell->pwd = cwd;
-    shell->absolute_path = malloc(sizeof(char) * ft_strlen(shell->pwd) + 1);
-    if (!shell->absolute_path)
-        ft_error(shell);
-    while (shell->pwd[i] != '\0')
-    {
-        if (shell->pwd[i] == '/')
-            compt++;
-        if (compt == 3)
-        {
-            shell->absolute_path[i] = '\0';
-            return (0);
-        }
-        shell->absolute_path[i] = shell->pwd[i];
-        i++;
-    }
-    return (1);
-}
-
 int	ft_echo(char *str, char option)
 {
 	if (option != 'n' && option != 0)
@@ -76,41 +47,8 @@ int ft_cd(t_shell *shell)
     return (0);
 }
 
-void alpha_sort(t_shell *shell, int index)
-{
-    int i;
-    int j;
-    char *temp;
 
-    i = 0;
-    while (i < index)
-    {
-        j = i + 1;
-        while (j < index)
-        {
-            if (ft_strncmp(shell->env[i], shell->env[j], ft_strlen(shell->env[i]) + ft_strlen(shell->env[j])) > 0)
-            {
-                temp = malloc(sizeof(char *) * ft_strlen(shell->env[i]) + 1);
-                if (!temp)
-                    ft_error(shell);
-                temp = shell->env[i];
-                shell->env[i] = shell->env[j];
-                shell->env[j] = temp;
-                // free(temp);
-            }
-            j++;
-        }
-        i++;
-    }
-    i = 0;
-    while (i < index)
-    {
-        printf("%s\n",shell->env[i]);
-        i++;
-    }
-}
-
-int ft_export(t_shell *shell, char **envp)
+void get_env(t_shell *shell, char **envp)
 {
     int index;
     int i;
@@ -118,18 +56,27 @@ int ft_export(t_shell *shell, char **envp)
     index = 0;
     i = 0;
     while (envp[index])
-    {
-        // printf("%s\n", envp[index]);
         index++;
-    }
-    shell->env = malloc(sizeof(char*) * index + 1);
-    if (!shell->env)
+    shell->env.index = index;
+    shell->env.env = malloc(sizeof(char*) * index + 1);
+    if (!shell->env.env)
+        ft_error(shell);
+    shell->env.alpha = malloc(sizeof(char*) * index + 1);
+    if (!shell->env.alpha)
         ft_error(shell);
     while (i < index)
     {
-        shell->env[i] = envp[i];
+        shell->env.env[i] = envp[i];
+        shell->env.alpha[i] = envp[i];
+        if (ft_strncmp(envp[i], "HOME=", ft_strlen("HOME=")) == 0)
+            get_absolute_path(shell, envp[i]);
         i++;
     }
-    alpha_sort(shell, index);
+}
+
+int ft_export(t_shell *shell)
+{
+    alpha_sort(shell);
+    print_env(shell, shell->env.alpha);
     return (0);
 }

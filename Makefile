@@ -8,8 +8,9 @@ OBJS = $(SRCS:.c=.o)
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS =	engine/main.c	\
-				engine/function.c	\
+SRCS =	engine/main.c		\
+		engine/function.c	\
+		engine/utils.c		\
 
 BLACK		:= $(shell tput -Txterm setaf 0)
 RED		:= $(shell tput -Txterm setaf 1)
