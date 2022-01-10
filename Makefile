@@ -1,16 +1,16 @@
 
 NAME = minishell
 
-LIBFT		=	./42_libft/libft.a
-LIBFT_DIR	=	./42_libft
+LIBFT		=	./srcs/libft/libft.a
+LIBFT_DIR	=	./srcs/libft
 
 OBJS = $(SRCS:.c=.o)
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS =	engine/main.c		\
-		engine/function.c	\
-		engine/utils.c		\
+SRCS =	srcs/main.c		\
+		srcs/builtin.c	\
+		srcs/utils.c		\
 
 BLACK		:= $(shell tput -Txterm setaf 0)
 RED		:= $(shell tput -Txterm setaf 1)
@@ -29,7 +29,7 @@ $(NAME): $(OBJS)
 		@echo "$(LIGHTPURPLE)Compilation...$(RESET)"
 		$(MAKE) -C $(LIBFT_DIR)
 		@echo "$(PURPLE)Libft compiled$(RESET)"
-		@(gcc -o $(NAME) $(SRCS) 42_libft/libft.a $(CFLAGS))
+		@(gcc -o $(NAME) $(SRCS) srcs/libft/libft.a $(CFLAGS))
 		@echo "$(GREEN)Compilation OK$(RESET)"
 
 all: $(NAME)
@@ -46,6 +46,6 @@ fclean: clean
 re: fclean all
 
 san:
-	@(gcc -o $(NAME) $(SRCS) 42_libft/libft.a $(CFLAGS) $(SAN))
+	@(gcc -o $(NAME) $(SRCS) srcs/libft/libft.a $(CFLAGS) $(SAN))
 
 .PHONY: all clean fclean re
