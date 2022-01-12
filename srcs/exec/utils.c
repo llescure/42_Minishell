@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../../include/minishell.h"
 
 void alpha_sort(t_shell *shell)
 {
@@ -8,20 +8,20 @@ void alpha_sort(t_shell *shell)
     int size;
 
     i = 0;
-    while (i < shell->env.index)
+    while (i < shell->env->index)
     {
         j = i + 1;
-        while (j < shell->env.index)
+        while (j < shell->env->index)
         {
-            size = ft_strlen(shell->env.alpha[i]) + ft_strlen(shell->env.alpha[j]);
-            if (ft_strncmp(shell->env.alpha[i], shell->env.alpha[j], size) > 0)
+            size = ft_strlen(shell->env->alpha[i]) + ft_strlen(shell->env->alpha[j]);
+            if (ft_strncmp(shell->env->alpha[i], shell->env->alpha[j], size) > 0)
             {
-                temp = malloc(sizeof(char *) * ft_strlen(shell->env.alpha[i]) + 1);
+                temp = malloc(sizeof(char *) * ft_strlen(shell->env->alpha[i]) + 1);
                 if (!temp)
                     ft_error(shell);
-                temp = shell->env.alpha[i];
-                shell->env.alpha[i] = shell->env.alpha[j];
-                shell->env.alpha[j] = temp;
+                temp = shell->env->alpha[i];
+                shell->env->alpha[i] = shell->env->alpha[j];
+                shell->env->alpha[j] = temp;
                 // free(temp);
             }
             j++;
@@ -57,7 +57,7 @@ void print_env(t_shell *shell, char **env)
     int i;
 
     i = 0;
-    while (i < shell->env.index)
+    while (i < shell->env->index)
     {
         printf("%s\n", env[i]);
         i++;
