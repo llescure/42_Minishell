@@ -6,6 +6,30 @@ void	create_new_line(int signum)
 	rl_on_new_line();
 	ft_putstr_fd("\n", 1);
 	rl_redisplay();
+	g_signal = -1;
+}
+
+int	handle_signal(char **user_input, t_shell *shell)
+{
+	char	*lign;
+
+	lign = *user_input;
+	signal(SIGQUIT, SIG_IGN);
+	if (user_input != NULL)
+	{
+		free(lign);
+		user_input = NULL;
+	}
+	lign = readline("my_minishell# ");
+	if (lign != NULL)
+		add_history(lign);
+	else
+	{
+		free_all(shell);
+		ft_putstr_fd("exit\n", 1);
+		return (-1);
+	}
+	return (0);
 }
 
 void	launch_shell(t_shell *shell)
@@ -16,22 +40,10 @@ void	launch_shell(t_shell *shell)
 	user_input = NULL;
 	while (1)
 	{
-		signal(SIGQUIT, SIG_IGN);
 		new_action.sa_handler = create_new_line;
 		sigaction(SIGINT, &new_action, NULL);
-		if (user_input != NULL)
-		{
-			free(user_input);
-			user_input = NULL;
-		}
-		user_input = readline("my_minishell# ");
-		if (user_input != NULL)
-			add_history(user_input);
-		else
-		{
-			free_all(shell);
-			ft_putstr_fd("exit\n", 1);
+		if (handle_signal(&user_input, shell) < 0)
 			return ;
-		}
+	//	parsing(user_input);
 	}
 }

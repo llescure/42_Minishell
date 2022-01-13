@@ -45,5 +45,6 @@ void	print_env(t_shell *shell, char **envp);
 void	launch_shell(t_shell *shell);
 void	free_all(t_shell *shell);
 void	create_new_line(int signum);
+int		handle_signal(char **user_input, t_shell *shell);
 
 #endif

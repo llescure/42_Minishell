@@ -12,6 +12,7 @@ void init_struct(t_shell *shell, char **envp)
 	shell->str = NULL;
 	get_env(shell, envp);
 	shell->variables = NULL;
+	g_signal = 0;
 }
 
 void free_all(t_shell *shell)
@@ -84,8 +85,6 @@ int main(int argc, char **argv, char **envp)
 			|| argc != 1)
 		return (ft_error(&shell));
 	init_struct(&shell, envp);
-	handle_builtin(&shell);
 	launch_shell(&shell);
-	//parsing(&shell);
 	return (0);
 }
