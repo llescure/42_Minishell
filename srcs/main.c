@@ -2,6 +2,9 @@
 
 void init_struct(t_shell *shell, char **envp)
 {
+	t_env	env;
+
+	shell->env = &env;
 	shell->pwd = malloc(sizeof(char) * PATH_MAX + 1);
 	if (!shell->pwd)
 		ft_error(shell);
@@ -13,9 +16,6 @@ void init_struct(t_shell *shell, char **envp)
 
 void free_all(t_shell *shell)
 {
-	int i;
-
-	i = 0;
 	if (shell->absolute_path)
 		free(shell->absolute_path);
 //	if (shell->variables)
@@ -24,6 +24,7 @@ void free_all(t_shell *shell)
 		// free (shell->cmd);
 	// if (shell->str)
 		// free (shell->str);
+	rl_clear_history();
 }
 
 int ft_error(t_shell *shell)
@@ -63,11 +64,11 @@ void	handle_builtin(t_shell *shell)
 		ft_export(shell);
 		quit_program(shell);
 	}
-		if (ft_strchr(shell->str, '=') != 0)
+	/*	if (ft_strchr(shell->str, '=') != 0)
 		{
-	//		create_variable(shell);
+			create_variable(shell);
 			quit_program(shell);
-		}
+		}*/
 	if (ft_strncmp(shell->cmd, "env", ft_strlen("env")) == 0)
 	{
 		print_env(shell, shell->env->env);
@@ -84,7 +85,7 @@ int main(int argc, char **argv, char **envp)
 		return (ft_error(&shell));
 	init_struct(&shell, envp);
 	handle_builtin(&shell);
-	//launch_shell(&shell);
+	launch_shell(&shell);
 	//parsing(&shell);
 	return (0);
 }

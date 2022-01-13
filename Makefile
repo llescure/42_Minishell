@@ -6,11 +6,12 @@ LIBFT_DIR	=	./srcs/libft
 
 OBJS = $(SRCS:.c=.o)
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -lreadline
 
 SRCS =	./srcs/main.c		\
 		./srcs/exec/builtin.c	\
 		./srcs/exec/utils.c		\
+		./srcs/exec/launch_shell.c		\
 
 BLACK		:= $(shell tput -Txterm setaf 0)
 RED		:= $(shell tput -Txterm setaf 1)

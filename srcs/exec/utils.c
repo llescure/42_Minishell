@@ -22,7 +22,6 @@ void alpha_sort(t_shell *shell)
                 temp = shell->env->alpha[i];
                 shell->env->alpha[i] = shell->env->alpha[j];
                 shell->env->alpha[j] = temp;
-                // free(temp);
             }
             j++;
         }
