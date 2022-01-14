@@ -1,26 +1,10 @@
 #include "../include/minishell.h"
 
-void init_struct(t_shell *shell, char **envp)
-{
-	t_env	env;
-
-	shell->env = &env;
-	shell->pwd = malloc(sizeof(char) * PATH_MAX + 1);
-	if (!shell->pwd)
-		ft_error(shell);
-	shell->option = 0;
-	shell->str = NULL;
-	get_env(shell, envp);
-	shell->variables = NULL;
-	g_signal = 0;
-}
-
 void free_all(t_shell *shell)
 {
-	if (shell->absolute_path)
-		free(shell->absolute_path);
-//	if (shell->variables)
-//		ft_lstclear(&shell->variables, 0);
+//	if (shell->absolute_path)
+//		free(shell->absolute_path);
+	free(shell->pwd);
 	// if (shell->cmd)
 		// free (shell->cmd);
 	// if (shell->str)
@@ -43,24 +27,24 @@ void quit_program(t_shell *shell)
 
 void	handle_builtin(t_shell *shell)
 {
-	if (ft_strncmp(shell->cmd, "exit", ft_strlen("exit") == 0))
+	if (ft_strncmp(*shell->cmd, "exit", ft_strlen("exit") == 0))
 		quit_program(shell);
-	if (ft_strncmp(shell->cmd, "echo", ft_strlen("echo")) == 0)
+	if (ft_strncmp(*shell->cmd, "echo", ft_strlen("echo")) == 0)
 	{
 		ft_echo(shell->str, shell->option);
 		quit_program(shell);
 	}
-	if (ft_strncmp(shell->cmd, "pwd", ft_strlen("pwd")) == 0)
+	if (ft_strncmp(*shell->cmd, "pwd", ft_strlen("pwd")) == 0)
 	{
 		ft_pwd(shell);
 		quit_program(shell);
 	}
-	if (ft_strncmp(shell->cmd, "cd", ft_strlen("cd")) == 0)
+	if (ft_strncmp(*shell->cmd, "cd", ft_strlen("cd")) == 0)
 	{
 		ft_cd(shell);
 		quit_program(shell);
 	}
-	if (ft_strncmp(shell->cmd, "export", ft_strlen("export")) == 0)
+	if (ft_strncmp(*shell->cmd, "export", ft_strlen("export")) == 0)
 	{
 		ft_export(shell);
 		quit_program(shell);
@@ -70,9 +54,9 @@ void	handle_builtin(t_shell *shell)
 			create_variable(shell);
 			quit_program(shell);
 		}*/
-	if (ft_strncmp(shell->cmd, "env", ft_strlen("env")) == 0)
+	if (ft_strncmp(*shell->cmd, "env", ft_strlen("env")) == 0)
 	{
-		print_env(shell, shell->env->env);
+		print_env(shell);
 		quit_program(shell);
 	}
 }

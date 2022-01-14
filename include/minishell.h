@@ -18,10 +18,11 @@ typedef struct s_env {
 }               t_env;
 
 typedef struct s_shell {
-  char			*cmd;
+  char			**cmd;
   char			option;
   char			*str;
   char			*pwd;
+  char			**path;
   char			*absolute_path;
   t_env			*env;
   t_list		*variables;
@@ -39,12 +40,17 @@ void	get_absolute_path(t_shell *shell, char *path);
 void	quit_program(t_shell *shell);
 int		ft_export(t_shell *shell);
 void	alpha_sort(t_shell *shell);
-void	get_env(t_shell *shell, char **envp);
+void	get_env(t_env *shell, char **envp);
 void	create_variable(t_shell *shell);
-void	print_env(t_shell *shell, char **envp);
+void	print_env(t_shell *shell);
 void	launch_shell(t_shell *shell);
 void	free_all(t_shell *shell);
 void	create_new_line(int signum);
 int		handle_signal(char **user_input, t_shell *shell);
+int		parsing(char *user_input, t_shell *shell);
+char	*find_word_in_tab(char **env, char *to_find);
+char	*find_correct_path(char **path, char *cmd);
+char	*create_command_path(char *cmd);
+char	*delete_until_cara(char *str, int c);
 
 #endif

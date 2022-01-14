@@ -12,6 +12,8 @@ SRCS =	./srcs/main.c		\
 		./srcs/exec/builtin.c	\
 		./srcs/exec/utils.c		\
 		./srcs/exec/launch_shell.c		\
+		./srcs/parsing/parsing.c		\
+		./srcs/parsing/initialization.c		\
 
 BLACK		:= $(shell tput -Txterm setaf 0)
 RED		:= $(shell tput -Txterm setaf 1)

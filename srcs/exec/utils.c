@@ -51,14 +51,14 @@ void get_absolute_path(t_shell *shell, char *path)
     shell->absolute_path[j] = '\0';
 }
 
-void print_env(t_shell *shell, char **env)
+void print_env(t_shell *shell)
 {
     int i;
 
     i = 0;
     while (i < shell->env->index)
     {
-        printf("%s\n", env[i]);
+        printf("%s\n", shell->env->env[i]);
         i++;
     }
 }

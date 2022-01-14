@@ -15,10 +15,10 @@ int	handle_signal(char **user_input, t_shell *shell)
 
 	lign = *user_input;
 	signal(SIGQUIT, SIG_IGN);
-	if (user_input != NULL)
+	if (lign != NULL)
 	{
 		free(lign);
-		user_input = NULL;
+		lign = NULL;
 	}
 	lign = readline("my_minishell# ");
 	if (lign != NULL)
@@ -29,6 +29,7 @@ int	handle_signal(char **user_input, t_shell *shell)
 		ft_putstr_fd("exit\n", 1);
 		return (-1);
 	}
+	*user_input = lign;
 	return (0);
 }
 
@@ -38,12 +39,13 @@ void	launch_shell(t_shell *shell)
 	struct	sigaction new_action;
 
 	user_input = NULL;
+	ft_memset(&new_action, 0, sizeof(new_action));
 	while (1)
 	{
 		new_action.sa_handler = create_new_line;
 		sigaction(SIGINT, &new_action, NULL);
 		if (handle_signal(&user_input, shell) < 0)
 			return ;
-	//	parsing(user_input);
+		parsing(user_input, shell);
 	}
 }
