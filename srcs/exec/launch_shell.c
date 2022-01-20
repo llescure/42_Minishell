@@ -1,23 +1,14 @@
 #include "../../include/minishell.h"
 
-void	create_new_line(int signum)
-{
-	(void)signum;
-	rl_on_new_line();
-	ft_putstr_fd("\n", 1);
-	rl_redisplay();
-	g_signal = -1;
-}
-
-int	handle_signal(char **user_input, t_shell *shell)
+int prompt(char **user_input, t_shell *shell)
 {
 	char	*lign;
 
 	lign = *user_input;
-	signal(SIGQUIT, SIG_IGN);
 	if (lign != NULL)
 	{
 		free(lign);
+		free_tab(shell->cmd);
 		lign = NULL;
 	}
 	lign = readline("my_minishell# ");
@@ -36,15 +27,13 @@ int	handle_signal(char **user_input, t_shell *shell)
 void	launch_shell(t_shell *shell)
 {
 	char	*user_input;
-	struct	sigaction new_action;
 
 	user_input = NULL;
-	ft_memset(&new_action, 0, sizeof(new_action));
+	signal(SIGINT, handle_signals);
+	signal(SIGQUIT, handle_signals);
 	while (1)
 	{
-		new_action.sa_handler = create_new_line;
-		sigaction(SIGINT, &new_action, NULL);
-		if (handle_signal(&user_input, shell) < 0)
+		if (prompt(&user_input, shell) < 0)
 			return ;
 		parsing(user_input, shell);
 	}

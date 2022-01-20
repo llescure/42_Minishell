@@ -2,14 +2,35 @@
 
 int		parsing(char *user_input, t_shell *shell)
 {
-	printf("path %s", shell->path[2]);
-	(void)user_input;
-//	shell->cmd[0] = find_correct_path(shell->path, user_input);
-	/*if (ft_strncmp(user_input, "cat", ft_strlen("cat")) == 0)
+	int pid;
+	int status;
+
+	status = 0;
+	shell->cmd = ft_split(user_input, ' ');
+	free(shell->cmd[0]);
+	shell->cmd[0] = find_correct_path(shell->path, user_input);
+	pid = fork();
+	if (pid < 0)
+		return (-1);
+	else if (pid == 0)
 	{
-		if (execve(shell->cmd[0], shell->cmd, shell->env->env) < -1)
-			return (-1);
-	}*/
+		if (ft_strncmp(user_input, "cat", ft_strlen("cat")) == 0)
+		{
+			if (execve(shell->cmd[0], shell->cmd, shell->env->env) < -1)
+				return (-1);
+		}
+	}
+	else
+	{
+		signal(SIGINT, handle_exec_signals);
+		signal(SIGQUIT, handle_exec_signals);
+		waitpid(pid, &status, 0);
+		signal(SIGINT, handle_signals);
+		signal(SIGQUIT, handle_signals);
+	}
+	g_signal = status;
+	if (g_signal == 2)
+		g_signal += 128;
 	return (0);
 }
 
@@ -17,7 +38,6 @@ char	*find_correct_path(char **path, char *cmd)
 {
 	int		i;
 	char	*temp;
-	char	*temp2;
 	char	*command;
 
 	i = 0;
@@ -26,11 +46,9 @@ char	*find_correct_path(char **path, char *cmd)
 	{
 		command = ft_strjoin(path[i], temp);
 		if (command == NULL)
-			exit(EXIT_FAILURE);
+			exit(0);
 		if (access(command, F_OK) != -1)
 		{
-			temp2 = cmd;
-			free(temp2);
 			free(temp);
 			return (command);
 		}

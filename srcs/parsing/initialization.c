@@ -15,7 +15,10 @@ void init_struct(t_shell *shell, char **envp)
 	shell->variables = NULL;
 	temp = find_word_in_tab(shell->env->env, "PATH");
 	if (temp != NULL)
+	{
 		shell->path = ft_split(temp, ':');
+		free(temp);
+	}
 	g_signal = 0;
 }
 

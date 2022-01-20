@@ -10,6 +10,13 @@
 #include <readline/history.h>
 #include <limits.h>
 #include "../srcs/libft/include/libft.h"
+# include <sys/wait.h>
+# include <fcntl.h>
+# include <sys/types.h>
+#include <errno.h>
+
+# define INTERACTIVE_MODE 1
+# define NORMAL_MODE 0
 
 typedef struct s_env {
     char		**env;
@@ -45,12 +52,14 @@ void	create_variable(t_shell *shell);
 void	print_env(t_shell *shell);
 void	launch_shell(t_shell *shell);
 void	free_all(t_shell *shell);
-void	create_new_line(int signum);
-int		handle_signal(char **user_input, t_shell *shell);
+void	handle_signals(int signum);
+void	handle_exec_signals(int signum);
+int		prompt(char **user_input, t_shell *shell);
 int		parsing(char *user_input, t_shell *shell);
 char	*find_word_in_tab(char **env, char *to_find);
 char	*find_correct_path(char **path, char *cmd);
 char	*create_command_path(char *cmd);
 char	*delete_until_cara(char *str, int c);
+void	free_tab(char **tab);
 
 #endif

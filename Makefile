@@ -12,6 +12,7 @@ SRCS =	./srcs/main.c		\
 		./srcs/exec/builtin.c	\
 		./srcs/exec/utils.c		\
 		./srcs/exec/launch_shell.c		\
+		./srcs/exec/signals.c		\
 		./srcs/parsing/parsing.c		\
 		./srcs/parsing/initialization.c		\
 

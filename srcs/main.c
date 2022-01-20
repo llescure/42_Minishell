@@ -2,14 +2,24 @@
 
 void free_all(t_shell *shell)
 {
-//	if (shell->absolute_path)
-//		free(shell->absolute_path);
-	free(shell->pwd);
-	// if (shell->cmd)
-		// free (shell->cmd);
-	// if (shell->str)
-		// free (shell->str);
+	if (shell->path)
+		free_tab(shell->path);
+	if (shell->pwd != NULL)
+		free(shell->pwd);
 	rl_clear_history();
+}
+
+void	free_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i] != NULL)
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
 }
 
 int ft_error(t_shell *shell)
@@ -51,8 +61,8 @@ void	handle_builtin(t_shell *shell)
 	}
 	/*	if (ft_strchr(shell->str, '=') != 0)
 		{
-			create_variable(shell);
-			quit_program(shell);
+		create_variable(shell);
+		quit_program(shell);
 		}*/
 	if (ft_strncmp(*shell->cmd, "env", ft_strlen("env")) == 0)
 	{
