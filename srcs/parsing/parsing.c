@@ -2,12 +2,12 @@
 
 int		parsing(char *user_input, t_shell *shell)
 {
-	int pid;
-	int status;
+//	int pid;
+//	int status;
 
-	status = 0;
-	shell->cmd = ft_split(user_input, ' ');
-	free(shell->cmd[0]);
+//	status = 0;
+	ft_split_linked_list(user_input, shell);
+	/*free(shell->cmd[0]);
 	shell->cmd[0] = find_correct_path(shell->path, user_input);
 	pid = fork();
 	if (pid < 0)
@@ -30,7 +30,7 @@ int		parsing(char *user_input, t_shell *shell)
 	}
 	g_signal = status;
 	if (g_signal == 2)
-		g_signal += 128;
+		g_signal += 128;*/
 	return (0);
 }
 

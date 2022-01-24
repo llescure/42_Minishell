@@ -25,15 +25,25 @@ typedef struct s_env {
 }               t_env;
 
 typedef struct s_shell {
-  char			**cmd;
-  char			option;
   char			*str;
   char			*pwd;
   char			**path;
   char			*absolute_path;
+  char			*cmd;
   t_env			*env;
-  t_list		*variables;
+  t_list		*token;
 }               t_shell;
+
+/*typedef enum e_builtins
+{
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT,
+}			t_builtins; */
 
 int		g_signal;
 
@@ -61,5 +71,9 @@ char	*find_correct_path(char **path, char *cmd);
 char	*create_command_path(char *cmd);
 char	*delete_until_cara(char *str, int c);
 void	free_tab(char **tab);
+void	ft_split_linked_list(char *user_input, t_shell *shell);
+int		ft_beginning_token(char const *s, int pos);
+int		ft_end_token(char const *s, int pos);
+char	*ft_cut_str(char *user_input, int beginning, int end);
 
 #endif

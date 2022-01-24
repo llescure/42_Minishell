@@ -8,7 +8,6 @@ int prompt(char **user_input, t_shell *shell)
 	if (lign != NULL)
 	{
 		free(lign);
-		free_tab(shell->cmd);
 		lign = NULL;
 	}
 	lign = readline("my_minishell# ");

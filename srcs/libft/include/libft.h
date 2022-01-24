@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 20:02:11 by llescure          #+#    #+#             */
-/*   Updated: 2021/12/14 15:45:48 by llescure         ###   ########.fr       */
+/*   Updated: 2022/01/24 16:20:41 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int				ft_isalnum(int c);
 int				ft_isalpha(int c);
 int				ft_isascii(int c);
 int				ft_isdigit(int c);
+int				ft_isspace(int c);
 
 /*
  ** Convert

@@ -10,16 +10,12 @@ void init_struct(t_shell *shell, char **envp)
 	shell->pwd = malloc(sizeof(char) * PATH_MAX + 1);
 	if (shell->pwd == NULL)
 		ft_error(shell);
-	shell->option = 0;
-	shell->str = NULL;
-	shell->variables = NULL;
 	temp = find_word_in_tab(shell->env->env, "PATH");
 	if (temp != NULL)
 	{
 		shell->path = ft_split(temp, ':');
 		free(temp);
 	}
-	g_signal = 0;
 }
 
 char	*find_word_in_tab(char **envp, char *to_find)

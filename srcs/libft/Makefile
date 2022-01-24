@@ -1,4 +1,4 @@
-# **************************************************************************** #
+
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
@@ -6,7 +6,7 @@
 #    By: llescure <llescure@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/26 17:55:58 by llescure          #+#    #+#              #
-#    Updated: 2021/05/12 10:35:11 by llescure         ###   ########.fr        #
+#    Updated: 2022/01/24 18:19:02 by llescure         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,31 +48,26 @@ SRCS = srcs/convert/ft_itoa.c \
 	  	srcs/types/ft_isalnum.c \
 	  	srcs/types/ft_isascii.c \
 	  	srcs/types/ft_isprint.c \
-
-BONUS = srcs/linked_lists/ft_lstnew.c \
+	  	srcs/types/ft_isspace.c \
+		srcs/linked_lists/ft_lstnew.c \
 		srcs/linked_lists/ft_lstsize.c \
 		srcs/linked_lists/ft_lstlast.c \
 		srcs/linked_lists/ft_lstadd_front.c \
 		srcs/linked_lists/ft_lstdelone.c \
 		srcs/linked_lists/ft_lstadd_back.c \
 		srcs/linked_lists/ft_lstiter.c \
-		srcs/linked_lists/ft_lstclear.c \
 		srcs/linked_lists/ft_lstmap.c \
 		srcs/double_linked_lists/ft_double_lstadd_back.c \
 		srcs/double_linked_lists/ft_double_lstadd_front.c \
-		srcs/double_linked_lists/ft_double_lstclear.c \
 		srcs/double_linked_lists/ft_double_lstdelone.c \
 		srcs/double_linked_lists/ft_double_lstfirst.c \
 		srcs/double_linked_lists/ft_double_lstlast.c \
 		srcs/double_linked_lists/ft_double_lstnew.c \
 		srcs/double_linked_lists/ft_double_lstsize.c \
-		srcs/double_linked_lists/ft_double_print_list.c \
 
 HEADER = ../libft.h
 
 OBJS = $(SRCS:.c=.o)
-
-BONUS_OBJS = $(BONUS:.c=.o)
 
 CC = gcc
 
@@ -80,29 +75,20 @@ CFLAGS = -Wall -Wextra -Werror
 
 RM = /bin/rm -f
 
-ifdef WITH_BONUS
-ALL_OBJS = $(OBJS) $(BONUS_OBJS)
-else
-ALL_OBJS = $(OBJS)
-endif
-
 all:	 $(NAME)
 
-$(NAME) : $(ALL_OBJS)
-			ar rcs $(NAME) $(ALL_OBJS)
+$(NAME) : $(OBJS)
+			ar rcs $(NAME) $(OBJS)
 
 %.o : %.c $(HEADER)
 			$(CC)  -c $(CFLAGS) $< -o $@
 
 clean:
-		$(RM) $(OBJS) $(BONUS_OBJS)
+		$(RM) $(OBJS)
 
 fclean: clean
 		$(RM) $(NAME)
 
 re: fclean all
-
-bonus : 
-	$(MAKE) WITH_BONUS=1 all
 
 .PHONY: all clean fclean re bonus

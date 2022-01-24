@@ -35,7 +35,7 @@ void quit_program(t_shell *shell)
 	exit (0);
 }
 
-void	handle_builtin(t_shell *shell)
+/*void	handle_builtin(t_shell *shell)
 {
 	if (ft_strncmp(*shell->cmd, "exit", ft_strlen("exit") == 0))
 		quit_program(shell);
@@ -59,17 +59,17 @@ void	handle_builtin(t_shell *shell)
 		ft_export(shell);
 		quit_program(shell);
 	}
-	/*	if (ft_strchr(shell->str, '=') != 0)
+		if (ft_strchr(shell->str, '=') != 0)
 		{
 		create_variable(shell);
 		quit_program(shell);
-		}*/
+		}
 	if (ft_strncmp(*shell->cmd, "env", ft_strlen("env")) == 0)
 	{
 		print_env(shell);
 		quit_program(shell);
 	}
-}
+}*/
 
 int main(int argc, char **argv, char **envp)
 {
