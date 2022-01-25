@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
+/*   ft_print_list.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/17 22:12:19 by llescure          #+#    #+#             */
-/*   Updated: 2022/01/25 17:59:49 by llescure         ###   ########.fr       */
+/*   Created: 2022/01/25 15:21:09 by llescure          #+#    #+#             */
+/*   Updated: 2022/01/25 16:43:32 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/libft.h"
 
-void	ft_lstadd_back(t_list **alst, t_list *new)
+void	ft_print_list(t_list *lst)
 {
-	if (alst == NULL || new->content == NULL)
+	int compt;
+
+	compt = 0;
+	if (lst == NULL)
 		return ;
-	new->next = NULL;
-	if (*alst == NULL)
+	while (lst->next != NULL)
 	{
-		*alst = new;
-		return ;
+		printf("compt = %d content = %s\n", compt, (char *)(*lst).content);
+		compt++;
+		lst = lst->next;
 	}
-	ft_lstlast(*alst)->next = new;
+	printf("compt = %d content = %s\n", compt, (char *)(*lst).content);
 }

@@ -13,33 +13,31 @@ int	ft_beginning_token(char const *s, int pos)
 int	ft_end_token(char const *s, int pos)
 {
 	int	i;
-	int	compt;
 
 	i = pos;
-	compt = 0;
-	while (ft_isspace(s[i]) == 1)
-		i++;
 	while (ft_isspace(s[i]) == 0 && s[i] != '\0')
-	{
-		compt++;
 		i++;
-	}
-	return (compt);
+	return (i);
 }
 
 char	*ft_cut_str(char *user_input, int beginning, int end)
 {
 	char	*new_str;
 	int		i;
+	int		j;
 
 	i = beginning;
+	j = 0;
 	new_str = malloc(sizeof(char) * end - beginning + 1);
-	while ( i < end && user_input[i] != '\0')
+	if (end - beginning <= 0)
+		return (NULL);
+	while ( j < end - beginning && user_input[i] != '\0')
 	{
-		new_str[i] = user_input[i];
+		new_str[j] = user_input[i];
 		i++;
+		j++;
 	}
-	new_str[i] = '\0';
+	new_str[j] = '\0';
 	return (new_str);
 }
 
@@ -54,7 +52,7 @@ void	ft_split_linked_list(char *user_input, t_shell *shell)
 	end = ft_end_token(user_input, beginning);
 	temp = ft_cut_str(user_input, beginning, end);
 	list = ft_lstnew(temp);
-	//free(temp);
+//	free(temp);
 	while (end != (int)ft_strlen(user_input))
 	{
 		beginning = ft_beginning_token(user_input, end);

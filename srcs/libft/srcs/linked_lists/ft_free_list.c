@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
+/*   ft_free_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/17 22:12:19 by llescure          #+#    #+#             */
-/*   Updated: 2022/01/25 17:59:49 by llescure         ###   ########.fr       */
+/*   Created: 2022/01/25 16:54:07 by llescure          #+#    #+#             */
+/*   Updated: 2022/01/25 17:24:40 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/libft.h"
 
-void	ft_lstadd_back(t_list **alst, t_list *new)
+void	ft_free_list(t_list **list)
 {
-	if (alst == NULL || new->content == NULL)
+	t_list	*temp;
+	t_list	*temp2;
+
+	temp2 = *list;
+	if (*list == NULL || list == NULL)
 		return ;
-	new->next = NULL;
-	if (*alst == NULL)
+	while (temp2 != NULL)
 	{
-		*alst = new;
-		return ;
+		temp = temp2->next;
+		free(temp2->content);
+		temp2 = temp;
 	}
-	ft_lstlast(*alst)->next = new;
+	*list = temp2;
 }
