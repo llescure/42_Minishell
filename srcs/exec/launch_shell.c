@@ -16,7 +16,8 @@ int prompt(char **user_input, t_shell *shell)
 		add_history(lign);
 	else
 	{
-		ft_free_list(&shell->token);
+		if (&shell->token != NULL)
+			ft_free_list(&shell->token);
 		free_all(shell);
 		ft_putstr_fd("exit\n", 1);
 		return (-1);
@@ -25,7 +26,7 @@ int prompt(char **user_input, t_shell *shell)
 	return (0);
 }
 
-void	launch_shell(t_shell *shell)
+int	launch_shell(t_shell *shell)
 {
 	char	*user_input;
 
@@ -34,8 +35,9 @@ void	launch_shell(t_shell *shell)
 	signal(SIGQUIT, handle_signals);
 	while (1)
 	{
-		if (prompt(&user_input, shell) < 0)
-			return ;
-		parsing(user_input, shell);
+		if (prompt(&user_input, shell) != 0)
+			return (g_signal);
+		if (parsing(user_input, shell) != 0)
+			return (g_signal);
 	}
 }

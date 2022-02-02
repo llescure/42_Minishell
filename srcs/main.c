@@ -22,13 +22,6 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-int ft_error(t_shell *shell)
-{
-	printf("ERROR\n");
-	free_all(shell);
-	return (-1);
-}
-
 void quit_program(t_shell *shell)
 {
 	free_all(shell);
@@ -75,10 +68,16 @@ int main(int argc, char **argv, char **envp)
 {
 	t_shell shell;
 
+	g_signal = 0;
 	if (ft_strncmp(argv[0], "./minishell", ft_strlen("./minishell")) != 0
 			|| argc != 1)
-		return (ft_error(&shell));
-	init_struct(&shell, envp);
-	launch_shell(&shell);
+	{
+		error_message("parameters", &shell);
+		return (g_signal);
+	}
+	if (init_struct(&shell, envp) < 0)
+		return (g_signal);
+	if (launch_shell(&shell) != 0)
+		return (g_signal);
 	return (0);
 }

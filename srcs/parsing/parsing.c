@@ -6,7 +6,11 @@ int		parsing(char *user_input, t_shell *shell)
 //	int status;
 
 //	status = 0;
-	ft_split_linked_list(user_input, shell);
+	if (ft_split_linked_list(user_input, shell) < 0)
+	{
+		error_message("malloc", shell);
+		return (g_signal);
+	}
 	ft_print_list(shell->token);
 	/*free(shell->cmd[0]);
 	shell->cmd[0] = find_correct_path(shell->path, user_input);

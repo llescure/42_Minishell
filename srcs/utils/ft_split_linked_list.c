@@ -29,6 +29,11 @@ char	*ft_cut_str(char *user_input, int beginning, int end)
 	i = beginning;
 	j = 0;
 	new_str = malloc(sizeof(char) * end - beginning + 1);
+	if (new_str == NULL)
+	{
+		g_signal = -1;
+		return (new_str);
+	}
 	if (end - beginning <= 0)
 		return (NULL);
 	while ( j < end - beginning && user_input[i] != '\0')
@@ -41,7 +46,7 @@ char	*ft_cut_str(char *user_input, int beginning, int end)
 	return (new_str);
 }
 
-void	ft_split_linked_list(char *user_input, t_shell *shell)
+int		ft_split_linked_list(char *user_input, t_shell *shell)
 {
 	t_list	*list;
 	int		beginning;
@@ -52,12 +57,18 @@ void	ft_split_linked_list(char *user_input, t_shell *shell)
 	end = ft_end_token(user_input, beginning);
 	temp = ft_cut_str(user_input, beginning, end);
 	list = ft_lstnew(temp);
-//	free(temp);
+	if (list == NULL)
+	{
+		g_signal = -1;
+		return (g_signal);
+	}
 	while (end != (int)ft_strlen(user_input))
 	{
 		beginning = ft_beginning_token(user_input, end);
 		end = ft_end_token(user_input, beginning);
 		temp = ft_cut_str(user_input, beginning, end);
+		if (temp == NULL && g_signal == -1)
+			return (g_signal);
 		ft_lstadd_back(&list, ft_lstnew(temp));
 	}
 	shell->token = list;

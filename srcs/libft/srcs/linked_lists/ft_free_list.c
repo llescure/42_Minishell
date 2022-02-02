@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 16:54:07 by llescure          #+#    #+#             */
-/*   Updated: 2022/01/25 17:24:40 by llescure         ###   ########.fr       */
+/*   Updated: 2022/02/01 11:13:33 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,17 @@
 void	ft_free_list(t_list **list)
 {
 	t_list	*temp;
-	t_list	*temp2;
 
-	temp2 = *list;
 	if (*list == NULL || list == NULL)
 		return ;
-	while (temp2 != NULL)
+	while ((*list)->next != NULL)
 	{
-		temp = temp2->next;
-		free(temp2->content);
-		temp2 = temp;
+		temp = (*list)->next;
+		free((*list)->content);
+		free(*list);
+		*list = temp;
 	}
-	*list = temp2;
+	free((*list)->content);
+	free(*list);
+	*list = NULL;
 }

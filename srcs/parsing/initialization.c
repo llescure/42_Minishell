@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-void init_struct(t_shell *shell, char **envp)
+int		init_struct(t_shell *shell, char **envp)
 {
 	t_env	env;
 	char	*temp;
@@ -9,13 +9,22 @@ void init_struct(t_shell *shell, char **envp)
 	shell->env = &env;
 	shell->pwd = malloc(sizeof(char) * PATH_MAX + 1);
 	if (shell->pwd == NULL)
-		ft_error(shell);
+	{
+		error_message("malloc", shell);
+		return (g_signal);
+	}
 	temp = find_word_in_tab(shell->env->env, "PATH");
 	if (temp != NULL)
 	{
 		shell->path = ft_split(temp, ':');
 		free(temp);
 	}
+	else if (temp == NULL && g_signal == -1)
+	{
+		error_message("malloc", shell);
+		return (g_signal);
+	}
+	return (0);
 }
 
 char	*find_word_in_tab(char **envp, char *to_find)
@@ -32,6 +41,8 @@ char	*find_word_in_tab(char **envp, char *to_find)
 		if (temp != NULL)
 		{
 			rslt = delete_until_cara(temp, ':');
+			if (rslt == NULL)
+				g_signal = -1;
 			return (rslt);
 		}
 		i++;

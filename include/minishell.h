@@ -13,7 +13,7 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <sys/types.h>
-#include <errno.h>
+# include <errno.h>
 
 # define INTERACTIVE_MODE 1
 # define NORMAL_MODE 0
@@ -51,7 +51,6 @@ void	handle_builtin(t_shell *shell);
 void	ft_pwd(t_shell *shell);
 int		ft_echo(char *str, char option);
 void	init_struct(t_shell *shell, char **envp);
-int		ft_error(t_shell *shell);
 int		ft_cd(t_shell *shell);
 void	get_absolute_path(t_shell *shell, char *path);
 void	quit_program(t_shell *shell);
@@ -60,7 +59,7 @@ void	alpha_sort(t_shell *shell);
 void	get_env(t_env *shell, char **envp);
 void	create_variable(t_shell *shell);
 void	print_env(t_shell *shell);
-void	launch_shell(t_shell *shell);
+int		launch_shell(t_shell *shell);
 void	free_all(t_shell *shell);
 void	handle_signals(int signum);
 void	handle_exec_signals(int signum);
@@ -71,9 +70,11 @@ char	*find_correct_path(char **path, char *cmd);
 char	*create_command_path(char *cmd);
 char	*delete_until_cara(char *str, int c);
 void	free_tab(char **tab);
-void	ft_split_linked_list(char *user_input, t_shell *shell);
+int		ft_split_linked_list(char *user_input, t_shell *shell);
 int		ft_beginning_token(char const *s, int pos);
 int		ft_end_token(char const *s, int pos);
 char	*ft_cut_str(char *user_input, int beginning, int end);
+void	display_message(char *str, int value_signal);
+void	error_message(char *str, t_shell *shell)
 
 #endif
