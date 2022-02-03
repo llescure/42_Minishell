@@ -50,7 +50,7 @@ int		g_signal;
 void	handle_builtin(t_shell *shell);
 void	ft_pwd(t_shell *shell);
 int		ft_echo(char *str, char option);
-void	init_struct(t_shell *shell, char **envp);
+int		init_struct(t_shell *shell, char **envp);
 int		ft_cd(t_shell *shell);
 void	get_absolute_path(t_shell *shell, char *path);
 void	quit_program(t_shell *shell);
@@ -70,11 +70,12 @@ char	*find_correct_path(char **path, char *cmd);
 char	*create_command_path(char *cmd);
 char	*delete_until_cara(char *str, int c);
 void	free_tab(char **tab);
-int		ft_split_linked_list(char *user_input, t_shell *shell);
-int		ft_beginning_token(char const *s, int pos);
-int		ft_end_token(char const *s, int pos);
+int		scanner(char *user_input, t_shell *shell);
+int		ft_beginning_lexeme(char *str, int pos);
+int		ft_end_lexeme(char *str, int pos);
 char	*ft_cut_str(char *user_input, int beginning, int end);
+int		look_for_quote(char *str, int pos, char type_quote);
 void	display_message(char *str, int value_signal);
-void	error_message(char *str, t_shell *shell)
+void	error_message(char *str, t_shell *shell);
 
 #endif

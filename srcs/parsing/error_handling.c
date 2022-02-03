@@ -2,7 +2,7 @@
 
 void	display_message(char *str, int value_signal)
 {
-	ft_putstr_fd(str);
+	ft_putstr_fd(str, 1);
 	g_signal = value_signal;
 }
 
@@ -24,6 +24,6 @@ void	error_message(char *str, t_shell *shell)
 	else if (ft_strncmp(str, "malloc", ft_strlen("malloc")) == 0)
 		return (display_message("Error: couldn't allocate memory\n", -1));
 	else if (ft_strncmp(str, "parameters", ft_strlen("parameters")) == 0)
-		return (display_message("Error: Too many arguments\n
-					Usage: ./minishell", -1));
+		return (display_message("Error: Too many arguments\n\
+Usage: ./minishell\n", -1));
 }

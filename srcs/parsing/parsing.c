@@ -6,7 +6,7 @@ int		parsing(char *user_input, t_shell *shell)
 //	int status;
 
 //	status = 0;
-	if (ft_split_linked_list(user_input, shell) < 0)
+	if (scanner(user_input, shell) < 0)
 	{
 		error_message("malloc", shell);
 		return (g_signal);

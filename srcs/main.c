@@ -2,7 +2,7 @@
 
 void free_all(t_shell *shell)
 {
-	if (shell->path)
+	if (shell->path != NULL)
 		free_tab(shell->path);
 	if (shell->pwd != NULL)
 		free(shell->pwd);
@@ -69,6 +69,8 @@ int main(int argc, char **argv, char **envp)
 	t_shell shell;
 
 	g_signal = 0;
+	shell.path = NULL;
+	shell.pwd = NULL;
 	if (ft_strncmp(argv[0], "./minishell", ft_strlen("./minishell")) != 0
 			|| argc != 1)
 	{

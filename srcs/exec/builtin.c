@@ -23,8 +23,6 @@ void ft_pwd(t_shell *shell)
         shell->pwd = cwd;
         printf("%s\n", shell->pwd);
     }
-	else
-		ft_error(shell);
 }
 
 int ft_cd(t_shell *shell)
@@ -37,10 +35,10 @@ int ft_cd(t_shell *shell)
     else
     {
         if (chdir(shell->str) == -1)
-        {
-            printf("%s: No such file or directory\n", shell->str);
-            ft_error(shell);
-        }
+		{
+			error_message("file", shell);
+			return (g_signal);
+		}
         else
             return (0);
     }
