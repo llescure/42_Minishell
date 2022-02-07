@@ -32,6 +32,7 @@ typedef struct s_shell {
   char			*cmd;
   t_env			*env;
   t_list		*token;
+  t_list		*type;
 }               t_shell;
 
 /*typedef enum e_builtins
@@ -73,9 +74,16 @@ void	free_tab(char **tab);
 int		scanner(char *user_input, t_shell *shell);
 int		ft_beginning_lexeme(char *str, int pos);
 int		ft_end_lexeme(char *str, int pos);
+char	*find_lexeme(char *user_input, int beginning, int *end);
 char	*ft_cut_str(char *user_input, int beginning, int end);
 int		look_for_quote(char *str, int pos, char type_quote);
 void	display_message(char *str, int value_signal);
 void	error_message(char *str, t_shell *shell);
+int		delimit_separator(char *str, int pos, char separator, int initial_pos);
+int		tokenizer(t_list *token, t_shell *shell);
+void	check_first_content(char *str, t_list **list);
+void	check_content(char *str, t_list **list);
+void	check_redirection(char *str, t_list **list);
+void	check_first_redirection(char *str, t_list **list);
 
 #endif

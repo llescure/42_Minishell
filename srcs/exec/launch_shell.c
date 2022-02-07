@@ -7,8 +7,12 @@ int prompt(char **user_input, t_shell *shell)
 	lign = *user_input;
 	if (lign != NULL)
 	{
+		if (lign[0] != '\0')
+		{
+			ft_free_list(&shell->token);
+		//	ft_free_list(&shell->type);
+		}
 		free(lign);
-		ft_free_list(&shell->token);
 		lign = NULL;
 	}
 	lign = readline("my_minishell# ");
@@ -16,8 +20,11 @@ int prompt(char **user_input, t_shell *shell)
 		add_history(lign);
 	else
 	{
-		if (&shell->token != NULL)
+		if (shell->token != NULL)
+		{
 			ft_free_list(&shell->token);
+			ft_free_list(&shell->type);
+		}
 		free_all(shell);
 		ft_putstr_fd("exit\n", 1);
 		return (-1);

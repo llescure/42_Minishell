@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 15:21:09 by llescure          #+#    #+#             */
-/*   Updated: 2022/01/25 16:43:32 by llescure         ###   ########.fr       */
+/*   Updated: 2022/02/03 16:53:37 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	ft_print_list(t_list *lst)
 		return ;
 	while (lst->next != NULL)
 	{
-		printf("compt = %d content = %s\n", compt, (char *)(*lst).content);
+		printf("compt = %d content = %s$\n", compt, (char *)(*lst).content);
 		compt++;
 		lst = lst->next;
 	}
-	printf("compt = %d content = %s\n", compt, (char *)(*lst).content);
+	printf("compt = %d content = %s$\n", compt, (char *)(*lst).content);
 }

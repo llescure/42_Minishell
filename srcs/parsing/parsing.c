@@ -6,12 +6,21 @@ int		parsing(char *user_input, t_shell *shell)
 //	int status;
 
 //	status = 0;
+	if (user_input[0] == '\0')
+		return (0);
 	if (scanner(user_input, shell) < 0)
 	{
 		error_message("malloc", shell);
 		return (g_signal);
 	}
+	if (tokenizer(shell->token, shell) < 0)
+	{
+		error_message("malloc", shell);
+		return (g_signal);
+	}
 	ft_print_list(shell->token);
+	ft_putstr_fd("\n", 1);
+	ft_print_list(shell->type);
 	/*free(shell->cmd[0]);
 	shell->cmd[0] = find_correct_path(shell->path, user_input);
 	pid = fork();

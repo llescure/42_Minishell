@@ -1,0 +1,44 @@
+srcs/main.c:	if (shell->path != NULL)
+srcs/main.c:		free_tab(shell->path);
+srcs/main.c:	if (shell->pwd != NULL)
+srcs/main.c:		free(shell->pwd);
+srcs/main.c:	if (ft_strncmp(*shell->cmd, "exit", ft_strlen("exit") == 0))
+srcs/main.c:	if (ft_strncmp(*shell->cmd, "echo", ft_strlen("echo")) == 0)
+srcs/main.c:		ft_echo(shell->str, shell->option);
+srcs/main.c:	if (ft_strncmp(*shell->cmd, "pwd", ft_strlen("pwd")) == 0)
+srcs/main.c:	if (ft_strncmp(*shell->cmd, "cd", ft_strlen("cd")) == 0)
+srcs/main.c:	if (ft_strncmp(*shell->cmd, "export", ft_strlen("export")) == 0)
+srcs/main.c:		if (ft_strchr(shell->str, '=') != 0)
+srcs/main.c:	if (ft_strncmp(*shell->cmd, "env", ft_strlen("env")) == 0)
+srcs/exec/builtin.c:        shell->pwd = cwd;
+srcs/exec/builtin.c:        printf("%s\n", shell->pwd);
+srcs/exec/builtin.c:    if (shell->str == NULL)
+srcs/exec/builtin.c:        chdir(shell->absolute_path);
+srcs/exec/builtin.c:        if (chdir(shell->str) == -1)
+srcs/exec/builtin.c:    //shell->env->alpha = envp;
+srcs/exec/launch_shell.c:		ft_free_list(&shell->token);
+srcs/exec/launch_shell.c:		if (shell->token != NULL)
+srcs/exec/launch_shell.c:			ft_free_list(&shell->token);
+srcs/utils/utils.c:    while (i < shell->env->index)
+srcs/utils/utils.c:        while (j < shell->env->index)
+srcs/utils/utils.c:            size = ft_strlen(shell->env->alpha[i]) + ft_strlen(shell->env->alpha[j]);
+srcs/utils/utils.c:            if (ft_strncmp(shell->env->alpha[i], shell->env->alpha[j], size) > 0)
+srcs/utils/utils.c:                temp = malloc(sizeof(char *) * ft_strlen(shell->env->alpha[i]) + 1);
+srcs/utils/utils.c:                temp = shell->env->alpha[i];
+srcs/utils/utils.c:                shell->env->alpha[i] = shell->env->alpha[j];
+srcs/utils/utils.c:                shell->env->alpha[j] = temp;
+srcs/utils/utils.c:    shell->absolute_path = malloc(sizeof(char) * ft_strlen(path));
+srcs/utils/utils.c:        shell->absolute_path[j] = path[i];
+srcs/utils/utils.c:    shell->absolute_path[j] = '\0';
+srcs/utils/utils.c:    while (i < shell->env->index)
+srcs/utils/utils.c:        printf("%s\n", shell->env->env[i]);
+srcs/parsing/scanner.c:	shell->token = list;
+srcs/parsing/initialization.c:	shell->env = &env;
+srcs/parsing/initialization.c:	shell->pwd = malloc(sizeof(char) * PATH_MAX + 1);
+srcs/parsing/initialization.c:	if (shell->pwd == NULL)
+srcs/parsing/initialization.c:	temp = find_word_in_tab(shell->env->env, "PATH");
+srcs/parsing/initialization.c:		shell->path = ft_split(temp, ':');
+srcs/parsing/parsing.c:	ft_print_list(shell->token);
+srcs/parsing/parsing.c:	/*free(shell->cmd[0]);
+srcs/parsing/parsing.c:	shell->cmd[0] = find_correct_path(shell->path, user_input);
+srcs/parsing/parsing.c:			if (execve(shell->cmd[0], shell->cmd, shell->env->env) < -1)

@@ -7,6 +7,7 @@ int		init_struct(t_shell *shell, char **envp)
 
 	get_env(&env, envp);
 	shell->env = &env;
+	shell->token = NULL;
 	shell->pwd = malloc(sizeof(char) * PATH_MAX + 1);
 	if (shell->pwd == NULL)
 	{
