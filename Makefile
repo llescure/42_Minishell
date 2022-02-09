@@ -10,12 +10,13 @@ CFLAGS = -Wall -Wextra -Werror -lreadline
 
 SRCS =	./srcs/main.c		\
 		./srcs/exec/builtin.c	\
-		./srcs/utils/utils.c		\
+		./srcs/exec/utils.c		\
 		./srcs/exec/launch_shell.c		\
 		./srcs/exec/signals.c		\
 		./srcs/parsing/scanner.c		\
 		./srcs/parsing/tokenizer.c		\
 		./srcs/parsing/parsing.c		\
+		./srcs/parsing/utils.c		\
 		./srcs/parsing/initialization.c		\
 		./srcs/parsing/error_handling.c		\
 

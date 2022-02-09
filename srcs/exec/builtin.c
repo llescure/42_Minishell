@@ -36,7 +36,7 @@ int ft_cd(t_shell *shell)
     {
         if (chdir(shell->str) == -1)
 		{
-			error_message("file", shell);
+			error_message("file");
 			return (g_signal);
 		}
         else

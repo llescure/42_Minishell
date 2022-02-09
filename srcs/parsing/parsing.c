@@ -10,18 +10,24 @@ int		parsing(char *user_input, t_shell *shell)
 		return (0);
 	if (scanner(user_input, shell) < 0)
 	{
-		error_message("malloc", shell);
+		error_message("malloc");
 		return (g_signal);
 	}
 	if (tokenizer(shell->token, shell) < 0)
 	{
-		error_message("malloc", shell);
+		error_message("malloc");
 		return (g_signal);
 	}
 	ft_print_list(shell->token);
 	ft_putstr_fd("\n", 1);
-	ft_print_list(shell->type);
-	/*free(shell->cmd[0]);
+	ft_double_print_list(shell->type);
+	if (look_for_error_in_type(shell->type) == 1)
+	{
+		error_message("syntax");
+		return (g_signal);
+	}
+	look_for_grammar_error(shell->token, shell->type);
+	/*
 	shell->cmd[0] = find_correct_path(shell->path, user_input);
 	pid = fork();
 	if (pid < 0)
@@ -48,6 +54,27 @@ int		parsing(char *user_input, t_shell *shell)
 	return (0);
 }
 
+int		look_for_error_in_type(t_double_list *list)
+{
+	while (list != NULL)
+	{
+		if (ft_strncmp(list->content, "error", ft_strlen("error")) == 0)
+			return (1);
+		list = list->next;
+	}
+	return (0);
+}
+
+void	look_for_grammar_error(t_list *list, t_double_list *type)
+{
+	while (list != NULL && type != NULL)
+	{
+		if (ft_strncmp(type->content, "
+		list = list->next;
+		type = type->next;
+	}
+}
+
 char	*find_correct_path(char **path, char *cmd)
 {
 	int		i;
@@ -56,11 +83,17 @@ char	*find_correct_path(char **path, char *cmd)
 
 	i = 0;
 	temp = create_command_path(cmd);
+	if (temp == NULL)
+		return (temp);
 	while (path != NULL && path[i] != NULL)
 	{
 		command = ft_strjoin(path[i], temp);
 		if (command == NULL)
-			exit(0);
+		{
+			g_signal = -1;
+			free(temp);
+			return (NULL);
+		}
 		if (access(command, F_OK) != -1)
 		{
 			free(temp);
@@ -79,9 +112,6 @@ char	*create_command_path(char *cmd)
 
 	rslt = ft_strjoin("/", cmd);
 	if (rslt == NULL)
-	{
-		perror("Error while joining two strings");
-		exit(EXIT_FAILURE);
-	}
+		g_signal = -1;
 	return (rslt);
 }

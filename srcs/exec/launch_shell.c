@@ -10,7 +10,7 @@ int prompt(char **user_input, t_shell *shell)
 		if (lign[0] != '\0')
 		{
 			ft_free_list(&shell->token);
-		//	ft_free_list(&shell->type);
+			ft_double_free_list(&shell->type);
 		}
 		free(lign);
 		lign = NULL;
@@ -23,7 +23,7 @@ int prompt(char **user_input, t_shell *shell)
 		if (shell->token != NULL)
 		{
 			ft_free_list(&shell->token);
-			ft_free_list(&shell->type);
+			ft_double_free_list(&shell->type);
 		}
 		free_all(shell);
 		ft_putstr_fd("exit\n", 1);

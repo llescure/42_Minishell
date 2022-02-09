@@ -74,7 +74,7 @@ int main(int argc, char **argv, char **envp)
 	if (ft_strncmp(argv[0], "./minishell", ft_strlen("./minishell")) != 0
 			|| argc != 1)
 	{
-		error_message("parameters", &shell);
+		error_message("parameters");
 		return (g_signal);
 	}
 	if (init_struct(&shell, envp) < 0)

@@ -25,15 +25,15 @@ typedef struct s_env {
 }               t_env;
 
 typedef struct s_shell {
-  char			*str;
-  char			*pwd;
-  char			**path;
-  char			*absolute_path;
-  char			*cmd;
-  t_env			*env;
-  t_list		*token;
-  t_list		*type;
-}               t_shell;
+  char				*str;
+  char				*pwd;
+  char				**path;
+  char				*absolute_path;
+  char				*cmd;
+  t_env				*env;
+  t_list			*token;
+  t_double_list		*type;
+}               	t_shell;
 
 /*typedef enum e_builtins
 {
@@ -72,18 +72,21 @@ char	*create_command_path(char *cmd);
 char	*delete_until_cara(char *str, int c);
 void	free_tab(char **tab);
 int		scanner(char *user_input, t_shell *shell);
-int		ft_beginning_lexeme(char *str, int pos);
-int		ft_end_lexeme(char *str, int pos);
+int		ft_beginning_lexeme(char *str, int pos, int *found_quote);
+int		ft_end_lexeme(char *str, int pos, int found_quote);
 char	*find_lexeme(char *user_input, int beginning, int *end);
 char	*ft_cut_str(char *user_input, int beginning, int end);
 int		look_for_quote(char *str, int pos, char type_quote);
 void	display_message(char *str, int value_signal);
-void	error_message(char *str, t_shell *shell);
+void	error_message(char *str);
 int		delimit_separator(char *str, int pos, char separator, int initial_pos);
+int		delimit_expand(char *str, int pos);
 int		tokenizer(t_list *token, t_shell *shell);
-void	check_first_content(char *str, t_list **list);
-void	check_content(char *str, t_list **list);
-void	check_redirection(char *str, t_list **list);
-void	check_first_redirection(char *str, t_list **list);
+int		check_first_content(char *str, t_double_list **list, t_shell *shell);
+int		check_content(char *str, t_double_list **list, t_shell *shell);
+void	check_redirection(char *str, t_double_list **list);
+void	check_first_redirection(char *str, t_double_list **list);
+int		check_command(char *str, t_shell *shell);
+int		look_for_error_in_type(t_double_list *list);
 
 #endif

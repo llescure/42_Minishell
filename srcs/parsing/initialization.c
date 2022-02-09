@@ -11,7 +11,7 @@ int		init_struct(t_shell *shell, char **envp)
 	shell->pwd = malloc(sizeof(char) * PATH_MAX + 1);
 	if (shell->pwd == NULL)
 	{
-		error_message("malloc", shell);
+		error_message("malloc");
 		return (g_signal);
 	}
 	temp = find_word_in_tab(shell->env->env, "PATH");
@@ -22,7 +22,7 @@ int		init_struct(t_shell *shell, char **envp)
 	}
 	else if (temp == NULL && g_signal == -1)
 	{
-		error_message("malloc", shell);
+		error_message("malloc");
 		return (g_signal);
 	}
 	return (0);

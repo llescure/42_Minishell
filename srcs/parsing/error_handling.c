@@ -6,9 +6,9 @@ void	display_message(char *str, int value_signal)
 	g_signal = value_signal;
 }
 
-void	error_message(char *str, t_shell *shell)
+void	error_message(char *str)
 {
-	free_all(shell);
+//	free_all(shell);
 	if (ft_strncmp(str, "command", ft_strlen("command")) == 0)
 		return (display_message("bash: command not found\n", 127));
 	else if (ft_strncmp(str, "syntax", ft_strlen("syntax")) == 0)

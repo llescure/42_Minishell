@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_list.c                                    :+:      :+:    :+:   */
+/*   ft_double_free.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/25 15:21:09 by llescure          #+#    #+#             */
-/*   Updated: 2022/02/07 17:21:18 by llescure         ###   ########.fr       */
+/*   Created: 2022/02/08 15:48:18 by llescure          #+#    #+#             */
+/*   Updated: 2022/02/08 15:50:06 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/libft.h"
 
-void	ft_print_list(t_list *lst)
+void	ft_double_free_list(t_double_list **list)
 {
-	int compt;
+	t_double_list	*temp;
 
-	compt = 0;
-	if (lst == NULL)
+	if (*list == NULL || list == NULL)
 		return ;
-	while (lst->next != NULL)
+	while ((*list)->next != NULL)
 	{
-		printf("compt = %d content = %s\n", compt, (char *)(*lst).content);
-		compt++;
-		lst = lst->next;
+		temp = (*list)->next;
+		free(*list);
+		*list = temp;
 	}
-	printf("compt = %d content = %s\n", compt, (char *)(*lst).content);
+	free(*list);
+	*list = NULL;
 }
