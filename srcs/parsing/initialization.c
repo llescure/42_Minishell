@@ -2,11 +2,14 @@
 
 int		init_struct(t_shell *shell, char **envp)
 {
-	t_env	env;
 	char	*temp;
 
-	get_env(&env, envp);
-	shell->env = &env;
+	get_env(shell->env, envp);
+	if (g_signal == -1)
+	{
+		error_message("malloc");
+		return (g_signal);
+	}
 	shell->token = NULL;
 	shell->pwd = malloc(sizeof(char) * PATH_MAX + 1);
 	if (shell->pwd == NULL)

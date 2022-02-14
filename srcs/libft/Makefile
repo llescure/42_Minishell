@@ -6,7 +6,7 @@
 #    By: llescure <llescure@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/26 17:55:58 by llescure          #+#    #+#              #
-#    Updated: 2022/02/08 15:52:14 by llescure         ###   ########.fr        #
+#    Updated: 2022/02/14 16:27:00 by llescure         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,8 @@ SRCS = srcs/convert/ft_itoa.c \
 	  	srcs/strings/ft_strrchr.c \
 	  	srcs/strings/ft_strncmp.c \
 	  	srcs/strings/ft_strlcpy.c \
+	  	srcs/strings/ft_strlcpy_without_cara.c \
+	  	srcs/strings/number_occurence_cara_in_str.c \
 	  	srcs/strings/ft_strlcat.c \
 	  	srcs/strings/ft_strnstr.c \
 	  	srcs/strings/ft_strdup.c \
@@ -42,7 +44,10 @@ SRCS = srcs/convert/ft_itoa.c \
 	  	srcs/strings/ft_strjoin.c \
 	  	srcs/strings/ft_strtrim.c \
 	  	srcs/strings/ft_split.c \
+	  	srcs/strings/ft_split_multiple_cara.c \
 	  	srcs/strings/ft_strmapi.c \
+	  	srcs/strings/find_cara_in_word.c \
+	  	srcs/strings/ft_join_tab.c \
 	  	srcs/types/ft_isalpha.c \
 	  	srcs/types/ft_isdigit.c \
 	  	srcs/types/ft_isalnum.c \

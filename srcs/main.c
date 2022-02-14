@@ -6,6 +6,10 @@ void free_all(t_shell *shell)
 		free_tab(shell->path);
 	if (shell->pwd != NULL)
 		free(shell->pwd);
+	if (shell->env->tab_variable_name != NULL)
+		free_tab(shell->env->tab_variable_name);
+	if (shell->env->tab_variable_equals != NULL)
+		free_tab(shell->env->tab_variable_equals);
 	rl_clear_history();
 }
 
@@ -67,10 +71,14 @@ void quit_program(t_shell *shell)
 int main(int argc, char **argv, char **envp)
 {
 	t_shell shell;
+	t_env	env;
 
 	g_signal = 0;
 	shell.path = NULL;
 	shell.pwd = NULL;
+	shell.env = &env;
+	shell.env->tab_variable_name = NULL;
+	shell.env->tab_variable_equals = NULL;
 	if (ft_strncmp(argv[0], "./minishell", ft_strlen("./minishell")) != 0
 			|| argc != 1)
 	{

@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 23:36:37 by llescure          #+#    #+#             */
-/*   Updated: 2021/05/06 15:25:47 by llescure         ###   ########.fr       */
+/*   Updated: 2022/02/10 11:25:36 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strrchr(const char *str, int c)
 	while (i >= 0)
 	{
 		if (str[i] == c)
-			return ((char *)&str[i]);
+			return ((char *)&str[i + 1]);
 		i--;
 	}
 	return (NULL);

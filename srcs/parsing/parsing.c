@@ -1,5 +1,10 @@
 #include "../../include/minishell.h"
 
+/*
+ ** Main function that 1) launches the scanner, 2) the lexer, 3) proceeds to
+ ** expansions with $ and between quotes and 4) finally the grammatical check
+*/
+
 int		parsing(char *user_input, t_shell *shell)
 {
 //	int pid;
@@ -18,15 +23,22 @@ int		parsing(char *user_input, t_shell *shell)
 		error_message("malloc");
 		return (g_signal);
 	}
-	ft_print_list(shell->token);
-	ft_putstr_fd("\n", 1);
+	ft_double_print_list(shell->token);
 	ft_double_print_list(shell->type);
-	if (look_for_error_in_type(shell->type) == 1)
+	if (look_for_word_in_type(shell->type, "error") == 1)
 	{
 		error_message("syntax");
 		return (g_signal);
 	}
-	look_for_grammar_error(shell->token, shell->type);
+	if (look_for_word_in_type(shell->type, "single_quote") == 1)
+		single_quote_expansion(shell, shell->type, &shell->token);
+	printf("new line\n");
+	if (look_for_word_in_type(shell->type, "double_quote") == 1)
+		double_quote_expansion(shell, shell->type, &shell->token);
+	if (look_for_word_in_type(shell->type, "expand") == 1)
+		expand_expansion(shell, shell->type, &shell->token);
+	ft_double_print_list(shell->token);
+	look_for_grammar_error(shell->token, shell->type, shell);
 	/*
 	shell->cmd[0] = find_correct_path(shell->path, user_input);
 	pid = fork();
@@ -54,64 +66,34 @@ int		parsing(char *user_input, t_shell *shell)
 	return (0);
 }
 
-int		look_for_error_in_type(t_double_list *list)
+int		look_for_word_in_type(t_double_list *list, char *str)
 {
 	while (list != NULL)
 	{
-		if (ft_strncmp(list->content, "error", ft_strlen("error")) == 0)
+		if (ft_strncmp(list->content, str, ft_strlen(str)) == 0)
 			return (1);
 		list = list->next;
 	}
 	return (0);
 }
 
-void	look_for_grammar_error(t_list *list, t_double_list *type)
+void	look_for_grammar_error(t_double_list *list, t_double_list *type,
+		t_shell *shell)
 {
+	if (ft_strncmp(type->content, "command_option", ft_strlen(type->content)) == 0
+		|| ft_strncmp(type->content, "word", ft_strlen(type->content)) == 0
+		|| ft_strncmp(type->content, "pipe", ft_strlen(type->content)) == 0)
+		return (error_message("command"));
+	else if (ft_strncmp(type->content, "single_quote", ft_strlen(type->content)) == 0
+		|| ft_strncmp(type->content, "double_quote", ft_strlen(type->content)) == 0
+		|| ft_strncmp(type->content, "expand", ft_strlen(type->content)) == 0)
+	{
+		if (check_command(list->content, shell) == 0)
+			return (error_message("command"));
+	}
 	while (list != NULL && type != NULL)
 	{
-		if (ft_strncmp(type->content, "
 		list = list->next;
 		type = type->next;
 	}
-}
-
-char	*find_correct_path(char **path, char *cmd)
-{
-	int		i;
-	char	*temp;
-	char	*command;
-
-	i = 0;
-	temp = create_command_path(cmd);
-	if (temp == NULL)
-		return (temp);
-	while (path != NULL && path[i] != NULL)
-	{
-		command = ft_strjoin(path[i], temp);
-		if (command == NULL)
-		{
-			g_signal = -1;
-			free(temp);
-			return (NULL);
-		}
-		if (access(command, F_OK) != -1)
-		{
-			free(temp);
-			return (command);
-		}
-		free(command);
-		i++;
-	}
-	free(temp);
-	return (NULL);
-}
-
-char	*create_command_path(char *cmd)
-{
-	char	*rslt;
-
-	rslt = ft_strjoin("/", cmd);
-	if (rslt == NULL)
-		g_signal = -1;
-	return (rslt);
 }

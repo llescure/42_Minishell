@@ -1,5 +1,26 @@
 #include "../../include/minishell.h"
 
+void get_env(t_env *env, char **envp)
+{
+    int index;
+    //int i;
+
+    index = 0;
+    //i = 0;
+    while (envp[index] != NULL)
+        index++;
+    env->index = index;
+    env->env = envp;
+	create_env_tab(env);
+    //shell->env->alpha = envp;
+   /* while (i < index)
+    {
+        if (ft_strncmp(envp[i], "HOME=", ft_strlen("HOME=")) == 0)
+            get_absolute_path(shell, envp[i]);
+        i++;
+    }*/
+}
+
 void alpha_sort(t_shell *shell)
 {
     int i;
@@ -47,14 +68,42 @@ void get_absolute_path(t_shell *shell, char *path)
     shell->absolute_path[j] = '\0';
 }
 
-void print_env(t_shell *shell)
+void print_tab(char	**tab)
 {
     int i;
 
     i = 0;
-    while (i < shell->env->index)
+    while (tab[i] != NULL)
     {
-        printf("%s\n", shell->env->env[i]);
+        printf("tab[i]= %s\n", tab[i]);
         i++;
     }
+}
+
+void	create_env_tab(t_env *env)
+{
+	int	i;
+
+	env->tab_variable_name = malloc(sizeof(char *) * (env->index + 1));
+	if (env->tab_variable_name == NULL)
+	{
+		g_signal = -1;
+		return ;
+	}
+	env->tab_variable_equals = malloc(sizeof(char *) * (env->index + 1));
+	if (env->tab_variable_name == NULL)
+	{
+		g_signal = -1;
+		return ;
+	}
+	i = 0;
+	while (i < env->index)
+	{
+		env->tab_variable_name[i] = ft_cut_str(env->env[i], 0,
+						find_cara_in_word(env->env[i], '='));
+		env->tab_variable_equals[i] = ft_strdup(ft_strrchr((const char *)env->env[i], '='));
+		i++;
+	}
+	env->tab_variable_name[i] = NULL;
+	env->tab_variable_equals[i] = NULL;
 }

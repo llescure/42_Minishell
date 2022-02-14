@@ -45,30 +45,9 @@ int ft_cd(t_shell *shell)
     return (0);
 }
 
-
-void get_env(t_env *env, char **envp)
-{
-    int index;
-    //int i;
-
-    index = 0;
-    //i = 0;
-    while (envp[index] != NULL)
-        index++;
-    env->index = index;
-    env->env = envp;
-    //shell->env->alpha = envp;
-   /* while (i < index)
-    {
-        if (ft_strncmp(envp[i], "HOME=", ft_strlen("HOME=")) == 0)
-            get_absolute_path(shell, envp[i]);
-        i++;
-    }*/
-}
-
 int ft_export(t_shell *shell)
 {
     //alpha_sort(shell);
-    print_env(shell);
+    print_tab(shell->env->env);
     return (0);
 }

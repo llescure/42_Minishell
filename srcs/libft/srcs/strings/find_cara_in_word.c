@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_double_free.c                                   :+:      :+:    :+:   */
+/*   find_cara_in_word.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/08 15:48:18 by llescure          #+#    #+#             */
-/*   Updated: 2022/02/14 15:48:47 by llescure         ###   ########.fr       */
+/*   Created: 2022/02/10 13:38:23 by llescure          #+#    #+#             */
+/*   Updated: 2022/02/14 09:14:51 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/libft.h"
-
-void	ft_double_free_list(t_double_list **list, int free_content)
+int	find_cara_in_word(char *str, char c)
 {
-	t_double_list	*temp;
+	int	i;
 
-//	(void)free_content;
-	if (*list == NULL || list == NULL)
-		return ;
-	while ((*list)->next != NULL)
+	i = 0;
+	while (str[i] != '\0')
 	{
-		temp = (*list)->next;
-		if (free_content == 1)
-			free((*list)->content);
-		free(*list);
-		*list = temp;
+		if (str[i] == c)
+			return (i);
+		i++;
 	}
-	if (free_content == 1)
-		free((*list)->content);
-	free(*list);
-	*list = NULL;
+	return (-1);
 }

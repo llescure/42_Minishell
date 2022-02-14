@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_double_free.c                                   :+:      :+:    :+:   */
+/*   number_occurence_cara_in_str.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/08 15:48:18 by llescure          #+#    #+#             */
-/*   Updated: 2022/02/14 15:48:47 by llescure         ###   ########.fr       */
+/*   Created: 2022/02/10 17:35:19 by llescure          #+#    #+#             */
+/*   Updated: 2022/02/10 17:57:45 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/libft.h"
 
-void	ft_double_free_list(t_double_list **list, int free_content)
+int	number_occurence_cara_in_str(char *str, char c)
 {
-	t_double_list	*temp;
+	int compt;
+	int	i;
 
-//	(void)free_content;
-	if (*list == NULL || list == NULL)
-		return ;
-	while ((*list)->next != NULL)
+	compt = 0;
+	i = 0;
+	while(str[i] != '\0')
 	{
-		temp = (*list)->next;
-		if (free_content == 1)
-			free((*list)->content);
-		free(*list);
-		*list = temp;
+		if (str[i] == c)
+			compt++;
+		i++;
 	}
-	if (free_content == 1)
-		free((*list)->content);
-	free(*list);
-	*list = NULL;
+	return (compt);
 }
