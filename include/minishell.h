@@ -73,20 +73,23 @@ char	*create_command_path(char *cmd);
 char	*delete_until_cara(char *str, int c);
 void	free_tab(char **tab);
 int		scanner(char *user_input, t_shell *shell);
-int		ft_beginning_lexeme(char *str, int pos);
-int		ft_end_lexeme(char *str, int pos);
-char	*find_lexeme(char *user_input, int beginning, int *end);
+int		ft_beginning_lexeme(char *str, int pos, int quote_indication);
+int		ft_end_lexeme(char *str, int pos, int quote_indication);
+char	*find_lexeme(char *user_input, int beginning, int *end,
+		int quote_indication);
 char	*ft_cut_str(char *user_input, int beginning, int end);
-int		look_for_quote(char *str, int pos, char type_quote);
+int		look_for_quote(char *str, int pos, char type_quote, int initial_pos);
 void	display_message(char *str, int value_signal);
 void	error_message(char *str);
 int		delimit_separator(char *str, int pos, char separator, int initial_pos);
-int		delimit_expand(char *str, int pos);
+int		delimit_expand(char *str, int pos, int initial_pos);
 int		tokenizer(t_double_list *token, t_shell *shell);
 int		check_first_content(char *str, t_double_list **list, t_shell *shell);
 int		check_content(char *str, t_double_list **list, t_shell *shell);
 void	check_redirection(char *str, t_double_list **list);
 void	check_first_redirection(char *str, t_double_list **list);
+void	check_first_special_cara(char *str, t_double_list **list);
+void	check_special_cara(char *str, t_double_list **list);
 int		check_command(char *str, t_shell *shell);
 int		look_for_word_in_type(t_double_list *list, char *str);
 void	look_for_grammar_error(t_double_list *list, t_double_list *type,
@@ -104,5 +107,6 @@ char	*expand_env_variable(char *variable_to_find, t_env *env);
 void	expansion_cases(t_shell *shell, void **str);
 void	quote_cases(t_shell *shell, char **str, char type_cara_to_delete);
 void	get_identifier(t_shell *shell, char **str);
+char	**split_expand(char *str, char cara);
 
 #endif

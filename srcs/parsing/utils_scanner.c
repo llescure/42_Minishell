@@ -31,13 +31,15 @@ char	*ft_cut_str(char *user_input, int beginning, int end)
  ** the next one. If none were found, the quote is skipped
  */
 
-int	look_for_quote(char *str, int pos, char type_quote)
+int	look_for_quote(char *str, int pos, char type_quote, int initial_pos)
 {
 	int	i;
 
+	if (str[initial_pos] != type_quote)
+		return (pos);
 	i = pos;
 	i++;
-	while (ft_iscara(str[i], type_quote) == 0 && str[i] != '\0')
+	while (str[i] != type_quote && str[i] != '\0')
 		i++;
 	if (str[i] == '\0')
 		return (pos + 1);
@@ -61,13 +63,17 @@ int	delimit_separator(char *str, int pos, char separator, int initial_pos)
 	return (i);
 }
 
-int	delimit_expand(char *str, int pos)
+int	delimit_expand(char *str, int pos, int initial_pos)
 {
 	int	i;
 
+	if (str[initial_pos] != '$')
+		return (pos);
 	i = pos;
+	i++;
 	while (ft_isspace(str[i]) == 0 && ft_isredirections(str[i]) == 0
-			&& str[i] != '|' && str[i] != '\0')
+			&& str[i] != '|' && str[i] != '\0' && str[i] != '"'
+			&& str[i] != '\'' && str[i] != '$')
 		i++;
 	return (i);
 }

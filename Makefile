@@ -14,6 +14,7 @@ SRCS =	./srcs/main.c						\
 		./srcs/exec/signals.c				\
 		./srcs/parsing/scanner.c			\
 		./srcs/parsing/tokenizer.c			\
+		./srcs/parsing/utils_tokenizer.c	\
 		./srcs/parsing/parsing.c			\
 		./srcs/parsing/utils_scanner.c		\
 		./srcs/parsing/initialization.c		\

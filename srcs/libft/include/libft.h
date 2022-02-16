@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 20:02:11 by llescure          #+#    #+#             */
-/*   Updated: 2022/02/14 16:29:15 by llescure         ###   ########.fr       */
+/*   Updated: 2022/02/16 11:22:26 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int				find_cara_in_word(char *str, char c);
 int				number_occurence_cara_in_str(char *str, char c);
 char			*ft_join_tab(char **tab);
 unsigned long	ft_count_words(char const *str, char sep);
+unsigned long	ft_count_words_multiple(char const *str, char sep1, char sep2);
 void			ft_free(char **s, unsigned long pos);
 
 /*

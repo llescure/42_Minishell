@@ -6,32 +6,30 @@
  ** is found. Otherwise it skips the caracter.
  */
 
-int	ft_beginning_lexeme(char *str, int pos)
+int	ft_beginning_lexeme(char *str, int pos, int quote_indication)
 {
 	int	i;
 
 	i = pos;
-	while (ft_isspace(str[i]) == 1)
-		i++;
-	if (ft_iscara(str[i], '\'') == 1)
+	if (ft_iscara(str[i], '\'') == 1 && quote_indication == 0)
 	{
-		if (look_for_quote(str, i, '\'') == pos + 1)
-			return (look_for_quote(str, i, '\''));
+		if (look_for_quote(str, i, '\'', pos) == pos + 1)
+			return (look_for_quote(str, i, '\'', pos));
 	}
-	else if (ft_iscara(str[i], '"') == 1)
+	else if (ft_iscara(str[i], '"') == 1 && quote_indication == 0)
 	{
-		if (look_for_quote(str, i, '"') == pos + 1)
-			return (look_for_quote(str, i, '"'));
+		if (look_for_quote(str, i, '"', pos) == pos + 1)
+			return (look_for_quote(str, i, '"', pos));
 	}
 	return (i);
 }
 
-int	ft_end_lexeme(char *str, int pos)
+int	ft_end_lexeme(char *str, int pos, int quote_indication)
 {
 	int	i;
 
 	i = pos;
-	while (ft_isspace(str[i]) == 0 && str[i] != '\0')
+	while (str[i] != '\0')
 	{
 		if (str[i] == '|')
 			return (delimit_separator(str, i, str[i], pos));
@@ -40,19 +38,31 @@ int	ft_end_lexeme(char *str, int pos)
 		else if (str[i] == '=')
 			return (delimit_separator(str, i, str[i], pos));
 		else if (str[i] == '$')
-			return (delimit_expand(str, i));
+			return (delimit_expand(str, i, pos));
+		else if (str[i] == '\'' && quote_indication == 0)
+			return (look_for_quote(str, i, '\'', pos));
+		else if (str[i] == '\'' && quote_indication == 1)
+			return (delimit_separator(str, i, str[i], pos));
+		else if (str[i] == '"')
+			return (look_for_quote(str, i, '"', pos));
+		else if (ft_isspace(str[i]) == 1)
+			return (delimit_separator(str, i, str[i], pos));
 		i++;
 	}
 	return (i);
 }
 
-char	*find_lexeme(char *user_input, int starting_point, int *end)
+char	*find_lexeme(char *user_input, int starting_point, int *end,
+	int quote_indication)
 {
 	char	*temp;
 	int	beginning;
 
-	beginning = ft_beginning_lexeme(user_input, starting_point);
-	*end = ft_end_lexeme(user_input, beginning);
+	beginning = ft_beginning_lexeme(user_input, starting_point,
+			quote_indication);
+	//printf("beginning = %d\n", beginning);
+	*end = ft_end_lexeme(user_input, beginning, quote_indication);
+	//printf("end = %d\n", *end);
 	temp = ft_cut_str(user_input, beginning, *end);
 	return (temp);
 }
@@ -68,7 +78,7 @@ int		scanner(char *user_input, t_shell *shell)
 	int		end;
 	char	*temp;
 
-	temp = find_lexeme(user_input, 0, &end);
+	temp = find_lexeme(user_input, 0, &end, 0);
 	if (temp != NULL)
 		list = ft_double_lstnew(temp);
 	if (list == NULL)
@@ -78,7 +88,7 @@ int		scanner(char *user_input, t_shell *shell)
 	}
 	while (end < (int)ft_strlen(user_input))
 	{
-		temp = find_lexeme(user_input, end, &end);
+		temp = find_lexeme(user_input, end, &end, 0);
 		if (temp == NULL && g_signal == -1)
 			return (g_signal);
 		else if (temp == NULL)
