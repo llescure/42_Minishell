@@ -71,9 +71,7 @@ int	delimit_expand(char *str, int pos, int initial_pos)
 		return (pos);
 	i = pos;
 	i++;
-	while (ft_isspace(str[i]) == 0 && ft_isredirections(str[i]) == 0
-			&& str[i] != '|' && str[i] != '\0' && str[i] != '"'
-			&& str[i] != '\'' && str[i] != '$')
+	while (ft_isspace(str[i]) == 0 && ft_isalnum(str[i]) == 1 && str[i] != '\0')
 		i++;
 	return (i);
 }

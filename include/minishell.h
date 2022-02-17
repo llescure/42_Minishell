@@ -107,6 +107,10 @@ char	*expand_env_variable(char *variable_to_find, t_env *env);
 void	expansion_cases(t_shell *shell, void **str);
 void	quote_cases(t_shell *shell, char **str, char type_cara_to_delete);
 void	get_identifier(t_shell *shell, char **str);
+void	identifier_cases(char **str_to_change, char *original_str, char *temp2,
+		t_shell *shell);
 char	**split_expand(char *str, char cara);
+int		clean_input(t_shell *shell);
+int		join_clean_input(t_double_list **list, t_double_list *type);
 
 #endif
