@@ -6,7 +6,7 @@
 #    By: llescure <llescure@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/26 17:55:58 by llescure          #+#    #+#              #
-#    Updated: 2022/02/17 17:58:29 by llescure         ###   ########.fr        #
+#    Updated: 2022/02/18 09:29:50 by llescure         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,6 +69,7 @@ SRCS = srcs/convert/ft_itoa.c \
 		srcs/double_linked_lists/ft_double_lstadd_back.c \
 		srcs/double_linked_lists/ft_double_lstadd_front.c \
 		srcs/double_linked_lists/ft_double_lstdelone.c \
+		srcs/double_linked_lists/delete_node.c \
 		srcs/double_linked_lists/ft_double_lstfirst.c \
 		srcs/double_linked_lists/ft_double_lstlast.c \
 		srcs/double_linked_lists/ft_double_lstnew.c \

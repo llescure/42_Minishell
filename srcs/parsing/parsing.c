@@ -32,14 +32,15 @@ int		parsing(char *user_input, t_shell *shell)
 		error_message("malloc");
 		return (g_signal);
 	}
-	/*ft_double_free_list(&shell->type, 0);
+	ft_double_free_list(&shell->type, 0);
 	if (tokenizer(shell->token, shell) < 0)
-	{
-		error_message("malloc");
-		return (g_signal);
-	}*/
+	  {
+		  error_message("malloc");
+		  return (g_signal);
+	  }
 	ft_double_print_list(shell->token);
-//	look_for_grammar_error(shell->token, shell->type, shell);
+	ft_double_print_list(shell->type);
+	look_for_grammar_error(shell->token, shell->type);
 	/*
 	   shell->cmd[0] = find_correct_path(shell->path, user_input);
 	   pid = fork();
@@ -87,30 +88,22 @@ int		clean_input(t_shell *shell)
 
 int		join_clean_input(t_double_list **list, t_double_list *type)
 {
-	char	*new_str;
-	char	*temp;
+	char	*str_temp;
 
 	while (type->next != NULL)
 	{
-		if (ft_strncmp(type->content, "single_quote", ft_strlen(type->content)) == 0
-			|| ft_strncmp(type->content, "word", ft_strlen(type->content)) == 0
-			|| ft_strncmp(type->content, "double_quote", ft_strlen(type->content)) == 0
-			|| ft_strncmp(type->content, "expand", ft_strlen(type->content)) == 0)
+		if (special_condition_cara_is_respected(type->content) == 1)
 		{
-			new_str = ft_strdup((*list)->content);
-			while (type->next != NULL && (ft_strncmp(type->next->content, "single_quote", ft_strlen(type->next->content)) == 0
-			|| ft_strncmp(type->next->content, "word", ft_strlen(type->next->content)) == 0
-			|| ft_strncmp(type->next->content, "double_quote", ft_strlen(type->next->content)) == 0
-			|| ft_strncmp(type->next->content, "expand", ft_strlen(type->next->content)) == 0))
+			while (type->next != NULL &&
+				special_condition_cara_is_respected(type->next->content) == 1)
 			{
-				temp = new_str;
-				new_str = ft_strjoin(new_str, (*list)->next->content);
-				free(temp);
-				type = type->next;
-				*list = (*list)->next;
+				str_temp = (*list)->content;
+				(*list)->content = ft_strjoin(str_temp, (*list)->next->content);
+				free(str_temp);
+				delete_node(list, 1);
+				delete_node(&type, 0);
 			}
 		}
-		printf("str = %s\n", new_str);
 		if (type->next == NULL)
 			break;
 		type = type->next;
@@ -118,6 +111,16 @@ int		join_clean_input(t_double_list **list, t_double_list *type)
 	}
 	while ((*list)->previous != NULL)
 		*list = (*list)->previous;
+	return (0);
+}
+
+int		special_condition_cara_is_respected(char *str)
+{
+	if (ft_strncmp(str, "single_quote", ft_strlen(str)) == 0
+			|| ft_strncmp(str, "word", ft_strlen(str)) == 0
+			|| ft_strncmp(str, "double_quote", ft_strlen(str)) == 0
+			|| ft_strncmp(str, "expand", ft_strlen(str)) == 0)
+		return (1);
 	return (0);
 }
 
@@ -132,23 +135,17 @@ int		look_for_word_in_type(t_double_list *list, char *str)
 	return (0);
 }
 
-void	look_for_grammar_error(t_double_list *list, t_double_list *type,
-		t_shell *shell)
+void	look_for_grammar_error(t_double_list *list, t_double_list *type)
 {
 	if (ft_strncmp(type->content, "command_option", ft_strlen(type->content)) == 0
-			|| ft_strncmp(type->content, "word", ft_strlen(type->content)) == 0
-			|| ft_strncmp(type->content, "pipe", ft_strlen(type->content)) == 0)
+		|| ft_strncmp(type->content, "word", ft_strlen(type->content)) == 0)
 		return (error_message("command"));
-	else if (ft_strncmp(type->content, "single_quote", ft_strlen(type->content)) == 0
-			|| ft_strncmp(type->content, "double_quote", ft_strlen(type->content)) == 0
-			|| ft_strncmp(type->content, "expand", ft_strlen(type->content)) == 0)
-	{
-		if (check_command(list->content, shell) == 0)
-			return (error_message("command"));
-	}
-	while (list != NULL && type != NULL)
-	{
-		list = list->next;
-		type = type->next;
-	}
+	else if ((ft_strncmp(type->content, "redir_right", ft_strlen(type->content)) == 0
+		|| ft_strncmp(type->content, "redir_left", ft_strlen(type->content)) == 0
+		|| ft_strncmp(type->content, "heredoc", ft_strlen(type->content)) == 0
+		|| ft_strncmp(type->content, "d_redir_right", ft_strlen(type->content)) == 0)
+		&& type->next == NULL)
+		return (error_message("syntaxe"));
+	else if (ft_strncmp(type->content, "pipe", ft_strlen(type->content)) == 0)
+		return (error_message("syntaxe"));
 }

@@ -92,8 +92,7 @@ void	check_first_special_cara(char *str, t_double_list **list);
 void	check_special_cara(char *str, t_double_list **list);
 int		check_command(char *str, t_shell *shell);
 int		look_for_word_in_type(t_double_list *list, char *str);
-void	look_for_grammar_error(t_double_list *list, t_double_list *type,
-		t_shell *shell);
+void	look_for_grammar_error(t_double_list *list, t_double_list *type);
 void	quote_expansion(t_shell *shell, t_double_list *type,
 		t_double_list **list, char type_cara_to_delete, char *type_expansion);
 void	expand_expansion(t_shell *shell, t_double_list *type,
@@ -112,5 +111,6 @@ void	identifier_cases(char **str_to_change, char *original_str, char *temp2,
 char	**split_expand(char *str, char cara);
 int		clean_input(t_shell *shell);
 int		join_clean_input(t_double_list **list, t_double_list *type);
+int		special_condition_cara_is_respected(char *str);
 
 #endif
