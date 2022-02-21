@@ -1,52 +1,46 @@
 #include "../../include/minishell.h"
 
-int		execute_input(t_shell *shell)
+int		execute_input(t_shell *shell, char *user_input)
 {
-	int	fd_infile;
-	int	fd_outfile;
-	char	*str;
+	if (user_input[0] == '\0')
+		return (0);
+	shell->i = 0;
+	while (shell->token_bis[shell->i] != NULL)
+	{
+		if (ft_strncmp(shell->type_bis[shell->i], "command", ft_strlen("command")) == 0)
+			handle_builtin(shell, shell->token_bis[shell->i]);
+	/*	else if (ft_strncmp(shell->type_bis[shell->i], "redir_right",
+					ft_strlen("redir_right")) == 0
+				|| ft_strncmp(shell->type_bis[shell->i], "redir_left",
+					ft_strlen("redir_left")) == 0
+				|| ft_strncmp(shell->type_bis[shell->i], "d_redir_right",
+					ft_strlen("d_redir_left")) == 0)
 
-	fd_infile = STDIN_FILENO;
-	fd_outfile = STDOUT_FILENO;
-	while (shell->token->next != NULL && shell->type->next != NULL)
-	{
-		str = shell->token->content;
-		if (ft_strncmp(str, "command", ft_strlen("command")) == 0)
-			handle_builtin(str, shell);
-		else if (ft_isredirections(str[0]) == 1)
-			if (open_file_redirections(shell, &fd_infile, &fd_outfile) != 0)
+		{
+			if (open_file_redirection(shell) != 0)
 				return (g_signal);
-		shell->token = shell->token->next;
-		shell->type = shell->type->next;
-	}
-	str = shell->token->content;
-	if (ft_strncmp(str, "command", ft_strlen("command")) == 0)
-		handle_builtin(str, shell);
-	else if (ft_isredirections(str[0]) == 1)
-		if (open_file_redirection(shell, &fd_infile, &fd_outfile) != 0)
-			return (g_signal);
-	while (shell->token->previous != NULL && shell->token->previous != NULL)
-	{
-		shell->token = shell->token->previous;
-		shell->type = shell->type->previous;
+		}*/
+		if (shell->token_bis[shell->i] == NULL)
+			break;
+		shell->i++;
 	}
 	return (0);
 }
 
-void	handle_builtin(char *str, t_shell *shell)
+void	handle_builtin(t_shell *shell, char *str)
 {
 	if (ft_strncmp(str, "exit", ft_strlen("exit") == 0))
 		quit_program(shell);
-	if (ft_strncmp(str, "echo", ft_strlen("echo")) == 0)
-		ft_echo(str, shell);
-	if (ft_strncmp(str, "pwd", ft_strlen("pwd")) == 0)
+	else if (ft_strncmp(str, "echo", ft_strlen("echo")) == 0)
+		ft_echo(shell);
+	/*else if (ft_strncmp(str, "pwd", ft_strlen("pwd")) == 0)
 		ft_pwd(shell);
-	if (ft_strncmp(str, "cd", ft_strlen("cd")) == 0)
+	else if (ft_strncmp(str, "cd", ft_strlen("cd")) == 0)
 		ft_cd(shell);
-	if (ft_strncmp(str, "export", ft_strlen("export")) == 0)
+	else if (ft_strncmp(str, "export", ft_strlen("export")) == 0)
 		ft_export(shell);
-	if (ft_strchr(str, '=') != 0)
-		create_variable(shell);
+	else if (ft_strchr(str, '=') != 0)
+		create_variable(shell);*/
 	//if (ft_strncmp(str, "env", ft_strlen("env")) == 0)
 	//	print_env(shell);
 }

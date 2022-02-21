@@ -60,9 +60,9 @@ int		check_content(char *str, t_double_list **list, t_shell *shell)
 		ft_double_lstadd_back(list, ft_double_lstnew((char *)"pipe"));
 	else if (str[0] == '|' && str[1] == '|')
 		ft_double_lstadd_back(list, ft_double_lstnew((char *)"error"));
-	else if (number_occurence_cara_in_str(str, '"') >= 2)
+	else if (str[0] == '"' && number_occurence_cara_in_str(str, '"') >= 2)
 		ft_double_lstadd_back(list, ft_double_lstnew((char *)"double_quote"));
-	else if (number_occurence_cara_in_str(str, '\'') >= 2)
+	else if (str[0] == '\'' && number_occurence_cara_in_str(str, '\'') >= 2)
 		ft_double_lstadd_back(list, ft_double_lstnew((char *)"single_quote"));
 	else if (str[0] == '<' || str[0] == '>')
 		check_redirection(str, list);

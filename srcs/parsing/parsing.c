@@ -25,10 +25,10 @@ int		parsing(char *user_input, t_shell *shell)
 		free_all(shell);
 		return (g_signal);
 	}
-	if (clean_input(shell) != 0)
-		return (g_signal);
 //	ft_double_print_list(shell->token);
 //	ft_double_print_list(shell->type);
+	if (clean_input(shell) != 0)
+		return (g_signal);
 //	printf("\n");
 	if (join_clean_input(&shell->token, shell->type) < 0)
 	{
@@ -46,7 +46,10 @@ int		parsing(char *user_input, t_shell *shell)
 //	ft_double_print_list(shell->token);
 //	ft_double_print_list(shell->type);
 	look_for_grammar_error(shell->type);
-	create_tab_from_linked_list(shell->token, shell->type, shell);
+	shell->token_bis = create_tab_from_linked_list(shell->token);
+	shell->type_bis = create_tab_from_linked_list(shell->type);
+//	print_tab(shell->token_bis);
+//	print_tab(shell->type_bis);
 	/*
 	   shell->cmd[0] = find_correct_path(shell->path, user_input);
 	   pid = fork();
@@ -115,6 +118,12 @@ int		join_clean_input(t_double_list **list, t_double_list *type)
 		}
 		if (type->next == NULL)
 			break;
+		if (ft_strncmp(type->content, "white_space", ft_strlen(type->content)) == 0)
+		{
+			str_temp = (*list)->content;
+			(*list)->content = ft_strdup(" ");
+			free(str_temp);
+		}
 		type = type->next;
 		*list = (*list)->next;
 	}
@@ -138,4 +147,28 @@ void	look_for_grammar_error(t_double_list *type)
 		return (error_message("syntaxe"));
 	else if (ft_strncmp(type->content, "pipe", ft_strlen(type->content)) == 0)
 		return (error_message("syntaxe"));
+}
+
+/*
+ ** This function that 1) launches the scanner, 2) the lexer, 3) proceeds to
+ ** expansions with $ and between quotes and 4) finally the grammatical check
+ */
+
+char	**create_tab_from_linked_list(t_double_list *list)
+{
+	char	**tab_cpy;
+	int		i;
+
+	tab_cpy = malloc(sizeof(char *) * (ft_double_lstsize(list) + 1));
+	if (tab_cpy == NULL)
+		return (NULL);
+	i = 0;
+	while (list != NULL)
+	{
+		tab_cpy[i] = ft_strdup(list->content);
+		list = list->next;
+		i++;
+	}
+	tab_cpy[i] = NULL;
+	return (tab_cpy);
 }

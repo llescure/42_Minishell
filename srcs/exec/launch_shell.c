@@ -11,6 +11,10 @@ int prompt(char **user_input, t_shell *shell)
 		{
 			ft_double_free_list(&shell->token, 1);
 			ft_double_free_list(&shell->type, 0);
+			free_tab(shell->token_bis);
+			free_tab(shell->type_bis);
+			shell->token_bis = NULL;
+			shell->type_bis = NULL;
 		}
 		free(lign);
 		lign = NULL;
@@ -35,6 +39,8 @@ int	launch_shell(t_shell *shell)
 	user_input = NULL;
 	shell->token = NULL;
 	shell->type = NULL;
+	shell->token_bis = NULL;
+	shell->type_bis = NULL;
 	signal(SIGINT, handle_signals);
 	signal(SIGQUIT, handle_signals);
 	while (1)
@@ -43,6 +49,6 @@ int	launch_shell(t_shell *shell)
 			return (g_signal);
 		if (parsing(user_input, shell) != 0)
 			return (g_signal);
-//		execute_input(shell);
+		execute_input(shell, user_input);
 	}
 }

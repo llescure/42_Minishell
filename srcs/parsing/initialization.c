@@ -11,8 +11,9 @@ int		init_struct(t_shell *shell, char **envp)
 		free_all(shell);
 		return (g_signal);
 	}
-	shell->token = NULL;
 	shell->pwd = malloc(sizeof(char) * PATH_MAX + 1);
+	shell->fd_infile = STDIN_FILENO;
+	shell->fd_outfile = STDOUT_FILENO;
 	if (shell->pwd == NULL)
 	{
 		error_message("malloc");

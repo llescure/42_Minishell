@@ -27,14 +27,17 @@ typedef struct s_env {
 }               t_env;
 
 typedef struct s_shell {
-  char				*str;
   char				*pwd;
   char				**path;
   char				*absolute_path;
-  char				*cmd;
+  int				fd_infile;
+  int				fd_outfile;
   t_env				*env;
   t_double_list		*token;
   t_double_list		*type;
+  char				**token_bis;
+  char				**type_bis;
+  int				i;
 }               	t_shell;
 
 int		g_signal;
@@ -43,9 +46,11 @@ int		g_signal;
  ** EXEC FUNCTIONS
 */
 
-void	handle_builtin(char *str, t_shell *shell);
+void	handle_builtin(t_shell *shell, char *str);
 void	ft_pwd(t_shell *shell);
-int		ft_echo(char ***token_bis, char ***type_bis, t_shell *shell);
+void	ft_echo(t_shell *shell);
+int		handle_cases_other_than_words(t_shell *shell,
+		int *command_option_active);
 int		ft_cd(t_shell *shell);
 void	quit_program(t_shell *shell);
 int		ft_export(t_shell *shell);
@@ -54,8 +59,8 @@ void	free_all(t_shell *shell);
 void	handle_signals(int signum);
 void	handle_exec_signals(int signum);
 int		prompt(char **user_input, t_shell *shell);
-int		execute_input(t_shell *shell);
-int		open_file_redirection(char ***token_bis, char ***type_bis, t_shell *shell);
+int		execute_input(t_shell *shell, char *user_input);
+int		open_file_redirection(t_shell *shell);
 
 /*
  ** PARSING FUNCTIONS
@@ -115,5 +120,6 @@ int		clean_input(t_shell *shell);
 int		join_clean_input(t_double_list **list, t_double_list *type);
 int		special_condition_cara_is_respected(char *str);
 void	remove_residual_white_space(t_double_list **list, t_double_list *type);
+char	**create_tab_from_linked_list(t_double_list *list);
 
 #endif

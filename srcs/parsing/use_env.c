@@ -75,7 +75,7 @@ void print_tab(char	**tab)
     i = 0;
     while (tab[i] != NULL)
     {
-        printf("tab[i]= %s\n", tab[i]);
+        printf("tab[i]= %s$\n", tab[i]);
         i++;
     }
 }

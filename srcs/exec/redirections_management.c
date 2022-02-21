@@ -1,7 +1,6 @@
 #include "../../include/minishell.h"
 
-int		open_file_redirection(t_double_list *type, t_double_list *token,
-	   	int *fd_infile, int *fd_outfile)
+/*int		open_file_redirection(t_shell *shell)
 {
 	if (ft_strncmp(type->content, "redir_left",
 				ft_strlen(type->content)) == 0)
@@ -20,4 +19,4 @@ int		open_file_redirection(t_double_list *type, t_double_list *token,
 		return (g_signal);
 	}
 	return (0);
-}
+}*/

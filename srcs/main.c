@@ -14,6 +14,10 @@ void free_all(t_shell *shell)
 		ft_double_free_list(&shell->token, 1);
 	if (shell->type != NULL)
 		ft_double_free_list(&shell->type, 0);
+	if (shell->token_bis != NULL)
+		free_tab(shell->token_bis);
+	if (shell->type_bis != NULL)
+		free_tab(shell->type_bis);
 	rl_clear_history();
 }
 

@@ -1,30 +1,62 @@
 #include "../../include/minishell.h"
 
-void	ft_echo(t_shell *shell, int *compt)
+void	ft_echo(t_shell *shell)
 {
-	while (shell->token != NULL && shell->type != NULL)
+	char	*str;
+	char	*temp;
+	char	*type;
+	int	command_option_active;
+
+	shell->i++;
+	if (handle_cases_other_than_words(shell, &command_option_active) != 0)
+		return ;
+	str = ft_strdup("");
+	while (shell->type_bis[shell->i] != NULL)
 	{
-		if (ft_strncmp(shell->type->content, "command_option",
-				ft_strlen("command_option")) == 0
-				&& ft_strncmp(shell->type->content, "n", ft_strlen("n")) == 0)
-		{
-			error_message("command_option");
+		type = shell->type_bis[shell->i];
+		if (ft_strncmp(type, "pipe", ft_strlen("pipe")) == 0)
 			return ;
+		else if (ft_strncmp(type, "word", ft_strlen("word")) == 0
+			|| ft_strncmp(type, "white_space", ft_strlen("white_space")) == 0
+			|| ft_strncmp(type, "single_quote", ft_strlen("single_quote")) == 0
+			|| ft_strncmp(type, "double_quote", ft_strlen("double_quote")) == 0
+			|| ft_strncmp(type, "expand", ft_strlen("expand")) == 0
+			|| ft_strncmp(type, "command", ft_strlen("command")) == 0)
+		{
+			temp = str;
+			str = ft_strjoin(str, shell->token_bis[shell->i]);
+			free(temp);
 		}
-		while ((ft_strncmp(shell->type->content, "word", ft_strlen("word")) == 0
-			|| ft_strncmp(shell->type->content, "white_space", ft_strlen("word")) == 0)
-			&& shell->token != NULL && shell->type != NULL)
-			{
-				ft_putstr_fd(shell->token->content, shell
-				shell->token = shell->token->next;
-				shell->type = shell->type->next;
-				*compt++;
-			}
-		else
-			ft_putstr_fd("\n");
-		shell->token = shell->token->next;
-		shell->type = shell->type->next;
-		*compt++;
+		shell->i++;
+	}
+	ft_putstr_fd(str, shell->fd_outfile);
+	free(str);
+	if (command_option_active == 0)
+		ft_putstr_fd("\n", shell->fd_outfile);
+}
+
+int	handle_cases_other_than_words(t_shell *shell,
+		int *command_option_active)
+{
+	*command_option_active = 0;
+	if (shell->token_bis[shell->i] == NULL)
+	{
+		ft_putstr_fd("\n", shell->fd_outfile);
+		return (-1);
+	}
+	shell->i++;
+	while (shell->type_bis[shell->i] != NULL &&
+			((ft_strncmp(shell->type_bis[shell->i], "command_option",
+			ft_strlen("command_option")) == 0
+			&& number_occurence_cara_in_str(shell->token_bis[shell->i], 'n')
+			== (int)ft_strlen(shell->token_bis[shell->i]) - 1)
+			|| (ft_strncmp(shell->token_bis[shell->i], " ",
+				ft_strlen(shell->token_bis[shell->i])) == 0)))
+	{
+		if (ft_strncmp(shell->type_bis[shell->i], "command_option",
+				ft_strlen("command_option")) == 0)
+			*command_option_active = 1;
+		shell->i++;
 	}
 	return (0);
 }
@@ -40,29 +72,29 @@ void ft_pwd(t_shell *shell)
 	}
 }
 
-int ft_cd(t_shell *shell)
-{
-	if (shell->str == NULL)
-	{
-		chdir(shell->absolute_path);
-		return (0);
-	}
-	else
-	{
-		if (chdir(shell->str) == -1)
-		{
-			error_message("file");
-			return (g_signal);
-		}
-		else
-			return (0);
-	}
-	return (0);
-}
+/*int ft_cd(t_shell *shell)
+  {
+  if (shell->str == NULL)
+  {
+  chdir(shell->absolute_path);
+  return (0);
+  }
+  else
+  {
+  if (chdir(shell->str) == -1)
+  {
+  error_message("file");
+  return (g_signal);
+  }
+  else
+  return (0);
+  }
+  return (0);
+  }
 
-int ft_export(t_shell *shell)
-{
-	//alpha_sort(shell);
-	print_tab(shell->env->env);
-	return (0);
-}
+  int ft_export(t_shell *shell)
+  {
+//alpha_sort(shell);
+print_tab(shell->env->env);
+return (0);
+}*/

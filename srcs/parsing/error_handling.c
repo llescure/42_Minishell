@@ -10,8 +10,6 @@ void	error_message(char *str)
 {
 	if (ft_strncmp(str, "command", ft_strlen("command")) == 0)
 		return (display_message("bash: command not found\n", 127));
-	else if (ft_strncmp(str, "command_option", ft_strlen("command_option")) == 0)
-		return (display_message("bash: command option not available\n", 127));
 	else if (ft_strncmp(str, "syntax", ft_strlen("syntax")) == 0)
 		return (display_message("bash: syntax error\n", 2));
 	else if (ft_strncmp(str, "file", ft_strlen("file")) == 0)
