@@ -8,6 +8,7 @@ int		init_struct(t_shell *shell, char **envp)
 	if (g_signal == -1)
 	{
 		error_message("malloc");
+		free_all(shell);
 		return (g_signal);
 	}
 	shell->token = NULL;
@@ -15,6 +16,7 @@ int		init_struct(t_shell *shell, char **envp)
 	if (shell->pwd == NULL)
 	{
 		error_message("malloc");
+		free_all(shell);
 		return (g_signal);
 	}
 	temp = find_word_in_tab(shell->env->env, "PATH");
@@ -26,6 +28,7 @@ int		init_struct(t_shell *shell, char **envp)
 	else if (temp == NULL && g_signal == -1)
 	{
 		error_message("malloc");
+		free_all(shell);
 		return (g_signal);
 	}
 	return (0);

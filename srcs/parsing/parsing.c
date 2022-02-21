@@ -16,31 +16,37 @@ int		parsing(char *user_input, t_shell *shell)
 	if (scanner(user_input, shell) < 0)
 	{
 		error_message("malloc");
+		free_all(shell);
 		return (g_signal);
 	}
 	if (tokenizer(shell->token, shell) < 0)
 	{
 		error_message("malloc");
+		free_all(shell);
 		return (g_signal);
 	}
-	clean_input(shell);
-	ft_double_print_list(shell->token);
-	ft_double_print_list(shell->type);
-	printf("\n");
+	if (clean_input(shell) != 0)
+		return (g_signal);
+//	ft_double_print_list(shell->token);
+//	ft_double_print_list(shell->type);
+//	printf("\n");
 	if (join_clean_input(&shell->token, shell->type) < 0)
 	{
 		error_message("malloc");
+		free_all(shell);
 		return (g_signal);
 	}
 	ft_double_free_list(&shell->type, 0);
 	if (tokenizer(shell->token, shell) < 0)
 	  {
-		  error_message("malloc");
-		  return (g_signal);
+		error_message("malloc");
+		free_all(shell);
+		return (g_signal);
 	  }
-	ft_double_print_list(shell->token);
-	ft_double_print_list(shell->type);
-	look_for_grammar_error(shell->token, shell->type);
+//	ft_double_print_list(shell->token);
+//	ft_double_print_list(shell->type);
+	look_for_grammar_error(shell->type);
+	create_tab_from_linked_list(shell->token, shell->type, shell);
 	/*
 	   shell->cmd[0] = find_correct_path(shell->path, user_input);
 	   pid = fork();
@@ -82,8 +88,11 @@ int		clean_input(t_shell *shell)
 	if (look_for_word_in_type(shell->type, "expand") == 1)
 		expand_expansion(shell, shell->type, &shell->token);
 	if (g_signal < 0)
+	{
 		error_message("malloc");
-	return (g_signal);
+		return (g_signal);
+	}
+	return (0);
 }
 
 int		join_clean_input(t_double_list **list, t_double_list *type)
@@ -114,31 +123,12 @@ int		join_clean_input(t_double_list **list, t_double_list *type)
 	return (0);
 }
 
-int		special_condition_cara_is_respected(char *str)
+void	look_for_grammar_error(t_double_list *type)
 {
-	if (ft_strncmp(str, "single_quote", ft_strlen(str)) == 0
-			|| ft_strncmp(str, "word", ft_strlen(str)) == 0
-			|| ft_strncmp(str, "double_quote", ft_strlen(str)) == 0
-			|| ft_strncmp(str, "expand", ft_strlen(str)) == 0)
-		return (1);
-	return (0);
-}
-
-int		look_for_word_in_type(t_double_list *list, char *str)
-{
-	while (list != NULL)
-	{
-		if (ft_strncmp(list->content, str, ft_strlen(str)) == 0)
-			return (1);
-		list = list->next;
-	}
-	return (0);
-}
-
-void	look_for_grammar_error(t_double_list *list, t_double_list *type)
-{
-	if (ft_strncmp(type->content, "command_option", ft_strlen(type->content)) == 0
-		|| ft_strncmp(type->content, "word", ft_strlen(type->content)) == 0)
+	if (look_for_word_in_type(type, "heredoc") == 0 &&
+		(ft_strncmp(type->content, "command_option",
+		ft_strlen("command_option")) == 0
+		|| ft_strncmp(type->content, "word", ft_strlen(type->content)) == 0))
 		return (error_message("command"));
 	else if ((ft_strncmp(type->content, "redir_right", ft_strlen(type->content)) == 0
 		|| ft_strncmp(type->content, "redir_left", ft_strlen(type->content)) == 0

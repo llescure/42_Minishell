@@ -40,7 +40,9 @@ int		check_first_content(char *str, t_double_list **list, t_shell *shell)
 	else if (number_occurence_cara_in_str(str, '$') >= 1 || str[0] == '='
 			|| (str[0] == '-' && ft_isalnum(str[1]) == 1))
 		check_first_special_cara(str, list);
-	else if (ft_isascii(str[0]) == 1)
+	else if (ft_isspace(str[0]) == 1)
+		*list = ft_double_lstnew((char *)"white_space");
+	else if (ft_isascii(str[0]) == 1 && ft_isspace(str[0]) == 0)
 	{
 		if (check_command(str, shell) == 1)
 			*list = ft_double_lstnew((char *)"command");
@@ -49,8 +51,6 @@ int		check_first_content(char *str, t_double_list **list, t_shell *shell)
 		else if (check_command(str, shell) == -1)
 			return (g_signal);
 	}
-	else if (ft_isspace(str[0]) == 1)
-		*list = ft_double_lstnew((char *)"white_space");
 	return (0);
 }
 
@@ -71,7 +71,7 @@ int		check_content(char *str, t_double_list **list, t_shell *shell)
 		check_special_cara(str, list);
 	else if (ft_isspace(str[0]) == 1)
 		ft_double_lstadd_back(list, ft_double_lstnew((char *)"white_space"));
-	else if (ft_isascii(str[0]) == 1)
+	else if (ft_isascii(str[0]) == 1 && ft_isspace(str[0]) == 0)
 	{
 		if (check_command(str, shell) == 1)
 			ft_double_lstadd_back(list, ft_double_lstnew((char *)"command"));

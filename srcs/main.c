@@ -10,6 +10,10 @@ void free_all(t_shell *shell)
 		free_tab(shell->env->tab_variable_name);
 	if (shell->env->tab_variable_equals != NULL)
 		free_tab(shell->env->tab_variable_equals);
+	if (shell->token != NULL)
+		ft_double_free_list(&shell->token, 1);
+	if (shell->type != NULL)
+		ft_double_free_list(&shell->type, 0);
 	rl_clear_history();
 }
 
@@ -23,7 +27,8 @@ void	free_tab(char **tab)
 		free(tab[i]);
 		i++;
 	}
-	free(tab);
+	if (tab != NULL)
+		free(tab);
 }
 
 void quit_program(t_shell *shell)
@@ -32,7 +37,7 @@ void quit_program(t_shell *shell)
 	exit (0);
 }
 
-/*void	handle_builtin(t_shell *shell)
+/*void	handle_builtin(char *str, t_shell *shell)
 {
 	if (ft_strncmp(*shell->cmd, "exit", ft_strlen("exit") == 0))
 		quit_program(shell);
@@ -83,6 +88,7 @@ int main(int argc, char **argv, char **envp)
 			|| argc != 1)
 	{
 		error_message("parameters");
+		free_all(&shell);
 		return (g_signal);
 	}
 	if (init_struct(&shell, envp) < 0)

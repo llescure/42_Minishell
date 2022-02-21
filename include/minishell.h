@@ -43,9 +43,9 @@ int		g_signal;
  ** EXEC FUNCTIONS
 */
 
-void	handle_builtin(t_shell *shell);
+void	handle_builtin(char *str, t_shell *shell);
 void	ft_pwd(t_shell *shell);
-int		ft_echo(char *str, char option);
+int		ft_echo(char ***token_bis, char ***type_bis, t_shell *shell);
 int		ft_cd(t_shell *shell);
 void	quit_program(t_shell *shell);
 int		ft_export(t_shell *shell);
@@ -54,6 +54,8 @@ void	free_all(t_shell *shell);
 void	handle_signals(int signum);
 void	handle_exec_signals(int signum);
 int		prompt(char **user_input, t_shell *shell);
+int		execute_input(t_shell *shell);
+int		open_file_redirection(char ***token_bis, char ***type_bis, t_shell *shell);
 
 /*
  ** PARSING FUNCTIONS
@@ -92,7 +94,7 @@ void	check_first_special_cara(char *str, t_double_list **list);
 void	check_special_cara(char *str, t_double_list **list);
 int		check_command(char *str, t_shell *shell);
 int		look_for_word_in_type(t_double_list *list, char *str);
-void	look_for_grammar_error(t_double_list *list, t_double_list *type);
+void	look_for_grammar_error(t_double_list *type);
 void	quote_expansion(t_shell *shell, t_double_list *type,
 		t_double_list **list, char type_cara_to_delete, char *type_expansion);
 void	expand_expansion(t_shell *shell, t_double_list *type,
@@ -112,5 +114,6 @@ char	**split_expand(char *str, char cara);
 int		clean_input(t_shell *shell);
 int		join_clean_input(t_double_list **list, t_double_list *type);
 int		special_condition_cara_is_respected(char *str);
+void	remove_residual_white_space(t_double_list **list, t_double_list *type);
 
 #endif
