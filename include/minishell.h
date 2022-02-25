@@ -49,11 +49,13 @@ int		g_signal;
 void	handle_builtin(t_shell *shell, char *str);
 void	ft_pwd(t_shell *shell);
 void	ft_echo(t_shell *shell);
+void	ft_exit(t_shell *shell);
 int		handle_cases_other_than_words(t_shell *shell,
 		int *command_option_active);
-int		ft_cd(t_shell *shell);
-void	quit_program(t_shell *shell);
-int		ft_export(t_shell *shell);
+void	ft_cd(t_shell *shell);
+void	ft_export(t_shell *shell);
+void	create_new_env_variable(t_shell *shell);
+void	add_new_env_variable(char *new_env_variable, t_shell *shell);
 int		launch_shell(t_shell *shell);
 void	free_all(t_shell *shell);
 void	handle_signals(int signum);
@@ -61,6 +63,11 @@ void	handle_exec_signals(int signum);
 int		prompt(char **user_input, t_shell *shell);
 int		execute_input(t_shell *shell, char *user_input);
 int		open_file_redirection(t_shell *shell);
+void	exit_basic_case(t_shell *shell);
+int		check_number_of_arguments(t_shell *shell);
+int		check_if_variable_already_exists(t_shell *shell, char *new_env_variable);
+void	delete_env_variable(t_shell *shell, char *env_to_delete);
+void	ft_unset(t_shell *shell);
 
 /*
  ** PARSING FUNCTIONS
@@ -69,10 +76,11 @@ int		open_file_redirection(t_shell *shell);
 int		init_struct(t_shell *shell, char **envp);
 void	print_tab(char **tab);
 void	alpha_sort(t_shell *shell);
-void	get_env(t_env *shell, char **envp);
-void	create_env_tab(t_env *env);
+void	get_env(t_shell *shell, char **envp);
+char	**export_tab(char **tab);
+void	create_env_tab(t_shell *shell);
+char	**copy_tab(char **tab, int size);
 void	get_absolute_path(t_shell *shell, char *path);
-void	create_variable(t_shell *shell);
 int		parsing(char *user_input, t_shell *shell);
 char	*find_word_in_tab(char **env, char *to_find);
 char	*find_correct_path(char **path, char *cmd);
@@ -86,8 +94,8 @@ char	*find_lexeme(char *user_input, int beginning, int *end,
 		int quote_indication);
 char	*ft_cut_str(char *user_input, int beginning, int end);
 int		look_for_quote(char *str, int pos, char type_quote, int initial_pos);
-void	display_message(char *str, int value_signal);
-void	error_message(char *str);
+void	display_message(char *str, int value_signal, int fd_outfile);
+void	error_message(char *str, int fd_outfile);
 int		delimit_separator(char *str, int pos, char separator, int initial_pos);
 int		delimit_expand(char *str, int pos, int initial_pos);
 int		tokenizer(t_double_list *token, t_shell *shell);
@@ -99,7 +107,7 @@ void	check_first_special_cara(char *str, t_double_list **list);
 void	check_special_cara(char *str, t_double_list **list);
 int		check_command(char *str, t_shell *shell);
 int		look_for_word_in_type(t_double_list *list, char *str);
-void	look_for_grammar_error(t_double_list *type);
+void	look_for_grammar_error(t_double_list *type, int fd_outfile);
 void	quote_expansion(t_shell *shell, t_double_list *type,
 		t_double_list **list, char type_cara_to_delete, char *type_expansion);
 void	expand_expansion(t_shell *shell, t_double_list *type,

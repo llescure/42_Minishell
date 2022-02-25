@@ -9,9 +9,11 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -lreadline
 
 SRCS =	./srcs/main.c								\
-		./srcs/exec/builtin.c						\
+		./srcs/exec/builtin_part1.c					\
+		./srcs/exec/builtin_part2.c					\
 		./srcs/exec/launch_shell.c					\
 		./srcs/exec/signals.c						\
+		./srcs/exec/export.c						\
 		./srcs/exec/redirections_management.c		\
 		./srcs/exec/execute_input.c					\
 		./srcs/parsing/scanner.c					\

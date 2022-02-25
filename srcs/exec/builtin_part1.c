@@ -47,14 +47,14 @@ int	handle_cases_other_than_words(t_shell *shell,
 	shell->i++;
 	while (shell->type_bis[shell->i] != NULL &&
 			((ft_strncmp(shell->type_bis[shell->i], "command_option",
-			ft_strlen("command_option")) == 0
-			&& number_occurence_cara_in_str(shell->token_bis[shell->i], 'n')
-			== (int)ft_strlen(shell->token_bis[shell->i]) - 1)
-			|| (ft_strncmp(shell->token_bis[shell->i], " ",
-				ft_strlen(shell->token_bis[shell->i])) == 0)))
+						 ft_strlen("command_option")) == 0
+			  && number_occurence_cara_in_str(shell->token_bis[shell->i], 'n')
+			  == (int)ft_strlen(shell->token_bis[shell->i]) - 1)
+			 || (ft_strncmp(shell->token_bis[shell->i], " ",
+					 ft_strlen(shell->token_bis[shell->i])) == 0)))
 	{
 		if (ft_strncmp(shell->type_bis[shell->i], "command_option",
-				ft_strlen("command_option")) == 0)
+					ft_strlen("command_option")) == 0)
 			*command_option_active = 1;
 		shell->i++;
 	}
@@ -67,34 +67,29 @@ void ft_pwd(t_shell *shell)
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		shell->pwd = cwd;
-		printf("%s\n", shell->pwd);
+		if (shell->pwd != NULL)
+			free(shell->pwd);
+		shell->pwd = ft_strdup(cwd);
+		ft_putstr_fd(shell->pwd, shell->fd_outfile);
+		ft_putstr_fd("\n", shell->fd_outfile);
 	}
 }
 
-/*int ft_cd(t_shell *shell)
-  {
-  if (shell->str == NULL)
-  {
-  chdir(shell->absolute_path);
-  return (0);
-  }
-  else
-  {
-  if (chdir(shell->str) == -1)
-  {
-  error_message("file");
-  return (g_signal);
-  }
-  else
-  return (0);
-  }
-  return (0);
-  }
-
-  int ft_export(t_shell *shell)
-  {
-//alpha_sort(shell);
-print_tab(shell->env->env);
-return (0);
-}*/
+void	ft_cd(t_shell *shell)
+{
+	shell->i++;
+	while (shell->token_bis[shell->i] != NULL &&
+			ft_strncmp(shell->type_bis[shell->i], "white_space",
+				ft_strlen("white_space")) == 0)
+		shell->i++;
+	if (shell->token_bis[shell->i] == NULL)
+	{
+		chdir(shell->absolute_path);
+		return ;
+	}
+	if (chdir(shell->token_bis[shell->i]) == -1)
+	{
+		error_message("file", shell->fd_outfile);
+		return ;
+	}
+}

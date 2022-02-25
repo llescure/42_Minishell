@@ -4,22 +4,16 @@ int		init_struct(t_shell *shell, char **envp)
 {
 	char	*temp;
 
-	get_env(shell->env, envp);
+	get_env(shell, envp);
 	if (g_signal == -1)
 	{
-		error_message("malloc");
+		error_message("malloc", shell->fd_outfile);
 		free_all(shell);
 		return (g_signal);
 	}
-	shell->pwd = malloc(sizeof(char) * PATH_MAX + 1);
 	shell->fd_infile = STDIN_FILENO;
 	shell->fd_outfile = STDOUT_FILENO;
-	if (shell->pwd == NULL)
-	{
-		error_message("malloc");
-		free_all(shell);
-		return (g_signal);
-	}
+	shell->pwd = NULL;
 	temp = find_word_in_tab(shell->env->env, "PATH");
 	if (temp != NULL)
 	{
@@ -28,7 +22,7 @@ int		init_struct(t_shell *shell, char **envp)
 	}
 	else if (temp == NULL && g_signal == -1)
 	{
-		error_message("malloc");
+		error_message("malloc", shell->fd_outfile);
 		free_all(shell);
 		return (g_signal);
 	}

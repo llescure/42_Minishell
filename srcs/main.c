@@ -8,6 +8,12 @@ void free_all(t_shell *shell)
 		free(shell->pwd);
 	if (shell->env->tab_variable_name != NULL)
 		free_tab(shell->env->tab_variable_name);
+	if (shell->env->env != NULL)
+		free_tab(shell->env->env);
+	if (shell->env->alpha != NULL)
+		free_tab(shell->env->alpha);
+	if (shell->absolute_path != NULL)
+		free(shell->absolute_path);
 	if (shell->env->tab_variable_equals != NULL)
 		free_tab(shell->env->tab_variable_equals);
 	if (shell->token != NULL)
@@ -35,48 +41,6 @@ void	free_tab(char **tab)
 		free(tab);
 }
 
-void quit_program(t_shell *shell)
-{
-	free_all(shell);
-	exit (0);
-}
-
-/*void	handle_builtin(char *str, t_shell *shell)
-{
-	if (ft_strncmp(*shell->cmd, "exit", ft_strlen("exit") == 0))
-		quit_program(shell);
-	if (ft_strncmp(*shell->cmd, "echo", ft_strlen("echo")) == 0)
-	{
-		ft_echo(shell->str, shell->option);
-		quit_program(shell);
-	}
-	if (ft_strncmp(*shell->cmd, "pwd", ft_strlen("pwd")) == 0)
-	{
-		ft_pwd(shell);
-		quit_program(shell);
-	}
-	if (ft_strncmp(*shell->cmd, "cd", ft_strlen("cd")) == 0)
-	{
-		ft_cd(shell);
-		quit_program(shell);
-	}
-	if (ft_strncmp(*shell->cmd, "export", ft_strlen("export")) == 0)
-	{
-		ft_export(shell);
-		quit_program(shell);
-	}
-		if (ft_strchr(shell->str, '=') != 0)
-		{
-		create_variable(shell);
-		quit_program(shell);
-		}
-	if (ft_strncmp(*shell->cmd, "env", ft_strlen("env")) == 0)
-	{
-		print_env(shell);
-		quit_program(shell);
-	}
-}*/
-
 int main(int argc, char **argv, char **envp)
 {
 	t_shell shell;
@@ -91,7 +55,7 @@ int main(int argc, char **argv, char **envp)
 	if (ft_strncmp(argv[0], "./minishell", ft_strlen("./minishell")) != 0
 			|| argc != 1)
 	{
-		error_message("parameters");
+		error_message("parameters", 1);
 		free_all(&shell);
 		return (g_signal);
 	}

@@ -15,13 +15,13 @@ int		parsing(char *user_input, t_shell *shell)
 		return (0);
 	if (scanner(user_input, shell) < 0)
 	{
-		error_message("malloc");
+		error_message("malloc", shell->fd_outfile);
 		free_all(shell);
 		return (g_signal);
 	}
 	if (tokenizer(shell->token, shell) < 0)
 	{
-		error_message("malloc");
+		error_message("malloc", shell->fd_outfile);
 		free_all(shell);
 		return (g_signal);
 	}
@@ -32,20 +32,20 @@ int		parsing(char *user_input, t_shell *shell)
 //	printf("\n");
 	if (join_clean_input(&shell->token, shell->type) < 0)
 	{
-		error_message("malloc");
+		error_message("malloc", shell->fd_outfile);
 		free_all(shell);
 		return (g_signal);
 	}
 	ft_double_free_list(&shell->type, 0);
 	if (tokenizer(shell->token, shell) < 0)
 	  {
-		error_message("malloc");
+		error_message("malloc", shell->fd_outfile);
 		free_all(shell);
 		return (g_signal);
 	  }
 //	ft_double_print_list(shell->token);
 //	ft_double_print_list(shell->type);
-	look_for_grammar_error(shell->type);
+	look_for_grammar_error(shell->type, shell->fd_outfile);
 	shell->token_bis = create_tab_from_linked_list(shell->token);
 	shell->type_bis = create_tab_from_linked_list(shell->type);
 //	print_tab(shell->token_bis);
@@ -81,7 +81,7 @@ int		clean_input(t_shell *shell)
 {
 	if (look_for_word_in_type(shell->type, "error") == 1)
 	{
-		error_message("syntax");
+		error_message("syntax", shell->fd_outfile);
 		return (g_signal);
 	}
 	if (look_for_word_in_type(shell->type, "single_quote") == 1)
@@ -92,7 +92,7 @@ int		clean_input(t_shell *shell)
 		expand_expansion(shell, shell->type, &shell->token);
 	if (g_signal < 0)
 	{
-		error_message("malloc");
+		error_message("malloc", shell->fd_outfile);
 		return (g_signal);
 	}
 	return (0);
@@ -132,27 +132,23 @@ int		join_clean_input(t_double_list **list, t_double_list *type)
 	return (0);
 }
 
-void	look_for_grammar_error(t_double_list *type)
+void	look_for_grammar_error(t_double_list *type, int fd_outfile)
 {
 	if (look_for_word_in_type(type, "heredoc") == 0 &&
 		(ft_strncmp(type->content, "command_option",
 		ft_strlen("command_option")) == 0
-		|| ft_strncmp(type->content, "word", ft_strlen(type->content)) == 0))
-		return (error_message("command"));
+		|| ft_strncmp(type->content, "word", ft_strlen(type->content)) == 0
+		|| ft_strncmp(type->content, "expand", ft_strlen(type->content)) == 0))
+		return (error_message("command", fd_outfile));
 	else if ((ft_strncmp(type->content, "redir_right", ft_strlen(type->content)) == 0
 		|| ft_strncmp(type->content, "redir_left", ft_strlen(type->content)) == 0
 		|| ft_strncmp(type->content, "heredoc", ft_strlen(type->content)) == 0
 		|| ft_strncmp(type->content, "d_redir_right", ft_strlen(type->content)) == 0)
 		&& type->next == NULL)
-		return (error_message("syntaxe"));
+		return (error_message("syntaxe", fd_outfile));
 	else if (ft_strncmp(type->content, "pipe", ft_strlen(type->content)) == 0)
-		return (error_message("syntaxe"));
+		return (error_message("syntaxe", fd_outfile));
 }
-
-/*
- ** This function that 1) launches the scanner, 2) the lexer, 3) proceeds to
- ** expansions with $ and between quotes and 4) finally the grammatical check
- */
 
 char	**create_tab_from_linked_list(t_double_list *list)
 {

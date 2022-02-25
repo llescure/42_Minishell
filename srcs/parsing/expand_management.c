@@ -128,6 +128,8 @@ char	*expand_env_variable(char *variable_to_find, t_env *env)
 	while (i < env->index)
 	{
 		if (ft_strncmp(env->tab_variable_name[i], variable_to_find,
+					ft_strlen(env->tab_variable_name[i])) == 0
+				&& ft_strncmp(env->tab_variable_name[i], variable_to_find,
 					ft_strlen(variable_to_find)) == 0)
 			return (env->tab_variable_equals[i]);
 		i++;

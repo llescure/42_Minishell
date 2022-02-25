@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 20:02:11 by llescure          #+#    #+#             */
-/*   Updated: 2022/02/18 09:33:25 by llescure         ###   ########.fr       */
+/*   Updated: 2022/02/22 08:37:59 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int				ft_isdigit(int c);
 int				ft_isspace(int c);
 int				ft_iscara(char c, char target);
 int				ft_isredirections(char c);
+int				is_number(char *str);
 
 /*
  ** Convert
