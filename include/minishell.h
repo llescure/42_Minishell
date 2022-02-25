@@ -97,6 +97,7 @@ char	*ft_cut_str(char *user_input, int beginning, int end);
 int		look_for_quote(char *str, int pos, char type_quote, int initial_pos);
 void	display_message(char *str, int value_signal, int fd_outfile);
 void	error_message(char *str, int fd_outfile);
+int		error_malloc(t_shell *shell);
 int		delimit_separator(char *str, int pos, char separator, int initial_pos);
 int		delimit_expand(char *str, int pos, int initial_pos);
 int		tokenizer(t_double_list *token, t_shell *shell);
@@ -125,10 +126,11 @@ void	get_identifier(t_shell *shell, char **str);
 void	identifier_cases(char **str_to_change, char *original_str, char *temp2,
 		t_shell *shell);
 char	**split_expand(char *str, char cara);
-int		clean_input(t_shell *shell);
+int		check_and_expand_input(t_shell *shell);
 int		join_clean_input(t_double_list **list, t_double_list *type);
 int		special_condition_cara_is_respected(char *str);
 void	remove_residual_white_space(t_double_list **list, t_double_list *type);
 char	**create_tab_from_linked_list(t_double_list *list);
+void	set_path(t_shell *shell);
 
 #endif

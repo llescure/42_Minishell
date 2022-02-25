@@ -1,0 +1,222 @@
+srcs/main.c:	if (shell->path != NULL)
+srcs/main.c:		free_tab(shell->path);
+srcs/main.c:	if (shell->pwd != NULL)
+srcs/main.c:		free(shell->pwd);
+srcs/main.c:	if (shell->env->tab_variable_name != NULL)
+srcs/main.c:		free_tab(shell->env->tab_variable_name);
+srcs/main.c:	if (shell->env->env != NULL)
+srcs/main.c:		free_tab(shell->env->env);
+srcs/main.c:	if (shell->env->alpha != NULL)
+srcs/main.c:		free_tab(shell->env->alpha);
+srcs/main.c:	if (shell->absolute_path != NULL)
+srcs/main.c:		free(shell->absolute_path);
+srcs/main.c:	if (shell->env->tab_variable_equals != NULL)
+srcs/main.c:		free_tab(shell->env->tab_variable_equals);
+srcs/main.c:	if (shell->token != NULL)
+srcs/main.c:		ft_double_free_list(&shell->token, 1);
+srcs/main.c:	if (shell->type != NULL)
+srcs/main.c:		ft_double_free_list(&shell->type, 0);
+srcs/main.c:	if (shell->token_bis != NULL)
+srcs/main.c:		free_tab(shell->token_bis);
+srcs/main.c:	if (shell->type_bis != NULL)
+srcs/main.c:		free_tab(shell->type_bis);
+srcs/exec/execute_input.c:	shell->i = 0;
+srcs/exec/execute_input.c:	while (shell->token_bis[shell->i] != NULL)
+srcs/exec/execute_input.c:		if (ft_strncmp(shell->type_bis[shell->i], "command",
+srcs/exec/execute_input.c:			handle_builtin(shell, shell->token_bis[shell->i]);
+srcs/exec/execute_input.c:		else if (ft_strncmp(shell->type_bis[shell->i], "redir_right",
+srcs/exec/execute_input.c:				|| ft_strncmp(shell->type_bis[shell->i], "redir_left",
+srcs/exec/execute_input.c:				|| ft_strncmp(shell->type_bis[shell->i], "d_redir_right",
+srcs/exec/execute_input.c:		if (shell->token_bis[shell->i] == NULL)
+srcs/exec/execute_input.c:		shell->i++;
+srcs/exec/execute_input.c:			print_tab(shell->env->env);
+srcs/exec/redirections_management.c:	type = shell->type_bis[shell->i];
+srcs/exec/redirections_management.c:	next_token = shell->token_bis[shell->i + 1];
+srcs/exec/redirections_management.c:		shell->fd_infile = open(next_token, O_RDONLY);
+srcs/exec/redirections_management.c:		shell->fd_outfile = open(next_token,
+srcs/exec/redirections_management.c:		shell->fd_outfile = open(next_token,
+srcs/exec/redirections_management.c:	if (shell->fd_infile < 0 || shell->fd_outfile < 0)
+srcs/exec/redirections_management.c:		error_message("file", shell->fd_outfile);
+srcs/exec/export.c:	shell->i++;
+srcs/exec/export.c:	while (shell->token_bis[shell->i] != NULL &&
+srcs/exec/export.c:			ft_strncmp(shell->type_bis[shell->i], "white_space",
+srcs/exec/export.c:		shell->i++;
+srcs/exec/export.c:	if (shell->token_bis[shell->i] == NULL)
+srcs/exec/export.c:		if (shell->env->alpha != NULL)
+srcs/exec/export.c:			free_tab(shell->env->alpha);
+srcs/exec/export.c:		shell->env->alpha = copy_tab(shell->env->env, shell->env->index);
+srcs/exec/export.c:		shell->env->alpha = export_tab(shell->env->alpha);
+srcs/exec/export.c:		print_tab(shell->env->alpha);
+srcs/exec/export.c:	else if (ft_strncmp(shell->type_bis[shell->i], "word", ft_strlen("word")) == 0
+srcs/exec/export.c:			|| ft_strncmp(shell->type_bis[shell->i], "command",
+srcs/exec/export.c:		shell->i++;
+srcs/exec/export.c:		if (shell->token_bis[shell->i] == NULL)
+srcs/exec/export.c:		else if (ft_strncmp(shell->type_bis[shell->i], "white_space",
+srcs/exec/export.c:			return(error_message("export", shell->fd_outfile));
+srcs/exec/export.c:		else if (ft_strncmp(shell->type_bis[shell->i], "equal",
+srcs/exec/export.c:	shell->i--;
+srcs/exec/export.c:	new_env_variable = ft_strdup(shell->token_bis[shell->i]);
+srcs/exec/export.c:	shell->i++;
+srcs/exec/export.c:	while (shell->token_bis[shell->i] != NULL)
+srcs/exec/export.c:		str = shell->type_bis[shell->i];
+srcs/exec/export.c:			shell->token_bis[shell->i]);
+srcs/exec/export.c:		shell->i++;
+srcs/exec/export.c:	new_env = malloc(sizeof(char *) * (shell->env->index + 2));
+srcs/exec/export.c:	while (shell->env->env[i] != NULL)
+srcs/exec/export.c:		new_env[i] = ft_strdup(shell->env->env[i]);
+srcs/exec/export.c:	free_tab(shell->env->env);
+srcs/exec/export.c:	shell->env->env = new_env;
+srcs/exec/export.c:	shell->env->index++;
+srcs/exec/export.c:	free_tab(shell->env->tab_variable_name);
+srcs/exec/export.c:	free_tab(shell->env->tab_variable_equals);
+srcs/exec/export.c:	while (shell->env->tab_variable_name[i] != NULL)
+srcs/exec/export.c:		if (ft_strncmp(new_env_variable, shell->env->tab_variable_name[i],
+srcs/exec/export.c:				ft_strlen(shell->env->tab_variable_name[i])) == 0 &&
+srcs/exec/export.c:				ft_strncmp(new_env_variable, shell->env->tab_variable_name[i],
+srcs/exec/export.c:				ft_strlen(shell->env->tab_variable_name[i])) == 0)
+srcs/exec/builtin_part2.c:	shell->i++;
+srcs/exec/builtin_part2.c:	while (shell->token_bis[shell->i] != NULL &&
+srcs/exec/builtin_part2.c:			ft_strncmp(shell->type_bis[shell->i], "white_space",
+srcs/exec/builtin_part2.c:		shell->i++;
+srcs/exec/builtin_part2.c:	if (is_number(shell->token_bis[shell->i]) == 1)
+srcs/exec/builtin_part2.c:		g_signal = ft_atoi(shell->token_bis[shell->i]);
+srcs/exec/builtin_part2.c:	else if (is_number(shell->token_bis[shell->i]) == 0)
+srcs/exec/builtin_part2.c:		ft_putstr_fd("exit\n", shell->fd_outfile);
+srcs/exec/builtin_part2.c:		error_message("exit", shell->fd_outfile);
+srcs/exec/builtin_part2.c:	shell->i++;
+srcs/exec/builtin_part2.c:	ft_putstr_fd("exit\n", shell->fd_outfile);
+srcs/exec/builtin_part2.c:	if (shell->token_bis[shell->i] == NULL)
+srcs/exec/builtin_part2.c:	while (shell->token_bis[shell->i] != NULL)
+srcs/exec/builtin_part2.c:		if (ft_strncmp(shell->type_bis[shell->i], "white_space",
+srcs/exec/builtin_part2.c:			ft_putstr_fd("exit\n", shell->fd_outfile);
+srcs/exec/builtin_part2.c:			error_message("arguments", shell->fd_outfile);
+srcs/exec/builtin_part2.c:		shell->i++;
+srcs/exec/builtin_part2.c:	shell->i++;
+srcs/exec/builtin_part2.c:	while (shell->token_bis[shell->i] != NULL
+srcs/exec/builtin_part2.c:		   	&& (ft_strncmp(shell->type_bis[shell->i], "white_space",
+srcs/exec/builtin_part2.c:			|| ft_strncmp(shell->type_bis[shell->i], "word",
+srcs/exec/builtin_part2.c:			|| ft_strncmp(shell->type_bis[shell->i], "command",
+srcs/exec/builtin_part2.c:		str = shell->type_bis[shell->i];
+srcs/exec/builtin_part2.c:				shell->token_bis[shell->i]) == 1)
+srcs/exec/builtin_part2.c:				delete_env_variable(shell, shell->token_bis[shell->i]);
+srcs/exec/builtin_part2.c:		shell->i++;
+srcs/exec/builtin_part2.c:	if (shell->token_bis[shell->i] != NULL
+srcs/exec/builtin_part2.c:		&& ft_strncmp(shell->type_bis[shell->i], "equal",
+srcs/exec/builtin_part2.c:		error_message("export", shell->fd_outfile);
+srcs/exec/builtin_part2.c:	new_env = malloc(sizeof(char *) * shell->env->index);
+srcs/exec/builtin_part2.c:	while (j < shell->env->index - 1)
+srcs/exec/builtin_part2.c:		if (ft_strncmp(shell->env->tab_variable_name[i], env_to_delete,
+srcs/exec/builtin_part2.c:				ft_strncmp(shell->env->tab_variable_name[i], env_to_delete,
+srcs/exec/builtin_part2.c:				ft_strlen(shell->env->tab_variable_name[i])) == 0)
+srcs/exec/builtin_part2.c:		new_env[j] = ft_strdup(shell->env->env[i]);
+srcs/exec/builtin_part2.c:	free_tab(shell->env->env);
+srcs/exec/builtin_part2.c:	shell->env->env = new_env;
+srcs/exec/builtin_part2.c:	shell->env->index--;
+srcs/exec/builtin_part2.c:	free_tab(shell->env->tab_variable_name);
+srcs/exec/builtin_part2.c:	free_tab(shell->env->tab_variable_equals);
+srcs/exec/builtin_part1.c:	shell->i++;
+srcs/exec/builtin_part1.c:	while (shell->type_bis[shell->i] != NULL)
+srcs/exec/builtin_part1.c:		type = shell->type_bis[shell->i];
+srcs/exec/builtin_part1.c:			str = ft_strjoin(str, shell->token_bis[shell->i]);
+srcs/exec/builtin_part1.c:		shell->i++;
+srcs/exec/builtin_part1.c:	ft_putstr_fd(str, shell->fd_outfile);
+srcs/exec/builtin_part1.c:		ft_putstr_fd("\n", shell->fd_outfile);
+srcs/exec/builtin_part1.c:	if (shell->token_bis[shell->i] == NULL)
+srcs/exec/builtin_part1.c:		ft_putstr_fd("\n", shell->fd_outfile);
+srcs/exec/builtin_part1.c:	shell->i++;
+srcs/exec/builtin_part1.c:	while (shell->type_bis[shell->i] != NULL &&
+srcs/exec/builtin_part1.c:			((ft_strncmp(shell->type_bis[shell->i], "command_option",
+srcs/exec/builtin_part1.c:			  && number_occurence_cara_in_str(shell->token_bis[shell->i], 'n')
+srcs/exec/builtin_part1.c:			  == (int)ft_strlen(shell->token_bis[shell->i]) - 1)
+srcs/exec/builtin_part1.c:			 || (ft_strncmp(shell->token_bis[shell->i], " ",
+srcs/exec/builtin_part1.c:					 ft_strlen(shell->token_bis[shell->i])) == 0)))
+srcs/exec/builtin_part1.c:		if (ft_strncmp(shell->type_bis[shell->i], "command_option",
+srcs/exec/builtin_part1.c:		shell->i++;
+srcs/exec/builtin_part1.c:		if (shell->pwd != NULL)
+srcs/exec/builtin_part1.c:			free(shell->pwd);
+srcs/exec/builtin_part1.c:		shell->pwd = ft_strdup(cwd);
+srcs/exec/builtin_part1.c:		ft_putstr_fd(shell->pwd, shell->fd_outfile);
+srcs/exec/builtin_part1.c:		ft_putstr_fd("\n", shell->fd_outfile);
+srcs/exec/builtin_part1.c:	shell->i++;
+srcs/exec/builtin_part1.c:	while (shell->token_bis[shell->i] != NULL &&
+srcs/exec/builtin_part1.c:			ft_strncmp(shell->type_bis[shell->i], "white_space",
+srcs/exec/builtin_part1.c:		shell->i++;
+srcs/exec/builtin_part1.c:	if (shell->token_bis[shell->i] == NULL)
+srcs/exec/builtin_part1.c:		chdir(shell->absolute_path);
+srcs/exec/builtin_part1.c:	if (chdir(shell->token_bis[shell->i]) == -1)
+srcs/exec/builtin_part1.c:		error_message("file", shell->fd_outfile);
+srcs/exec/builtin_part1.c:	if (shell->path != NULL)
+srcs/exec/builtin_part1.c:		free(shell->path);
+srcs/exec/builtin_part1.c:	temp = shell->token_bis[shell->i];
+srcs/exec/builtin_part1.c:	shell->token_bis[shell->i] = find_correct_path(shell->path,
+srcs/exec/builtin_part1.c:			shell->token_bis[shell->i]);
+srcs/exec/builtin_part1.c:	if (execve(shell->token_bis[shell->i], shell->token_bis, shell->env->env) < -1)
+srcs/exec/builtin_part1.c:		error_message("command", shell->fd_outfile);
+srcs/exec/launch_shell.c:			ft_double_free_list(&shell->token, 1);
+srcs/exec/launch_shell.c:			ft_double_free_list(&shell->type, 0);
+srcs/exec/launch_shell.c:			free_tab(shell->token_bis);
+srcs/exec/launch_shell.c:			free_tab(shell->type_bis);
+srcs/exec/launch_shell.c:			shell->token_bis = NULL;
+srcs/exec/launch_shell.c:			shell->type_bis = NULL;
+srcs/exec/launch_shell.c:	shell->token = NULL;
+srcs/exec/launch_shell.c:	shell->type = NULL;
+srcs/exec/launch_shell.c:	shell->token_bis = NULL;
+srcs/exec/launch_shell.c:	shell->type_bis = NULL;
+srcs/parsing/expand_management.c:			&& expand_env_variable(*str_to_change, shell->env) != NULL)
+srcs/parsing/expand_management.c:					shell->env));
+srcs/parsing/error_handling.c:	error_message("malloc", shell->fd_outfile);
+srcs/parsing/scanner.c:	shell->token = list;
+srcs/parsing/utils_tokenizer.c:	temp = find_correct_path(shell->path, str);
+srcs/parsing/tokenizer.c:	shell->type = list;
+srcs/parsing/use_env.c:    shell->env->index = index;
+srcs/parsing/use_env.c:    shell->env->env = copy_tab(envp, index);
+srcs/parsing/use_env.c:    shell->env->alpha = NULL;
+srcs/parsing/use_env.c:    while (i < shell->env->index)
+srcs/parsing/use_env.c:        while (j < shell->env->index)
+srcs/parsing/use_env.c:            size = ft_strlen(shell->env->alpha[i]) + ft_strlen(shell->env->alpha[j]);
+srcs/parsing/use_env.c:            if (ft_strncmp(shell->env->alpha[i], shell->env->alpha[j], size) > 0)
+srcs/parsing/use_env.c:                temp = shell->env->alpha[i];
+srcs/parsing/use_env.c:                shell->env->alpha[i] = shell->env->alpha[j];
+srcs/parsing/use_env.c:                shell->env->alpha[j] = temp;
+srcs/parsing/use_env.c:    shell->absolute_path = malloc(sizeof(char) * ft_strlen(path));
+srcs/parsing/use_env.c:	if (shell->absolute_path == NULL)
+srcs/parsing/use_env.c:        shell->absolute_path[j] = path[i];
+srcs/parsing/use_env.c:    shell->absolute_path[j] = '\0';
+srcs/parsing/use_env.c:	shell->env->tab_variable_name = malloc(sizeof(char *) * (shell->env->index + 1));
+srcs/parsing/use_env.c:	if (shell->env->tab_variable_name == NULL)
+srcs/parsing/use_env.c:	shell->env->tab_variable_equals = malloc(sizeof(char *) * (shell->env->index + 1));
+srcs/parsing/use_env.c:	if (shell->env->tab_variable_name == NULL)
+srcs/parsing/use_env.c:	while (i < shell->env->index)
+srcs/parsing/use_env.c:		shell->env->tab_variable_name[i] = ft_cut_str(shell->env->env[i], 0,
+srcs/parsing/use_env.c:						find_cara_in_word(shell->env->env[i], '='));
+srcs/parsing/use_env.c:		shell->env->tab_variable_equals[i] = ft_strdup(ft_strchr((const char *)shell->env->env[i], '='));
+srcs/parsing/use_env.c:	shell->env->tab_variable_name[i] = NULL;
+srcs/parsing/use_env.c:	shell->env->tab_variable_equals[i] = NULL;
+srcs/parsing/initialization.c:		error_message("malloc", shell->fd_outfile);
+srcs/parsing/initialization.c:	shell->fd_infile = STDIN_FILENO;
+srcs/parsing/initialization.c:	shell->fd_outfile = STDOUT_FILENO;
+srcs/parsing/initialization.c:	shell->pwd = NULL;
+srcs/parsing/initialization.c:	temp = find_word_in_tab(shell->env->env, "PATH");
+srcs/parsing/initialization.c:		shell->path = ft_split(temp, ':');
+srcs/parsing/initialization.c:		error_message("malloc", shell->fd_outfile);
+srcs/parsing/parsing.c:	if (tokenizer(shell->token, shell) < 0)
+srcs/parsing/parsing.c://	ft_double_print_list(shell->token);
+srcs/parsing/parsing.c://	ft_double_print_list(shell->type);
+srcs/parsing/parsing.c:	if (join_clean_input(&shell->token, shell->type) < 0)
+srcs/parsing/parsing.c:	ft_double_free_list(&shell->type, 0);
+srcs/parsing/parsing.c:	if (tokenizer(shell->token, shell) < 0)
+srcs/parsing/parsing.c://	ft_double_print_list(shell->token);
+srcs/parsing/parsing.c://	ft_double_print_list(shell->type);
+srcs/parsing/parsing.c:	look_for_grammar_error(shell->type, shell->fd_outfile);
+srcs/parsing/parsing.c:	shell->token_bis = create_tab_from_linked_list(shell->token);
+srcs/parsing/parsing.c:	shell->type_bis = create_tab_from_linked_list(shell->type);
+srcs/parsing/parsing.c://	print_tab(shell->token_bis);
+srcs/parsing/parsing.c://	print_tab(shell->type_bis);
+srcs/parsing/parsing.c:	if (look_for_word_in_type(shell->type, "error") == 1)
+srcs/parsing/parsing.c:		error_message("syntax", shell->fd_outfile);
+srcs/parsing/parsing.c:	if (look_for_word_in_type(shell->type, "single_quote") == 1)
+srcs/parsing/parsing.c:		single_quote_expansion(shell, shell->type, &shell->token);
+srcs/parsing/parsing.c:	if (look_for_word_in_type(shell->type, "double_quote") == 1)
+srcs/parsing/parsing.c:		double_quote_expansion(shell, shell->type, &shell->token);
+srcs/parsing/parsing.c:	if (look_for_word_in_type(shell->type, "expand") == 1)
+srcs/parsing/parsing.c:		expand_expansion(shell, shell->type, &shell->token);

@@ -2,8 +2,6 @@
 
 int		init_struct(t_shell *shell, char **envp)
 {
-	char	*temp;
-
 	get_env(shell, envp);
 	if (g_signal == -1)
 	{
@@ -14,18 +12,7 @@ int		init_struct(t_shell *shell, char **envp)
 	shell->fd_infile = STDIN_FILENO;
 	shell->fd_outfile = STDOUT_FILENO;
 	shell->pwd = NULL;
-	temp = find_word_in_tab(shell->env->env, "PATH");
-	if (temp != NULL)
-	{
-		shell->path = ft_split(temp, ':');
-		free(temp);
-	}
-	else if (temp == NULL && g_signal == -1)
-	{
-		error_message("malloc", shell->fd_outfile);
-		free_all(shell);
-		return (g_signal);
-	}
+	set_path(shell);
 	return (0);
 }
 
@@ -76,4 +63,22 @@ char	*delete_until_cara(char *str, int c)
 	}
 	temp[j] = '\0';
 	return (temp);
+}
+
+void	set_path(t_shell *shell)
+{
+	char	*temp;
+
+	temp = find_word_in_tab(shell->env->env, "PATH");
+	if (temp != NULL)
+	{
+		shell->path = ft_split(temp, ':');
+		free(temp);
+	}
+	else if (temp == NULL && g_signal == -1)
+	{
+		error_message("malloc", shell->fd_outfile);
+		free_all(shell);
+		return ;
+	}
 }

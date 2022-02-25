@@ -7,42 +7,22 @@
 
 int		parsing(char *user_input, t_shell *shell)
 {
-	//	int pid;
-	//	int status;
-
-	//	status = 0;
 	if (user_input[0] == '\0')
 		return (0);
 	if (scanner(user_input, shell) < 0)
-	{
-		error_message("malloc", shell->fd_outfile);
-		free_all(shell);
-		return (g_signal);
-	}
+		return (error_malloc(shell));
 	if (tokenizer(shell->token, shell) < 0)
-	{
-		error_message("malloc", shell->fd_outfile);
-		free_all(shell);
-		return (g_signal);
-	}
+		return (error_malloc(shell));
 //	ft_double_print_list(shell->token);
 //	ft_double_print_list(shell->type);
-	if (clean_input(shell) != 0)
+	if (check_and_expand_input(shell) != 0)
 		return (g_signal);
 //	printf("\n");
 	if (join_clean_input(&shell->token, shell->type) < 0)
-	{
-		error_message("malloc", shell->fd_outfile);
-		free_all(shell);
-		return (g_signal);
-	}
+		return (error_malloc(shell));
 	ft_double_free_list(&shell->type, 0);
 	if (tokenizer(shell->token, shell) < 0)
-	  {
-		error_message("malloc", shell->fd_outfile);
-		free_all(shell);
-		return (g_signal);
-	  }
+		return (error_malloc(shell));
 //	ft_double_print_list(shell->token);
 //	ft_double_print_list(shell->type);
 	look_for_grammar_error(shell->type, shell->fd_outfile);
@@ -50,34 +30,15 @@ int		parsing(char *user_input, t_shell *shell)
 	shell->type_bis = create_tab_from_linked_list(shell->type);
 //	print_tab(shell->token_bis);
 //	print_tab(shell->type_bis);
-	/*
-	   shell->cmd[0] = find_correct_path(shell->path, user_input);
-	   pid = fork();
-	   if (pid < 0)
-	   return (-1);
-	   else if (pid == 0)
-	   {
-	   if (ft_strncmp(user_input, "cat", ft_strlen("cat")) == 0)
-	   {
-	   if (execve(shell->cmd[0], shell->cmd, shell->env->env) < -1)
-	   return (-1);
-	   }
-	   }
-	   else
-	   {
-	   signal(SIGINT, handle_exec_signals);
-	   signal(SIGQUIT, handle_exec_signals);
-	   waitpid(pid, &status, 0);
-	   signal(SIGINT, handle_signals);
-	   signal(SIGQUIT, handle_signals);
-	   }
-	   g_signal = status;
-	   if (g_signal == 2)
-	   g_signal += 128;*/
 	return (0);
 }
 
-int		clean_input(t_shell *shell)
+/*
+ * * This function checks if any error in the token was noticed +
+ * * does quote and identifier expansion
+*/
+
+int		check_and_expand_input(t_shell *shell)
 {
 	if (look_for_word_in_type(shell->type, "error") == 1)
 	{
@@ -91,12 +52,15 @@ int		clean_input(t_shell *shell)
 	if (look_for_word_in_type(shell->type, "expand") == 1)
 		expand_expansion(shell, shell->type, &shell->token);
 	if (g_signal < 0)
-	{
-		error_message("malloc", shell->fd_outfile);
-		return (g_signal);
-	}
+		return(error_malloc(shell));
 	return (0);
 }
+
+/*
+ * * This function joins the node of the linked list after expansion.
+ * * Nodes are joined if the current node is 1) a word, 2) a single_quote,
+ * * 3) a double quote, 4) an identifier and the next node if one of the 4 types
+*/
 
 int		join_clean_input(t_double_list **list, t_double_list *type)
 {
@@ -118,7 +82,8 @@ int		join_clean_input(t_double_list **list, t_double_list *type)
 		}
 		if (type->next == NULL)
 			break;
-		if (ft_strncmp(type->content, "white_space", ft_strlen(type->content)) == 0)
+		if (ft_strncmp(type->content, "white_space",
+			ft_strlen(type->content)) == 0)
 		{
 			str_temp = (*list)->content;
 			(*list)->content = ft_strdup(" ");
@@ -140,10 +105,13 @@ void	look_for_grammar_error(t_double_list *type, int fd_outfile)
 		|| ft_strncmp(type->content, "word", ft_strlen(type->content)) == 0
 		|| ft_strncmp(type->content, "expand", ft_strlen(type->content)) == 0))
 		return (error_message("command", fd_outfile));
-	else if ((ft_strncmp(type->content, "redir_right", ft_strlen(type->content)) == 0
-		|| ft_strncmp(type->content, "redir_left", ft_strlen(type->content)) == 0
+	else if ((ft_strncmp(type->content, "redir_right",
+					ft_strlen(type->content)) == 0
+		|| ft_strncmp(type->content, "redir_left",
+			ft_strlen(type->content)) == 0
 		|| ft_strncmp(type->content, "heredoc", ft_strlen(type->content)) == 0
-		|| ft_strncmp(type->content, "d_redir_right", ft_strlen(type->content)) == 0)
+		|| ft_strncmp(type->content, "d_redir_right",
+			ft_strlen(type->content)) == 0)
 		&& type->next == NULL)
 		return (error_message("syntaxe", fd_outfile));
 	else if (ft_strncmp(type->content, "pipe", ft_strlen(type->content)) == 0)

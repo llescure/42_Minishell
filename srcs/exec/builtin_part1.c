@@ -98,6 +98,9 @@ void	execute_binary(t_shell *shell)
 {
 	char	*temp;
 
+	if (shell->path != NULL)
+		free(shell->path);
+	set_path(shell);
 	temp = shell->token_bis[shell->i];
 	shell->token_bis[shell->i] = find_correct_path(shell->path,
 			shell->token_bis[shell->i]);

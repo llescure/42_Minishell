@@ -32,3 +32,10 @@ void	error_message(char *str, int fd_outfile)
 		return (display_message("Error: Too many arguments\n\
 Usage: ./minishell\n", -1, fd_outfile));
 }
+
+int		error_malloc(t_shell *shell)
+{
+	error_message("malloc", shell->fd_outfile);
+	free_all(shell);
+	return (g_signal);
+}
