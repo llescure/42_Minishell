@@ -93,3 +93,15 @@ void	ft_cd(t_shell *shell)
 		return ;
 	}
 }
+
+void	execute_binary(t_shell *shell)
+{
+	char	*temp;
+
+	temp = shell->token_bis[shell->i];
+	shell->token_bis[shell->i] = find_correct_path(shell->path,
+			shell->token_bis[shell->i]);
+	free(temp);
+	if (execve(shell->token_bis[shell->i], shell->token_bis, shell->env->env) < -1)
+		error_message("command", shell->fd_outfile);
+}

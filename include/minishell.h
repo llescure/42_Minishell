@@ -68,6 +68,7 @@ int		check_number_of_arguments(t_shell *shell);
 int		check_if_variable_already_exists(t_shell *shell, char *new_env_variable);
 void	delete_env_variable(t_shell *shell, char *env_to_delete);
 void	ft_unset(t_shell *shell);
+void	execute_binary(t_shell *shell);
 
 /*
  ** PARSING FUNCTIONS

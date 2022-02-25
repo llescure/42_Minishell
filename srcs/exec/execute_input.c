@@ -44,4 +44,6 @@ void	handle_builtin(t_shell *shell, char *str)
 		print_tab(shell->env->env);
 	else if (ft_strncmp(str, "unset", ft_strlen("unset")) == 0)
 		ft_unset(shell);
+	else
+		execute_binary(shell);
 }
