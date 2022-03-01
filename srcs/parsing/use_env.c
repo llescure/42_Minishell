@@ -85,7 +85,6 @@ void	create_env_tab(t_shell *shell)
 {
 	int	i;
 
-	print_tab(shell->env->env);
 	shell->env->tab_variable_name = malloc(sizeof(char *) *
 			(shell->env->index + 1));
 	if (shell->env->tab_variable_name == NULL)

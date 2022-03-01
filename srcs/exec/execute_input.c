@@ -8,8 +8,12 @@ int		execute_input(t_shell *shell, char *user_input)
 	while (shell->token_bis[shell->i] != NULL)
 	{
 		if (ft_strncmp(shell->type_bis[shell->i], "command",
-					ft_strlen("command")) == 0)
+					ft_strlen("command")) == 0 && (shell->command_count == 0
+					|| look_for_word_in_type(shell->type, "pipe") == 1))
+		{
 			handle_builtin(shell, shell->token_bis[shell->i]);
+			shell->command_count++;
+		}
 		else if (ft_strncmp(shell->type_bis[shell->i], "redir_right",
 					ft_strlen("redir_right")) == 0
 				|| ft_strncmp(shell->type_bis[shell->i], "redir_left",

@@ -38,6 +38,7 @@ typedef struct s_shell {
   char				**token_bis;
   char				**type_bis;
   int				i;
+  int				command_count;
 }               	t_shell;
 
 int		g_signal;
@@ -112,7 +113,8 @@ void	check_first_special_cara(char *str, t_double_list **list);
 void	check_special_cara(char *str, t_double_list **list);
 int		check_command(char *str, t_shell *shell);
 int		look_for_word_in_type(t_double_list *list, char *str);
-void	look_for_grammar_error(t_double_list *type, int fd_outfile);
+void	look_for_grammar_error(t_double_list *type, int fd_outfile,
+		t_shell *shell);
 void	quote_expansion(t_shell *shell, t_double_list *type,
 		t_double_list **list, char type_cara_to_delete, char *type_expansion);
 void	expand_expansion(t_shell *shell, t_double_list *type,

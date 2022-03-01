@@ -28,7 +28,7 @@ void	ft_export(t_shell *shell)
 				&& shell->token_bis[shell->i + 1] != NULL
 				&& ft_strncmp(shell->type_bis[shell->i + 1], "equal",
 						ft_strlen("equal")) == 0)
-				error_message("export", shell->fd_outfile);
+				return(error_message("export", shell->fd_outfile));
 			else if (ft_strncmp(shell->type_bis[shell->i], "white_space",
 						ft_strlen("white_space")) == 0)
 				create_lonely_env_variable(shell);
@@ -38,7 +38,10 @@ void	ft_export(t_shell *shell)
 		}
 		else if (ft_strncmp(shell->type_bis[shell->i], "equal",
 					ft_strlen("equal")) == 0)
-			error_message("export", shell->fd_outfile);
+			return (error_message("export", shell->fd_outfile));
+		if (shell->token_bis[shell->i] == NULL)
+			break ;
+		shell->i++;
 	}
 }
 
@@ -70,7 +73,8 @@ void	create_new_env_variable(t_shell *shell)
 				|| ft_strncmp(str, "redir_left", ft_strlen("redir_left")) == 0
 				|| ft_strncmp(str, "redir_right", ft_strlen("redir_right")) == 0
 				|| ft_strncmp(str, "heredoc", ft_strlen("heredoc")) == 0
-				|| ft_strncmp(str, "d_redir_right", ft_strlen("d_redir_right")) == 0)
+				|| ft_strncmp(str, "d_redir_right", ft_strlen("d_redir_right")) == 0
+				|| ft_strncmp(str, "white_space", ft_strlen("white_space")) == 0)
 			break;
 		temp = new_env_variable;
 		new_env_variable = ft_strjoin(new_env_variable,

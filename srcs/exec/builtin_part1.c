@@ -30,9 +30,9 @@ void	ft_echo(t_shell *shell)
 		shell->i++;
 	}
 	ft_putstr_fd(str, shell->fd_outfile);
-	free(str);
 	if (command_option_active == 0)
 		ft_putstr_fd("\n", shell->fd_outfile);
+	free(str);
 	exit(g_signal);
 }
 

@@ -6,7 +6,7 @@
 #    By: llescure <llescure@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/26 17:55:58 by llescure          #+#    #+#              #
-#    Updated: 2022/02/22 08:38:26 by llescure         ###   ########.fr        #
+#    Updated: 2022/03/01 15:32:39 by llescure         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,7 @@ SRCS = srcs/convert/ft_itoa.c \
 	  	srcs/types/ft_iscara.c \
 	  	srcs/types/ft_isredirections.c \
 		srcs/types/is_number.c \
+		srcs/types/ft_is_only_space.c \
 		srcs/linked_lists/ft_lstnew.c \
 		srcs/linked_lists/ft_lstsize.c \
 		srcs/linked_lists/ft_lstlast.c \

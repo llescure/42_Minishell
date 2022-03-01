@@ -7,6 +7,7 @@
 
 int		parsing(char *user_input, t_shell *shell)
 {
+	shell->command_count = 0;
 	if (user_input[0] == '\0')
 		return (0);
 	if (scanner(user_input, shell) < 0)
@@ -25,7 +26,7 @@ int		parsing(char *user_input, t_shell *shell)
 		return (error_malloc(shell));
 //	ft_double_print_list(shell->token);
 //	ft_double_print_list(shell->type);
-	look_for_grammar_error(shell->type, shell->fd_outfile);
+	look_for_grammar_error(shell->type, shell->fd_outfile, shell);
 	shell->token_bis = create_tab_from_linked_list(shell->token);
 	shell->type_bis = create_tab_from_linked_list(shell->type);
 //	print_tab(shell->token_bis);
@@ -97,14 +98,18 @@ int		join_clean_input(t_double_list **list, t_double_list *type)
 	return (0);
 }
 
-void	look_for_grammar_error(t_double_list *type, int fd_outfile)
+void	look_for_grammar_error(t_double_list *type, int fd_outfile,
+		t_shell *shell)
 {
 	if (look_for_word_in_type(type, "heredoc") == 0 &&
 		(ft_strncmp(type->content, "command_option",
 		ft_strlen("command_option")) == 0
 		|| ft_strncmp(type->content, "word", ft_strlen(type->content)) == 0
 		|| ft_strncmp(type->content, "expand", ft_strlen(type->content)) == 0))
+	{
+		shell->command_count++;
 		return (error_message("command", fd_outfile));
+	}
 	else if ((ft_strncmp(type->content, "redir_right",
 					ft_strlen(type->content)) == 0
 		|| ft_strncmp(type->content, "redir_left",
