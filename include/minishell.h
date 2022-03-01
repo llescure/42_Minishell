@@ -54,7 +54,9 @@ int		handle_cases_other_than_words(t_shell *shell,
 		int *command_option_active);
 void	ft_cd(t_shell *shell);
 void	ft_export(t_shell *shell);
+int		export_without_argument(t_shell *shell);
 void	create_new_env_variable(t_shell *shell);
+void	create_lonely_env_variable(t_shell *shell);
 void	add_new_env_variable(char *new_env_variable, t_shell *shell);
 int		launch_shell(t_shell *shell);
 void	free_all(t_shell *shell);
@@ -69,6 +71,7 @@ int		check_if_variable_already_exists(t_shell *shell, char *new_env_variable);
 void	delete_env_variable(t_shell *shell, char *env_to_delete);
 void	ft_unset(t_shell *shell);
 void	execute_binary(t_shell *shell);
+void	execute_child_process(t_shell *shell, char *str);
 
 /*
  ** PARSING FUNCTIONS

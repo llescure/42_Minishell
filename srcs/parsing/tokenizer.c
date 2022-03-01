@@ -4,6 +4,7 @@ int		tokenizer(t_double_list *token, t_shell *shell)
 {
 	t_double_list	*list;
 
+	set_path(shell);
 	if (token->content != NULL)
 	{
 		if (check_first_content(token->content, &list, shell) < 0)

@@ -30,6 +30,7 @@ void	exit_basic_case(t_shell *shell)
 {
 	if (shell->token_bis[shell->i] == NULL)
 	{
+		ft_putstr_fd("exit\n", shell->fd_outfile);
 		free_all(shell);
 		exit (g_signal);
 	}
@@ -107,5 +108,8 @@ void	delete_env_variable(t_shell *shell, char *env_to_delete)
 	shell->env->index--;
 	free_tab(shell->env->tab_variable_name);
 	free_tab(shell->env->tab_variable_equals);
+	if (shell->path != NULL)
+		free_tab(shell->path);
+	shell->path = NULL;
 	create_env_tab(shell);
 }

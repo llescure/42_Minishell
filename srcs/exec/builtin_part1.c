@@ -33,6 +33,7 @@ void	ft_echo(t_shell *shell)
 	free(str);
 	if (command_option_active == 0)
 		ft_putstr_fd("\n", shell->fd_outfile);
+	exit(g_signal);
 }
 
 int	handle_cases_other_than_words(t_shell *shell,
@@ -73,25 +74,23 @@ void ft_pwd(t_shell *shell)
 		ft_putstr_fd(shell->pwd, shell->fd_outfile);
 		ft_putstr_fd("\n", shell->fd_outfile);
 	}
+	exit(g_signal);
 }
 
 void	ft_cd(t_shell *shell)
 {
+	int	return_value;
+
 	shell->i++;
 	while (shell->token_bis[shell->i] != NULL &&
 			ft_strncmp(shell->type_bis[shell->i], "white_space",
 				ft_strlen("white_space")) == 0)
 		shell->i++;
 	if (shell->token_bis[shell->i] == NULL)
-	{
 		chdir(shell->absolute_path);
-		return ;
-	}
-	if (chdir(shell->token_bis[shell->i]) == -1)
-	{
+	return_value = chdir(shell->token_bis[shell->i]);
+	if (return_value == -1)
 		error_message("file", shell->fd_outfile);
-		return ;
-	}
 }
 
 void	execute_binary(t_shell *shell)
@@ -99,12 +98,21 @@ void	execute_binary(t_shell *shell)
 	char	*temp;
 
 	if (shell->path != NULL)
+	{
 		free(shell->path);
+		shell->path = NULL;
+	}
 	set_path(shell);
-	temp = shell->token_bis[shell->i];
-	shell->token_bis[shell->i] = find_correct_path(shell->path,
+	if (shell->path != NULL)
+	{
+		temp = shell->token_bis[shell->i];
+		shell->token_bis[shell->i] = find_correct_path(shell->path,
 			shell->token_bis[shell->i]);
-	free(temp);
-	if (execve(shell->token_bis[shell->i], shell->token_bis, shell->env->env) < -1)
-		error_message("command", shell->fd_outfile);
+		free(temp);
+	}
+	if (execve(shell->token_bis[shell->i], shell->token_bis, shell->env->env) < 0)
+	{
+		error_message("command", 1);
+		exit(g_signal);
+	}
 }

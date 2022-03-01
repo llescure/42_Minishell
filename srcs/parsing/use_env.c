@@ -85,13 +85,16 @@ void	create_env_tab(t_shell *shell)
 {
 	int	i;
 
-	shell->env->tab_variable_name = malloc(sizeof(char *) * (shell->env->index + 1));
+	print_tab(shell->env->env);
+	shell->env->tab_variable_name = malloc(sizeof(char *) *
+			(shell->env->index + 1));
 	if (shell->env->tab_variable_name == NULL)
 	{
 		g_signal = -1;
 		return ;
 	}
-	shell->env->tab_variable_equals = malloc(sizeof(char *) * (shell->env->index + 1));
+	shell->env->tab_variable_equals = malloc(sizeof(char *) *
+			(shell->env->index + 1));
 	if (shell->env->tab_variable_name == NULL)
 	{
 		g_signal = -1;
@@ -100,9 +103,18 @@ void	create_env_tab(t_shell *shell)
 	i = 0;
 	while (i < shell->env->index)
 	{
-		shell->env->tab_variable_name[i] = ft_cut_str(shell->env->env[i], 0,
-						find_cara_in_word(shell->env->env[i], '='));
-		shell->env->tab_variable_equals[i] = ft_strdup(ft_strchr((const char *)shell->env->env[i], '='));
+		if (find_cara_in_word(shell->env->env[i], '=') == -1)
+		{
+			shell->env->tab_variable_name[i] = ft_strdup(shell->env->env[i]);
+			shell->env->tab_variable_equals[i] = ft_strdup("");
+		}
+		else
+		{
+			shell->env->tab_variable_name[i] = ft_cut_str(shell->env->env[i], 0,
+					find_cara_in_word(shell->env->env[i], '='));
+			shell->env->tab_variable_equals[i] =
+				ft_strdup(ft_strchr((const char *)shell->env->env[i], '='));
+		}
 		i++;
 	}
 	shell->env->tab_variable_name[i] = NULL;

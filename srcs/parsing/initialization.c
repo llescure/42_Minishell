@@ -70,6 +70,8 @@ void	set_path(t_shell *shell)
 	char	*temp;
 
 	temp = find_word_in_tab(shell->env->env, "PATH");
+	if (shell->path != NULL)
+		free_tab(shell->path);
 	if (temp != NULL)
 	{
 		shell->path = ft_split(temp, ':');
