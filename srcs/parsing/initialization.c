@@ -9,9 +9,9 @@ int		init_struct(t_shell *shell, char **envp)
 		free_all(shell);
 		return (g_signal);
 	}
+	shell->pwd = NULL;
 	shell->fd_infile = STDIN_FILENO;
 	shell->fd_outfile = STDOUT_FILENO;
-	shell->pwd = NULL;
 	set_path(shell);
 	return (0);
 }

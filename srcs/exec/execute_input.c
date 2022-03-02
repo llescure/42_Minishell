@@ -7,23 +7,24 @@ int		execute_input(t_shell *shell, char *user_input)
 	shell->i = 0;
 	while (shell->token_bis[shell->i] != NULL)
 	{
-		if (ft_strncmp(shell->type_bis[shell->i], "command",
+		if (look_for_word_in_type(shell->type_bis[shell->i], "redir_right") == 1)
+
+		{
+			if (open_infile_redirection(shell) != 0)
+				return (g_signal);
+		}
+		else if (look_for_word_in_type(shell->type_bis[shell->i], "redir_left") == 1
+			|| look_for_word_in_type(shell->type_bis[shell->i], "d_redir_right") == 1)
+		{
+			if (open_infile_redirection(shell) != 0)
+				return (g_signal);
+		}
+		else if (ft_strncmp(shell->type_bis[shell->i], "command",
 					ft_strlen("command")) == 0 && (shell->command_count == 0
 					|| look_for_word_in_type(shell->type, "pipe") == 1))
 		{
 			handle_builtin(shell, shell->token_bis[shell->i]);
 			shell->command_count++;
-		}
-		else if (ft_strncmp(shell->type_bis[shell->i], "redir_right",
-					ft_strlen("redir_right")) == 0
-				|| ft_strncmp(shell->type_bis[shell->i], "redir_left",
-					ft_strlen("redir_left")) == 0
-				|| ft_strncmp(shell->type_bis[shell->i], "d_redir_right",
-					ft_strlen("d_redir_left")) == 0)
-
-		{
-			if (open_file_redirection(shell) != 0)
-				return (g_signal);
 		}
 		if (shell->token_bis[shell->i] == NULL)
 			break;

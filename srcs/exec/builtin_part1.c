@@ -96,6 +96,7 @@ void	ft_cd(t_shell *shell)
 void	execute_binary(t_shell *shell)
 {
 	char	*temp;
+	char	**command;
 
 	if (shell->path != NULL)
 	{
@@ -103,16 +104,87 @@ void	execute_binary(t_shell *shell)
 		shell->path = NULL;
 	}
 	set_path(shell);
-	if (shell->path != NULL)
+	command = create_binary(shell);
+	if (command == NULL)
 	{
-		temp = shell->token_bis[shell->i];
-		shell->token_bis[shell->i] = find_correct_path(shell->path,
-			shell->token_bis[shell->i]);
-		free(temp);
-	}
-	if (execve(shell->token_bis[shell->i], shell->token_bis, shell->env->env) < 0)
-	{
-		error_message("command", 1);
+		error_message("malloc", 0);
 		exit(g_signal);
 	}
+	if (shell->path != NULL)
+	{
+		temp = command[0];
+		command[0] = find_correct_path(shell->path, command[0]);
+		free(temp);
+	}
+	if (execve(command[0], command, shell->env->env) < 0)
+	{
+		error_message("command", 1);
+		free_tab(command);
+		exit(g_signal);
+	}
+	free_tab(command);
+}
+
+char	**create_binary(t_shell *shell)
+{
+	char	**command;
+	int		i;
+
+	command = malloc(sizeof(char *) * (command_lenght(shell, shell->i) + 1));
+	if (command == NULL)
+		return (NULL);
+	i = 0;
+	while (shell->token_bis[shell->i] != NULL
+		&& (ft_strncmp(shell->type_bis[shell->i], "white_space",
+				ft_strlen("white_space")) == 0
+		|| ft_strncmp(shell->type_bis[shell->i], "command_option",
+				ft_strlen("command_option")) == 0
+		|| ft_strncmp(shell->type_bis[shell->i], "command",
+				ft_strlen("command")) == 0
+		|| ft_strncmp(shell->type_bis[shell->i], "word",
+				ft_strlen("word")) == 0))
+	{
+		if (ft_strncmp(shell->type_bis[shell->i], "white_space",
+				ft_strlen("white_space")) == 0)
+			shell->i++;
+		if (shell->token_bis[shell->i] == NULL
+			|| (ft_strncmp(shell->type_bis[shell->i], "word",
+				ft_strlen("word")) != 0
+			&&	ft_strncmp(shell->type_bis[shell->i], "command_option",
+				ft_strlen("command_option")) != 0
+			&&	ft_strncmp(shell->type_bis[shell->i], "command",
+				ft_strlen("command")) != 0))
+			break;
+		command[i] = ft_strdup(shell->token_bis[shell->i]);
+		shell->i++;
+		i++;
+	}
+	command[i] = NULL;
+	return (command);
+}
+
+int		command_lenght(t_shell *shell, int index)
+{
+	int	size;
+
+	size = 1;
+	while (shell->token_bis[index] != NULL
+		&& (ft_strncmp(shell->type_bis[index], "white_space",
+				ft_strlen("white_space")) == 0
+		|| ft_strncmp(shell->type_bis[index], "command_option",
+				ft_strlen("command_option")) == 0
+		|| ft_strncmp(shell->type_bis[index], "command",
+				ft_strlen("command")) == 0
+		|| ft_strncmp(shell->type_bis[index], "word",
+				ft_strlen("word")) == 0))
+	{
+		if (ft_strncmp(shell->type_bis[index], "white_space",
+				ft_strlen("white_space")) == 0)
+			index++;
+		if (shell->token_bis[index] == NULL)
+			break;
+		size++;
+		index++;
+	}
+	return (size);
 }

@@ -30,7 +30,7 @@ int		parsing(char *user_input, t_shell *shell)
 	shell->token_bis = create_tab_from_linked_list(shell->token);
 	shell->type_bis = create_tab_from_linked_list(shell->type);
 //	print_tab(shell->token_bis);
-//	print_tab(shell->type_bis);
+	//print_tab(shell->type_bis);
 	return (0);
 }
 
