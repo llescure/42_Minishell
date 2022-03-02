@@ -5,7 +5,6 @@ int		open_infile_redirection(t_shell *shell)
 	char	*type;
 	char	*next_token;
 
-	shell->i = find_word_in_type(shell->type_bis);
 	type = shell->type_bis[shell->i];
 	shell->i++;
 	while (shell->token_bis[shell->i] != NULL
@@ -38,7 +37,6 @@ int		open_outfile_redirection(t_shell *shell)
 	char	*type;
 	char	*next_token;
 
-	shell->i = find_word_in_type(shell->type_bis);
 	type = shell->type_bis[shell->i];
 	shell->i++;
 	while (shell->token_bis[shell->i] != NULL
