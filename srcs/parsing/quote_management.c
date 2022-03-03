@@ -1,15 +1,15 @@
 #include "../../include/minishell.h"
 
 void	single_quote_expansion(t_shell *shell, t_double_list *type,
-		t_double_list **list)
+		t_double_list **token)
 {
-	quote_expansion(shell, type, list, '\'', "single_quote");
+	quote_expansion(shell, type, token, '\'', QUOTE);
 }
 
 void	double_quote_expansion(t_shell *shell, t_double_list *type,
-		t_double_list **list)
+		t_double_list **token)
 {
-	quote_expansion(shell, type, list, '"', "double_quote");
+	quote_expansion(shell, type, token, '"', D_QUOTE);
 }
 
 /*
@@ -19,22 +19,20 @@ void	double_quote_expansion(t_shell *shell, t_double_list *type,
  */
 
 void	quote_expansion(t_shell *shell, t_double_list *type,
-		t_double_list **list, char type_cara_to_delete, char *type_expansion)
+		t_double_list **token, char type_cara_to_delete, int type_expansion)
 {
 
-	while (type != NULL && (*list)->next != NULL)
+	while (type != NULL && (*token)->next != NULL)
 	{
-		if (ft_strncmp(type->content, type_expansion,
-					ft_strlen(type->content)) == 0)
-			quote_cases(shell, (char **)&(*list)->content, type_cara_to_delete);
+		if (type->content == type_expansion,
+			quote_cases(shell, (char **)&(*token)->content, type_cara_to_delete);
 		type = type->next;
-		*list = (*list)->next;
+		*token = (*token)->next;
 	}
-	if (ft_strncmp(type->content, type_expansion,
-				ft_strlen(type->content)) == 0)
-			quote_cases(shell, (char **)&(*list)->content, type_cara_to_delete);
-	while ((*list)->previous != NULL)
-		*list = (*list)->previous;
+	if (type->content == type_expansion)
+		quote_cases(shell, (char **)&(*token)->content, type_cara_to_delete);
+	while ((*token)->previous != NULL)
+		*token = (*token)->previous;
 }
 
 

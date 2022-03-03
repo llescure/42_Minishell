@@ -49,6 +49,6 @@ int	launch_shell(t_shell *shell)
 			return (g_signal);
 		if (parsing(user_input, shell) != 0)
 			return (g_signal);
-		execute_input(shell, user_input);
+//		execute_input(shell, user_input, shell->type, shell->token);
 	}
 }

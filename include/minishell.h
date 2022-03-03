@@ -41,6 +41,35 @@ typedef struct s_shell {
   int				command_count;
 }               	t_shell;
 
+typedef enum	e_type
+{
+	WORD=0,
+	COMMAND,
+	COMMAND_OPTION,
+	WHITE_SPACE,
+	QUOTE,
+	DQUOTE,
+	EQUAL,
+	ERROR,
+	PIPE,
+	EXPAND,
+	REDIR_RIGHT,
+	REDIR_LEFT,
+	D_REDIR_RIGHT,
+	HEREDOC
+}				t_type;
+
+typedef struct s_command
+{
+    t_redirection	*redirection;
+    int			piped;
+}               t_command;
+
+typedef struct s_redirection
+{
+	char	*redirection;
+}               t_redirection;
+
 int		g_signal;
 
 /*
@@ -66,7 +95,8 @@ void	free_all(t_shell *shell);
 void	handle_signals(int signum);
 void	handle_exec_signals(int signum);
 int		prompt(char **user_input, t_shell *shell);
-int		execute_input(t_shell *shell, char *user_input);
+int		execute_input(t_shell *shell, char *user_input,
+		t_double_list *type, t_double_list *token);
 int		open_infile_redirection(t_shell *shell);
 int		open_outfile_redirection(t_shell *shell);
 void	exit_basic_case(t_shell *shell);
@@ -108,24 +138,24 @@ int		error_malloc(t_shell *shell);
 int		delimit_separator(char *str, int pos, char separator, int initial_pos);
 int		delimit_expand(char *str, int pos, int initial_pos);
 int		tokenizer(t_double_list *token, t_shell *shell);
-int		check_first_content(char *str, t_double_list **list, t_shell *shell);
-int		check_content(char *str, t_double_list **list, t_shell *shell);
-void	check_redirection(char *str, t_double_list **list);
-void	check_first_redirection(char *str, t_double_list **list);
-void	check_first_special_cara(char *str, t_double_list **list);
-void	check_special_cara(char *str, t_double_list **list);
+int		check_first_content(char *str, t_double_list **token, t_shell *shell);
+int		check_content(char *str, t_double_list **token, t_shell *shell);
+void	check_redirection(char *str, t_double_list **token);
+void	check_first_redirection(char *str, t_double_list **token);
+void	check_first_special_cara(char *str, t_double_list **token);
+void	check_special_cara(char *str, t_double_list **token);
 int		check_command(char *str, t_shell *shell);
 int		look_for_word_in_type(t_double_list *list, char *str);
 void	look_for_grammar_error(t_double_list *type, int fd_outfile,
 		t_shell *shell);
 void	quote_expansion(t_shell *shell, t_double_list *type,
-		t_double_list **list, char type_cara_to_delete, char *type_expansion);
+		t_double_list **token, char type_cara_to_delete, char *type_expansion);
 void	expand_expansion(t_shell *shell, t_double_list *type,
-		t_double_list **list);
+		t_double_list **token);
 void	single_quote_expansion(t_shell *shell, t_double_list *type,
-		t_double_list **list);
+		t_double_list **token);
 void	double_quote_expansion(t_shell *shell, t_double_list *type,
-		t_double_list **list);
+		t_double_list **token);
 char	*remove_cara(char *str, char type_cara_to_delete);
 char	*expand_env_variable(char *variable_to_find, t_env *env);
 void	expansion_cases(t_shell *shell, void **str);
@@ -135,9 +165,9 @@ void	identifier_cases(char **str_to_change, char *original_str, char *temp2,
 		t_shell *shell);
 char	**split_expand(char *str, char cara);
 int		check_and_expand_input(t_shell *shell);
-int		join_clean_input(t_double_list **list, t_double_list *type);
+int		join_clean_input(t_double_list **token, t_double_list *type);
 int		special_condition_cara_is_respected(char *str);
-void	remove_residual_white_space(t_double_list **list, t_double_list *type);
+void	remove_residual_white_space(t_double_list **token, t_double_list *type);
 char	**create_tab_from_linked_list(t_double_list *list);
 void	set_path(t_shell *shell);
 

@@ -24,13 +24,9 @@ int		parsing(char *user_input, t_shell *shell)
 	ft_double_free_list(&shell->type, 0);
 	if (tokenizer(shell->token, shell) < 0)
 		return (error_malloc(shell));
-//	ft_double_print_list(shell->token);
-//	ft_double_print_list(shell->type);
+	ft_double_print_list_char(shell->token);
+	ft_double_print_list_int(shell->type);
 	look_for_grammar_error(shell->type, shell->fd_outfile, shell);
-	shell->token_bis = create_tab_from_linked_list(shell->token);
-	shell->type_bis = create_tab_from_linked_list(shell->type);
-//	print_tab(shell->token_bis);
-	//print_tab(shell->type_bis);
 	return (0);
 }
 
@@ -41,16 +37,16 @@ int		parsing(char *user_input, t_shell *shell)
 
 int		check_and_expand_input(t_shell *shell)
 {
-	if (look_for_word_in_type(shell->type, "error") == 1)
+	if (look_for_word_in_type(shell->type, ERROR) == 1)
 	{
 		error_message("syntax", shell->fd_outfile);
 		return (g_signal);
 	}
-	if (look_for_word_in_type(shell->type, "single_quote") == 1)
+	if (look_for_word_in_type(shell->type, QUOTE) == 1)
 		single_quote_expansion(shell, shell->type, &shell->token);
-	if (look_for_word_in_type(shell->type, "double_quote") == 1)
+	if (look_for_word_in_type(shell->type, D_QUOTE) == 1)
 		double_quote_expansion(shell, shell->type, &shell->token);
-	if (look_for_word_in_type(shell->type, "expand") == 1)
+	if (look_for_word_in_type(shell->type, EXPAND) == 1)
 		expand_expansion(shell, shell->type, &shell->token);
 	if (g_signal < 0)
 		return(error_malloc(shell));
@@ -63,7 +59,7 @@ int		check_and_expand_input(t_shell *shell)
  * * 3) a double quote, 4) an identifier and the next node if one of the 4 types
 */
 
-int		join_clean_input(t_double_list **list, t_double_list *type)
+int		join_clean_input(t_double_list **token, t_double_list *type)
 {
 	char	*str_temp;
 
@@ -74,52 +70,44 @@ int		join_clean_input(t_double_list **list, t_double_list *type)
 			while (type->next != NULL &&
 				special_condition_cara_is_respected(type->next->content) == 1)
 			{
-				str_temp = (*list)->content;
-				(*list)->content = ft_strjoin(str_temp, (*list)->next->content);
+				str_temp = (*token)->content;
+				(*token)->content = ft_strjoin(str_temp, (*token)->next->content);
 				free(str_temp);
-				delete_node(list, 1);
+				delete_node(token, 1);
 				delete_node(&type, 0);
 			}
 		}
 		if (type->next == NULL)
 			break;
-		if (ft_strncmp(type->content, "white_space",
-			ft_strlen(type->content)) == 0)
+		if (type->content == WHITE_SPACE)
 		{
-			str_temp = (*list)->content;
-			(*list)->content = ft_strdup(" ");
+			str_temp = (*token)->content;
+			(*token)->content = ft_strdup(" ");
 			free(str_temp);
 		}
 		type = type->next;
-		*list = (*list)->next;
+		*token = (*token)->next;
 	}
-	while ((*list)->previous != NULL)
-		*list = (*list)->previous;
+	while ((*token)->previous != NULL)
+		*token = (*token)->previous;
 	return (0);
 }
 
 void	look_for_grammar_error(t_double_list *type, int fd_outfile,
 		t_shell *shell)
 {
-	if (look_for_word_in_type(type, "heredoc") == 0 &&
-		(ft_strncmp(type->content, "command_option",
-		ft_strlen("command_option")) == 0
-		|| ft_strncmp(type->content, "word", ft_strlen(type->content)) == 0
-		|| ft_strncmp(type->content, "expand", ft_strlen(type->content)) == 0))
+	if (look_for_word_in_type(type, HEREDOC) == 0 &&
+		(type->content == COMMAND_OPTION || type->content == WORD
+		 || type->content == EXPAND))
 	{
 		shell->command_count++;
 		return (error_message("command", fd_outfile));
 	}
-	else if ((ft_strncmp(type->content, "redir_right",
-					ft_strlen(type->content)) == 0
-		|| ft_strncmp(type->content, "redir_left",
-			ft_strlen(type->content)) == 0
-		|| ft_strncmp(type->content, "heredoc", ft_strlen(type->content)) == 0
-		|| ft_strncmp(type->content, "d_redir_right",
-			ft_strlen(type->content)) == 0)
+	else if ((type->content == REDIR_RIGHT || type->content == REDIR_LEFT
+		|| type->content == HEREDOC || type->content == D_REDIR_RIGHT)
 		&& type->next == NULL)
 		return (error_message("syntaxe", fd_outfile));
-	else if (ft_strncmp(type->content, "pipe", ft_strlen(type->content)) == 0)
+	else if (type->content == PIPE)
 		return (error_message("syntaxe", fd_outfile));
 }
 

@@ -1,15 +1,14 @@
 #include "../../include/minishell.h"
 
-int		execute_input(t_shell *shell, char *user_input)
+int		execute_input(t_shell *shell, char *user_input,
+		t_double_list *type, t_double_list *token)
 {
 	if (user_input[0] == '\0')
 		return (0);
-	shell->i = 0;
-	while (shell->token_bis[shell->i] != NULL)
+	while (token != NULL)
 	{
 		if (ft_strncmp(shell->token_bis[shell->i], "redir_right",
 					ft_strlen("redir_rigjt") == 0))
-
 		{
 			if (open_infile_redirection(shell) != 0)
 				return (g_signal);

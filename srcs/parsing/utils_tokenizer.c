@@ -1,23 +1,23 @@
 #include "../../include/minishell.h"
 
-void	check_first_special_cara(char *str, t_double_list **list)
+void	check_first_special_cara(char *str, t_double_token **token)
 {
 	if (number_occurence_cara_in_str(str, '$') >= 1)
-		*list = ft_double_lstnew((char *)"expand");
+		*token = ft_double_lstnew((int)EXPAND);
 	else if (str[0] == '=')
-		*list = ft_double_lstnew((char *)"equal");
+		*token = ft_double_lstnew((int)EQUAL);
 	else if (str[0] == '-' && ft_isalnum(str[1]) == 1)
-		*list = ft_double_lstnew((char *)"command_option");
+		*token = ft_double_lstnew((int)COMMAND_OPTION);
 }
 
-void	check_special_cara(char *str, t_double_list **list)
+void	check_special_cara(char *str, t_double_token **token)
 {
 	if (number_occurence_cara_in_str(str, '$') >= 1)
-		ft_double_lstadd_back(list, ft_double_lstnew((char *)"expand"));
+		ft_double_lstadd_back(token, ft_double_lstnew((int)EXPAND));
 	else if (str[0] == '=')
-		ft_double_lstadd_back(list, ft_double_lstnew((char *)"equal"));
+		ft_double_lstadd_back(token, ft_double_lstnew((int)EQUAL));
 	else if (str[0] == '-' && ft_isalnum(str[1]) == 1)
-		ft_double_lstadd_back(list, ft_double_lstnew((char *)"command_option"));
+		ft_double_lstadd_back(token, ft_double_lstnew((int)COMMAND_OPTION));
 }
 
 int		check_command(char *str, t_shell *shell)
@@ -53,34 +53,34 @@ int		check_command(char *str, t_shell *shell)
 	return (0);
 }
 
-void	check_first_redirection(char *str, t_double_list **list)
+void	check_first_redirection(char *str, t_double_token **token)
 {
 	if (str[0] == '<' && str[1] == '\0')
-		*list = ft_double_lstnew((char *)"redir_left");
+		*token = ft_double_lstnew((int)REDIR_LEFT);
 	else if (str[0] == '<' && str[1] == '<' && str[2] == '\0')
-		*list = ft_double_lstnew((char *)"heredoc");
+		*token = ft_double_lstnew((int)HEREDOC);
 	else if (str[0] == '<' && str[1] == '<' && str[2] == '<')
-		*list = ft_double_lstnew((char *)"error");
+		*token = ft_double_lstnew((int)ERROR);
 	else if (str[0] == '>' && str[1] == '\0')
-		*list = ft_double_lstnew((char *)"redir_right");
+		*token = ft_double_lstnew((int)REDIR_RIGHT);
 	else if (str[0] == '>' && str[1] == '>' && str[2] == '\0')
-		*list = ft_double_lstnew((char *)"d_redir_right");
+		*token = ft_double_lstnew((int)D_REDIR_RIGHT);
 	else if (str[0] == '>' && str[1] == '>' && str[2] == '>')
-		*list = ft_double_lstnew((char *)"error");
+		*token = ft_double_lstnew((int)ERROR);
 }
 
-void	check_redirection(char *str, t_double_list **list)
+void	check_redirection(char *str, t_double_token **token)
 {
 	if (str[0] == '<' && str[1] == '\0')
-		ft_double_lstadd_back(list, ft_double_lstnew((char *)"redir_left"));
+		ft_double_lstadd_back(token, ft_double_lstnew((int)REDIR_LEFT));
 	else if (str[0] == '<' && str[1] == '<' && str[2] == '\0')
-		ft_double_lstadd_back(list, ft_double_lstnew((char *)"heredoc"));
+		ft_double_lstadd_back(token, ft_double_lstnew((int)HEREDOC));
 	else if (str[0] == '<' && str[1] == '<' && str[2] == '<')
-		ft_double_lstadd_back(list, ft_double_lstnew((char *)"error"));
+		ft_double_lstadd_back(token, ft_double_lstnew((int)ERROR));
 	else if (str[0] == '>' && str[1] == '\0')
-		ft_double_lstadd_back(list, ft_double_lstnew((char *)"redir_right"));
+		ft_double_lstadd_back(token, ft_double_lstnew((int)REDIR_RIGHT));
 	else if (str[0] == '>' && str[1] == '>' && str[2] == '\0')
-		ft_double_lstadd_back(list, ft_double_lstnew((char *)"d_redir_right"));
+		ft_double_lstadd_back(token, ft_double_lstnew((int)D_REDIR_RIGHT));
 	else if (str[0] == '>' && str[1] == '>' && str[2] == '>')
-		ft_double_lstadd_back(list, ft_double_lstnew((char *)"error"));
+		ft_double_lstadd_back(token, ft_double_lstnew((int)ERROR));
 }

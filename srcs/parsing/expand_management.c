@@ -1,21 +1,20 @@
 #include "../../include/minishell.h"
 
 void	expand_expansion(t_shell *shell, t_double_list *type,
-		t_double_list **list)
+		t_double_list **token)
 {
 
-	while (type != NULL && (*list)->next != NULL)
+	while (type != NULL && (*token)->next != NULL)
 	{
-		if (ft_strncmp(type->content, "expand", ft_strlen(type->content))
-				== 0)
-			expansion_cases(shell, &(*list)->content);
+		if (type->content == EXPAND)
+			expansion_cases(shell, &(*token)->content);
 		type = type->next;
-		*list = (*list)->next;
+		*token = (*token)->next;
 	}
-	if (ft_strncmp(type->content, "expand", ft_strlen(type->content)) == 0)
-		expansion_cases(shell, &(*list)->content);
-	while ((*list)->previous != NULL)
-		*list = (*list)->previous;
+	if (type->content == EXPAND)
+		expansion_cases(shell, &(*token)->content);
+	while ((*token)->previous != NULL)
+		*token = (*token)->previous;
 }
 
 /*
