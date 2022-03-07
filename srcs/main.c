@@ -19,11 +19,7 @@ void free_all(t_shell *shell)
 	if (shell->token != NULL)
 		ft_double_free_list(&shell->token, 1);
 	if (shell->type != NULL)
-		ft_double_free_list(&shell->type, 0);
-	if (shell->token_bis != NULL)
-		free_tab(shell->token_bis);
-	if (shell->type_bis != NULL)
-		free_tab(shell->type_bis);
+		ft_free_type(&shell->type);
 	rl_clear_history();
 }
 
@@ -55,7 +51,7 @@ int main(int argc, char **argv, char **envp)
 	if (ft_strncmp(argv[0], "./minishell", ft_strlen("./minishell")) != 0
 			|| argc != 1)
 	{
-		error_message("parameters", 1);
+		error_message(PARAMETERS, 1);
 		free_all(&shell);
 		return (g_signal);
 	}

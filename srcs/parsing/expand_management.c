@@ -1,7 +1,6 @@
 #include "../../include/minishell.h"
 
-void	expand_expansion(t_shell *shell, t_double_list *type,
-		t_double_list **token)
+void	expand_expansion(t_shell *shell, t_type *type, t_double_list **token)
 {
 
 	while (type != NULL && (*token)->next != NULL)

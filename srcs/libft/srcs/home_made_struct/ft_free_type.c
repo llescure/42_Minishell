@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_double_print_list.c                             :+:      :+:    :+:   */
+/*   ft_free_type.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llescure <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/11 16:10:20 by llescure          #+#    #+#             */
-/*   Updated: 2022/03/07 18:42:46 by llescure         ###   ########.fr       */
+/*   Created: 2022/03/07 16:32:15 by llescure          #+#    #+#             */
+/*   Updated: 2022/03/07 18:43:23 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/libft.h"
 
-void	ft_double_print_list_char(t_double_list *lst)
+void	ft_free_type(t_type **list)
 {
-	int	compt;
+	t_type	*temp;
 
-	compt = 0;
-	if (lst == NULL)
+	if (*list == NULL || list == NULL)
 		return ;
-	while (lst->next != NULL)
+	while ((*list)->next != NULL)
 	{
-		printf("compt = %d content = %s\n", compt, (char *)(*lst).content);
-		compt++;
-		lst = lst->next;
+		temp = (*list)->next;
+		free(*list);
+		*list = temp;
 	}
-	printf("compt = %d content = %s\n", compt, (char *)(*lst).content);
+	free(*list);
+	*list = NULL;
 }

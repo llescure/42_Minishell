@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-void	ft_exit(t_shell *shell)
+/*void	ft_exit(t_shell *shell)
 {
 	shell->i++;
 	exit_basic_case(shell);
@@ -14,7 +14,7 @@ void	ft_exit(t_shell *shell)
 	else if (is_number(shell->token_bis[shell->i]) == 0)
 	{
 		ft_putstr_fd("exit\n", shell->fd_outfile);
-		error_message("exit", shell->fd_outfile);
+		error_message(EXIT, shell->fd_outfile);
 		free_all(shell);
 		exit(g_signal);
 	}
@@ -44,7 +44,7 @@ int	check_number_of_arguments(t_shell *shell)
 					ft_strlen("white_space")) != 0)
 		{
 			ft_putstr_fd("exit\n", shell->fd_outfile);
-			error_message("arguments", shell->fd_outfile);
+			error_message(ARGUMENTS, shell->fd_outfile);
 			free_all(shell);
 			return (g_signal);;
 		}
@@ -79,7 +79,7 @@ void	ft_unset(t_shell *shell)
 	if (shell->token_bis[shell->i] != NULL
 		&& ft_strncmp(shell->type_bis[shell->i], "equal",
 		ft_strlen("equal")) == 0)
-		error_message("export", shell->fd_outfile);
+		error_message(EXPORT, shell->fd_outfile);
 }
 
 void	delete_env_variable(t_shell *shell, char *env_to_delete)
@@ -112,4 +112,4 @@ void	delete_env_variable(t_shell *shell, char *env_to_delete)
 		free_tab(shell->path);
 	shell->path = NULL;
 	create_env_tab(shell);
-}
+}*/

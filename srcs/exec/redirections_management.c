@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-int		open_infile_redirection(t_shell *shell)
+/*int		open_infile_redirection(t_shell *shell)
 {
 	char	*type;
 	char	*next_token;
@@ -15,7 +15,7 @@ int		open_infile_redirection(t_shell *shell)
 		shell->i++;
 	if (shell->token_bis[shell->i] == NULL)
 	{
-		error_message("syntax", shell->fd_outfile);
+		error_message(SYNTAX, shell->fd_outfile);
 		return (g_signal);
 	}
 	next_token = shell->token_bis[shell->i];
@@ -26,7 +26,7 @@ int		open_infile_redirection(t_shell *shell)
 	}
 	if (shell->fd_infile < 0)
 	{
-		error_message("file", 1);
+		error_message(FILES, 1);
 		return (g_signal);
 	}
 	return (0);
@@ -47,7 +47,7 @@ int		open_outfile_redirection(t_shell *shell)
 		shell->i++;
 	if (shell->token_bis[shell->i] == NULL)
 	{
-		error_message("syntax", shell->fd_outfile);
+		error_message(SYNTAX, shell->fd_outfile);
 		return (g_signal);
 	}
 	next_token = shell->token_bis[shell->i];
@@ -65,8 +65,8 @@ int		open_outfile_redirection(t_shell *shell)
 	}
 	if (shell->fd_infile < 0 || shell->fd_outfile < 0)
 	{
-		error_message("file", shell->fd_outfile);
+		error_message(FILES, shell->fd_outfile);
 		return (g_signal);
 	}
 	return (0);
-}
+}*/

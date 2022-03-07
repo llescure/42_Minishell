@@ -2,15 +2,15 @@
 
 int		tokenizer(t_double_list *token, t_shell *shell)
 {
-	t_double_list	*list;
+	t_type	*type;
 
 	set_path(shell);
 	if (token->content != NULL)
 	{
-		if (check_first_content(token->content, &list, shell) < 0)
+		if (check_first_content(token->content, &type, shell) < 0)
 			return (g_signal);
 	}
-	if (list == NULL)
+	if (type == NULL)
 	{
 		g_signal = -1;
 		return (g_signal);
@@ -18,66 +18,66 @@ int		tokenizer(t_double_list *token, t_shell *shell)
 	token = token->next;
 	while (token != NULL)
 	{
-		if (check_content(token->content, &list, shell) < 0)
+		if (check_content(token->content, &type, shell) < 0)
 			return (g_signal);
 		token = token->next;
 	}
-	shell->type = list;
+	shell->type = type;
 	return (0);
 }
 
-int		check_first_content(char *str, t_double_list **list, t_shell *shell)
+int		check_first_content(char *str, t_type **type, t_shell *shell)
 {
 	if (str[0] == '|' && str[1] == '\0')
-		*list = ft_double_lstnew((int)PIPE);
+		*type = ft_type_new(PIPE);
 	else if (str[0] == '|' && str[1] == '|')
-		*list = ft_double_lstnew((int)ERROR);
+		*type = ft_type_new(ERROR);
 	else if (str[0] == '"' && number_occurence_cara_in_str(str, '"') >= 2)
-		*list = ft_double_lstnew((int)D_QUOTE);
+		*type = ft_type_new(D_QUOTE);
 	else if (str[0] == '\'' && number_occurence_cara_in_str(str, '\'') >= 2)
-		*list = ft_double_lstnew((int)QUOTE);
+		*type = ft_type_new(QUOTE);
 	else if (str[0] == '<' || str[0] == '>')
-		check_first_redirection(str, list);
+		check_first_redirection(str, type);
 	else if (number_occurence_cara_in_str(str, '$') >= 1 || str[0] == '='
 			|| (str[0] == '-' && ft_isalnum(str[1]) == 1))
-		check_first_special_cara(str, list);
+		check_first_special_cara(str, type);
 	else if (ft_is_only_space(str) == 1)
-		*list = ft_double_lstnew((int)WHITE_SPACE);
+		*type = ft_type_new(WHITE_SPACE);
 	else if (ft_isascii(str[0]) == 1)
 	{
 		if (check_command(str, shell) == 1)
-			*list = ft_double_lstnew((int)COMMAND);
+			*type = ft_type_new(COMMAND);
 		else if (check_command(str, shell) == 0)
-			*list = ft_double_lstnew((int)WORD);
+			*type = ft_type_new(WORD);
 		else if (check_command(str, shell) == -1)
 			return (g_signal);
 	}
 	return (0);
 }
 
-int		check_content(char *str, t_double_list **list, t_shell *shell)
+int		check_content(char *str, t_type **type, t_shell *shell)
 {
 	if (str[0] == '|' && str[1] == '\0')
-		ft_double_lstadd_back(list, ft_double_lstnew((int)PIPE));
+		ft_type_add_back(type, ft_type_new(PIPE));
 	else if (str[0] == '|' && str[1] == '|')
-		ft_double_lstadd_back(list, ft_double_lstnew((int)ERROR));
+		ft_type_add_back(type, ft_type_new(ERROR));
 	else if (str[0] == '"' && number_occurence_cara_in_str(str, '"') >= 2)
-		ft_double_lstadd_back(list, ft_double_lstnew((int)D_QUOTE));
+		ft_type_add_back(type, ft_type_new(D_QUOTE));
 	else if (str[0] == '\'' && number_occurence_cara_in_str(str, '\'') >= 2)
-		ft_double_lstadd_back(list, ft_double_lstnew((int)QUOTE));
+		ft_type_add_back(type, ft_type_new(QUOTE));
 	else if (str[0] == '<' || str[0] == '>')
-		check_redirection(str, list);
+		check_redirection(str, type);
 	else if (str[0] == '$' || str[0] == '='
 			|| (str[0] == '-' && ft_isalnum(str[1]) == 1))
-		check_special_cara(str, list);
+		check_special_cara(str, type);
 	else if (ft_is_only_space(str) == 1)
-		ft_double_lstadd_back(list, ft_double_lstnew((int)WHITE_SPACE));
+		ft_type_add_back(type, ft_type_new(WHITE_SPACE));
 	else if (ft_isascii(str[0]) == 1)
 	{
 		if (check_command(str, shell) == 1)
-			ft_double_lstadd_back(list, ft_double_lstnew((int)COMMAND));
+			ft_type_add_back(type, ft_type_new(COMMAND));
 		else if (check_command(str, shell) == 0)
-			ft_double_lstadd_back(list, ft_double_lstnew((int)WORD));
+			ft_type_add_back(type, ft_type_new(WORD));
 		else if (check_command(str, shell) == -1)
 			return (g_signal);
 	}

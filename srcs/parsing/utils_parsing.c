@@ -1,19 +1,20 @@
 #include "../../include/minishell.h"
 
-int		special_condition_cara_is_respected(int type)
+int		special_condition_cara_is_respected(t_category category)
 {
-	if (type == QUOTE || type == WORD || type = D_QUOTE || type == EXPAND)
+	if (category == QUOTE || category == WORD || category == D_QUOTE ||
+			category == EXPAND)
 		return (1);
 	return (0);
 }
 
-int		look_for_word_in_type(t_double_list *list, int type)
+int		look_for_word_in_type(t_type *type, t_category category)
 {
-	while (list != NULL)
+	while (type != NULL)
 	{
-		if (list->content == type)
+		if (type->content == category)
 			return (1);
-		list = list->next;
+		type = type->next;
 	}
 	return (0);
 }

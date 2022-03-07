@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-void	ft_export(t_shell *shell)
+/*void	ft_export(t_shell *shell)
 {
 	shell->i++;
 	if (export_without_argument(shell) == 1)
@@ -28,7 +28,7 @@ void	ft_export(t_shell *shell)
 				&& shell->token_bis[shell->i + 1] != NULL
 				&& ft_strncmp(shell->type_bis[shell->i + 1], "equal",
 						ft_strlen("equal")) == 0)
-				return(error_message("export", shell->fd_outfile));
+				return(error_message(EXPORT, shell->fd_outfile));
 			else if (ft_strncmp(shell->type_bis[shell->i], "white_space",
 						ft_strlen("white_space")) == 0)
 				create_lonely_env_variable(shell);
@@ -38,7 +38,7 @@ void	ft_export(t_shell *shell)
 		}
 		else if (ft_strncmp(shell->type_bis[shell->i], "equal",
 					ft_strlen("equal")) == 0)
-			return (error_message("export", shell->fd_outfile));
+			return (error_message(EXPORT, shell->fd_outfile));
 		if (shell->token_bis[shell->i] == NULL)
 			break ;
 		shell->i++;
@@ -149,4 +149,4 @@ int	export_without_argument(t_shell *shell)
 		return (1);
 	}
 	return (0);
-}
+}*/

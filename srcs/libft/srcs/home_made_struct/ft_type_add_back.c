@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_double_print_list.c                             :+:      :+:    :+:   */
+/*   ft_type_add_back.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llescure <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/11 16:10:20 by llescure          #+#    #+#             */
-/*   Updated: 2022/03/07 18:42:46 by llescure         ###   ########.fr       */
+/*   Created: 2022/03/07 16:30:25 by llescure          #+#    #+#             */
+/*   Updated: 2022/03/07 16:31:41 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/libft.h"
 
-void	ft_double_print_list_char(t_double_list *lst)
+void	ft_type_add_back(t_type **alst, t_type *new)
 {
-	int	compt;
+	t_type *temp;
 
-	compt = 0;
-	if (lst == NULL)
+	if (alst == NULL)
 		return ;
-	while (lst->next != NULL)
+	new->next = NULL;
+	temp = *alst;
+	if (temp == NULL)
 	{
-		printf("compt = %d content = %s\n", compt, (char *)(*lst).content);
-		compt++;
-		lst = lst->next;
+		new->previous = NULL;
+		temp = new;
+		return ;
 	}
-	printf("compt = %d content = %s\n", compt, (char *)(*lst).content);
+	while (temp->next != NULL)
+		temp = temp->next;
+	new->previous = temp;
+	temp->next = new;
 }

@@ -10,11 +10,7 @@ int prompt(char **user_input, t_shell *shell)
 		if (lign[0] != '\0')
 		{
 			ft_double_free_list(&shell->token, 1);
-			ft_double_free_list(&shell->type, 0);
-			free_tab(shell->token_bis);
-			free_tab(shell->type_bis);
-			shell->token_bis = NULL;
-			shell->type_bis = NULL;
+			ft_free_type(&shell->type);
 		}
 		free(lign);
 		lign = NULL;
@@ -39,8 +35,6 @@ int	launch_shell(t_shell *shell)
 	user_input = NULL;
 	shell->token = NULL;
 	shell->type = NULL;
-	shell->token_bis = NULL;
-	shell->type_bis = NULL;
 	signal(SIGINT, handle_signals);
 	signal(SIGQUIT, handle_signals);
 	while (1)

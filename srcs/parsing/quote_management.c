@@ -1,15 +1,15 @@
 #include "../../include/minishell.h"
 
-void	single_quote_expansion(t_shell *shell, t_double_list *type,
+void	single_quote_expansion(t_shell *shell, t_type *type,
 		t_double_list **token)
 {
-	quote_expansion(shell, type, token, '\'', QUOTE);
+	quote_expansion(shell, type, token, QUOTE);
 }
 
-void	double_quote_expansion(t_shell *shell, t_double_list *type,
+void	double_quote_expansion(t_shell *shell, t_type *type,
 		t_double_list **token)
 {
-	quote_expansion(shell, type, token, '"', D_QUOTE);
+	quote_expansion(shell, type, token, D_QUOTE);
 }
 
 /*
@@ -18,33 +18,36 @@ void	double_quote_expansion(t_shell *shell, t_double_list *type,
  ** freed. It also makes sure that there is not other expansion character.
  */
 
-void	quote_expansion(t_shell *shell, t_double_list *type,
-		t_double_list **token, char type_cara_to_delete, int type_expansion)
+void	quote_expansion(t_shell *shell, t_type *type,
+		t_double_list **token, t_category category_expansion)
 {
 
 	while (type != NULL && (*token)->next != NULL)
 	{
-		if (type->content == type_expansion,
-			quote_cases(shell, (char **)&(*token)->content, type_cara_to_delete);
+		if (type->content == category_expansion)
+			quote_cases(shell, (char **)&(*token)->content, category_expansion);
 		type = type->next;
 		*token = (*token)->next;
 	}
-	if (type->content == type_expansion)
-		quote_cases(shell, (char **)&(*token)->content, type_cara_to_delete);
+	if (type->content == category_expansion)
+		quote_cases(shell, (char **)&(*token)->content, category_expansion);
 	while ((*token)->previous != NULL)
 		*token = (*token)->previous;
 }
 
 
-void	quote_cases(t_shell *shell, char **str, char type_cara_to_delete)
+void	quote_cases(t_shell *shell, char **str, t_category category_expansion)
 {
 	char	*temp;
 
-	if (type_cara_to_delete == '"' &&
+	if (category_expansion == D_QUOTE &&
 			find_cara_in_word(*str, '$') >= 0)
 		expansion_cases(shell, (void **)str);
 	temp = *str;
-	*str = remove_cara(*str, type_cara_to_delete);
+	if (category_expansion == D_QUOTE)
+		*str = remove_cara(*str, '"');
+	else
+		*str = remove_cara(*str, '\'');
 	free(temp);
 }
 

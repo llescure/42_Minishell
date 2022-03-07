@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-void	ft_echo(t_shell *shell)
+/*void	ft_echo(t_shell *shell)
 {
 	char	*str;
 	char	*temp;
@@ -90,7 +90,7 @@ void	ft_cd(t_shell *shell)
 		chdir(shell->absolute_path);
 	return_value = chdir(shell->token_bis[shell->i]);
 	if (return_value == -1)
-		error_message("file", shell->fd_outfile);
+		error_message(FILES, shell->fd_outfile);
 }
 
 void	execute_binary(t_shell *shell)
@@ -107,7 +107,7 @@ void	execute_binary(t_shell *shell)
 	command = create_binary(shell);
 	if (command == NULL)
 	{
-		error_message("malloc", 0);
+		error_message(MALLOC, 0);
 		exit(g_signal);
 	}
 	if (shell->path != NULL)
@@ -118,7 +118,7 @@ void	execute_binary(t_shell *shell)
 	}
 	if (execve(command[0], command, shell->env->env) < 0)
 	{
-		error_message("command", 1);
+		error_message(COMMAND_ERROR, 1);
 		free_tab(command);
 		exit(g_signal);
 	}
@@ -187,4 +187,4 @@ int		command_lenght(t_shell *shell, int index)
 		index++;
 	}
 	return (size);
-}
+}*/

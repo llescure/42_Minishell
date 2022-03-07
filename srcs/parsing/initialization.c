@@ -5,7 +5,7 @@ int		init_struct(t_shell *shell, char **envp)
 	get_env(shell, envp);
 	if (g_signal == -1)
 	{
-		error_message("malloc", shell->fd_outfile);
+		error_message(MALLOC, shell->fd_outfile);
 		free_all(shell);
 		return (g_signal);
 	}
@@ -79,7 +79,7 @@ void	set_path(t_shell *shell)
 	}
 	else if (temp == NULL && g_signal == -1)
 	{
-		error_message("malloc", shell->fd_outfile);
+		error_message(MALLOC, shell->fd_outfile);
 		free_all(shell);
 		return ;
 	}

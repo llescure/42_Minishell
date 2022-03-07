@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-int		execute_input(t_shell *shell, char *user_input,
+/*int		execute_input(t_shell *shell, char *user_input,
 		t_double_list *type, t_double_list *token)
 {
 	if (user_input[0] == '\0')
@@ -82,4 +82,4 @@ void	execute_child_process(t_shell *shell, char *str)
 	}
 	else
 		execute_binary(shell);
-}
+}*/

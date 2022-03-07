@@ -21,11 +21,11 @@ int		parsing(char *user_input, t_shell *shell)
 //	printf("\n");
 	if (join_clean_input(&shell->token, shell->type) < 0)
 		return (error_malloc(shell));
-	ft_double_free_list(&shell->type, 0);
+	ft_free_type(&shell->type);
 	if (tokenizer(shell->token, shell) < 0)
 		return (error_malloc(shell));
 	ft_double_print_list_char(shell->token);
-	ft_double_print_list_int(shell->type);
+	ft_print_type(shell->type);
 	look_for_grammar_error(shell->type, shell->fd_outfile, shell);
 	return (0);
 }
@@ -39,12 +39,12 @@ int		check_and_expand_input(t_shell *shell)
 {
 	if (look_for_word_in_type(shell->type, ERROR) == 1)
 	{
-		error_message("syntax", shell->fd_outfile);
+		error_message(SYNTAX, shell->fd_outfile);
 		return (g_signal);
 	}
 	if (look_for_word_in_type(shell->type, QUOTE) == 1)
 		single_quote_expansion(shell, shell->type, &shell->token);
-	if (look_for_word_in_type(shell->type, D_QUOTE) == 1)
+	if (look_for_word_in_type(shell->type,D_QUOTE) == 1)
 		double_quote_expansion(shell, shell->type, &shell->token);
 	if (look_for_word_in_type(shell->type, EXPAND) == 1)
 		expand_expansion(shell, shell->type, &shell->token);
@@ -59,7 +59,7 @@ int		check_and_expand_input(t_shell *shell)
  * * 3) a double quote, 4) an identifier and the next node if one of the 4 types
 */
 
-int		join_clean_input(t_double_list **token, t_double_list *type)
+int		join_clean_input(t_double_list **token, t_type *type)
 {
 	char	*str_temp;
 
@@ -74,7 +74,7 @@ int		join_clean_input(t_double_list **token, t_double_list *type)
 				(*token)->content = ft_strjoin(str_temp, (*token)->next->content);
 				free(str_temp);
 				delete_node(token, 1);
-				delete_node(&type, 0);
+				delete_type_node(&type);
 			}
 		}
 		if (type->next == NULL)
@@ -93,7 +93,7 @@ int		join_clean_input(t_double_list **token, t_double_list *type)
 	return (0);
 }
 
-void	look_for_grammar_error(t_double_list *type, int fd_outfile,
+void	look_for_grammar_error(t_type *type, int fd_outfile,
 		t_shell *shell)
 {
 	if (look_for_word_in_type(type, HEREDOC) == 0 &&
@@ -101,31 +101,12 @@ void	look_for_grammar_error(t_double_list *type, int fd_outfile,
 		 || type->content == EXPAND))
 	{
 		shell->command_count++;
-		return (error_message("command", fd_outfile));
+		return (error_message(COMMAND_ERROR, fd_outfile));
 	}
 	else if ((type->content == REDIR_RIGHT || type->content == REDIR_LEFT
 		|| type->content == HEREDOC || type->content == D_REDIR_RIGHT)
 		&& type->next == NULL)
-		return (error_message("syntaxe", fd_outfile));
+		return (error_message(SYNTAX, fd_outfile));
 	else if (type->content == PIPE)
-		return (error_message("syntaxe", fd_outfile));
-}
-
-char	**create_tab_from_linked_list(t_double_list *list)
-{
-	char	**tab_cpy;
-	int		i;
-
-	tab_cpy = malloc(sizeof(char *) * (ft_double_lstsize(list) + 1));
-	if (tab_cpy == NULL)
-		return (NULL);
-	i = 0;
-	while (list != NULL)
-	{
-		tab_cpy[i] = ft_strdup(list->content);
-		list = list->next;
-		i++;
-	}
-	tab_cpy[i] = NULL;
-	return (tab_cpy);
+		return (error_message(SYNTAX, fd_outfile));
 }
