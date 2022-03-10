@@ -20,6 +20,8 @@ void free_all(t_shell *shell)
 		ft_double_free_list(&shell->token, 1);
 	if (shell->type != NULL)
 		ft_free_type(&shell->type);
+	if (shell->command != NULL)
+		free_command(&shell->command);
 	rl_clear_history();
 }
 

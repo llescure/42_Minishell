@@ -28,7 +28,7 @@
 				&& shell->token_bis[shell->i + 1] != NULL
 				&& ft_strncmp(shell->type_bis[shell->i + 1], "equal",
 						ft_strlen("equal")) == 0)
-				return(error_message(EXPORT, shell->fd_outfile));
+				return(error_message(EXPORT_ERROR, shell->fd_outfile));
 			else if (ft_strncmp(shell->type_bis[shell->i], "white_space",
 						ft_strlen("white_space")) == 0)
 				create_lonely_env_variable(shell);
@@ -38,7 +38,7 @@
 		}
 		else if (ft_strncmp(shell->type_bis[shell->i], "equal",
 					ft_strlen("equal")) == 0)
-			return (error_message(EXPORT, shell->fd_outfile));
+			return (error_message(EXPORT_ERROR, shell->fd_outfile));
 		if (shell->token_bis[shell->i] == NULL)
 			break ;
 		shell->i++;

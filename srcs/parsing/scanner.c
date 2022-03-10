@@ -34,7 +34,7 @@ int	ft_end_lexeme(char *str, int pos, int quote_indication)
 		if (str[i] == '|')
 			return (delimit_separator(str, i, str[i], pos));
 		else if (ft_isredirections(str[i]) == 1)
-			return (delimit_separator(str, i, str[i], pos));
+			return (delimit_redirections(str, i, pos));
 		else if (str[i] == '=')
 			return (delimit_separator(str, i, str[i], pos));
 		else if (str[i] == '$')

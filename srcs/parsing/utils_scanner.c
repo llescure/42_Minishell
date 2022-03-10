@@ -76,3 +76,20 @@ int	delimit_expand(char *str, int pos, int initial_pos)
 		i++;
 	return (i);
 }
+
+int	delimit_redirections(char *str, int pos, int initial_pos)
+{
+	int	i;
+
+	if (ft_isredirections(str[initial_pos]) == 0)
+		return (pos);
+	i = pos;
+	while (ft_isredirections(str[i]) == 1)
+	i++;
+	while (ft_isspace(str[i]) == 1)
+	   i++;
+	while (ft_isspace(str[i]) == 0 && str[i] != '\0' &&
+			(ft_isalnum(str[i]) == 1 || ft_isredirections(str[i]) == 1))
+		i++;
+	return (i);
+}

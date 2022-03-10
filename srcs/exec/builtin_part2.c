@@ -1,34 +1,37 @@
 #include "../../include/minishell.h"
 
-/*void	ft_exit(t_shell *shell)
+void	ft_exit(t_shell *shell, t_type *type, t_double_list *token)
 {
-	shell->i++;
-	exit_basic_case(shell);
-	while (shell->token_bis[shell->i] != NULL &&
-			ft_strncmp(shell->type_bis[shell->i], "white_space",
-				ft_strlen("white_space")) == 0)
-		shell->i++;
-	exit_basic_case(shell);
-	if (is_number(shell->token_bis[shell->i]) == 1)
-		g_signal = ft_atoi(shell->token_bis[shell->i]);
-	else if (is_number(shell->token_bis[shell->i]) == 0)
+	type = type->next;
+	token = token->next;
+	exit_basic_case(shell, type, token);
+	while (token != NULL && type->content != WHITE_SPACE)
+	{
+		token = token->next;
+		type = type->next;
+	}
+	exit_basic_case(shell, type, token);
+	if (is_number(token->content) == 1)
+		g_signal = ft_atoi(token->content);
+	else if (is_number(token->content) == 0)
 	{
 		ft_putstr_fd("exit\n", shell->fd_outfile);
-		error_message(EXIT, shell->fd_outfile);
+		error_message(EXIT_ERROR, shell->fd_outfile);
 		free_all(shell);
 		exit(g_signal);
 	}
-	shell->i++;
-	if (check_number_of_arguments(shell) != 0)
+	type = type->next;
+	token = token->next;
+	if (check_number_of_arguments(shell, type, token) != 0)
 		exit(g_signal);
 	free_all(shell);
 	ft_putstr_fd("exit\n", shell->fd_outfile);
 	exit(g_signal % 256);
 }
 
-void	exit_basic_case(t_shell *shell)
+void	exit_basic_case(t_shell *shell, t_type *type, t_double_list *token)
 {
-	if (shell->token_bis[shell->i] == NULL)
+	if (token == NULL)
 	{
 		ft_putstr_fd("exit\n", shell->fd_outfile);
 		free_all(shell);
@@ -36,19 +39,20 @@ void	exit_basic_case(t_shell *shell)
 	}
 }
 
-int	check_number_of_arguments(t_shell *shell)
+int	check_number_of_arguments(t_shell *shell, t_type *type,
+		t_double_list *token)
 {
-	while (shell->token_bis[shell->i] != NULL)
+	while (token != NULL)
 	{
-		if (ft_strncmp(shell->type_bis[shell->i], "white_space",
-					ft_strlen("white_space")) != 0)
+		if (type->content == WHITE_SPACE)
 		{
 			ft_putstr_fd("exit\n", shell->fd_outfile);
 			error_message(ARGUMENTS, shell->fd_outfile);
 			free_all(shell);
 			return (g_signal);;
 		}
-		shell->i++;
+		type = type->next;
+		token = token->next;
 	}
 	return (0);
 }
@@ -79,7 +83,7 @@ void	ft_unset(t_shell *shell)
 	if (shell->token_bis[shell->i] != NULL
 		&& ft_strncmp(shell->type_bis[shell->i], "equal",
 		ft_strlen("equal")) == 0)
-		error_message(EXPORT, shell->fd_outfile);
+		error_message(EXPORT_ERROR, shell->fd_outfile);
 }
 
 void	delete_env_variable(t_shell *shell, char *env_to_delete)
@@ -112,4 +116,4 @@ void	delete_env_variable(t_shell *shell, char *env_to_delete)
 		free_tab(shell->path);
 	shell->path = NULL;
 	create_env_tab(shell);
-}*/
+}

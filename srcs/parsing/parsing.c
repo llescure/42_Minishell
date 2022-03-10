@@ -14,19 +14,22 @@ int		parsing(char *user_input, t_shell *shell)
 		return (error_malloc(shell));
 	if (tokenizer(shell->token, shell) < 0)
 		return (error_malloc(shell));
-//	ft_double_print_list(shell->token);
-//	ft_double_print_list(shell->type);
-	if (check_and_expand_input(shell) != 0)
+//	ft_double_print_list_char(shell->token);
+//	ft_print_type(shell->type);
+	if (clean_input(shell) != 0)
 		return (g_signal);
 //	printf("\n");
 	if (join_clean_input(&shell->token, shell->type) < 0)
 		return (error_malloc(shell));
+	ft_double_print_list_char(shell->token);
+	ft_print_type(shell->type);
 	ft_free_type(&shell->type);
 	if (tokenizer(shell->token, shell) < 0)
 		return (error_malloc(shell));
-	ft_double_print_list_char(shell->token);
-	ft_print_type(shell->type);
-	look_for_grammar_error(shell->type, shell->fd_outfile, shell);
+	if (look_for_grammar_error(shell->type, shell) != 0)
+		return (g_signal);
+	if (initialization_command(shell->type, shell->token, shell) < 0)
+		return (error_malloc(shell));
 	return (0);
 }
 
@@ -35,16 +38,16 @@ int		parsing(char *user_input, t_shell *shell)
  * * does quote and identifier expansion
 */
 
-int		check_and_expand_input(t_shell *shell)
+int		clean_input(t_shell *shell)
 {
 	if (look_for_word_in_type(shell->type, ERROR) == 1)
 	{
 		error_message(SYNTAX, shell->fd_outfile);
-		return (g_signal);
+		return (1);
 	}
 	if (look_for_word_in_type(shell->type, QUOTE) == 1)
 		single_quote_expansion(shell, shell->type, &shell->token);
-	if (look_for_word_in_type(shell->type,D_QUOTE) == 1)
+	if (look_for_word_in_type(shell->type, D_QUOTE) == 1)
 		double_quote_expansion(shell, shell->type, &shell->token);
 	if (look_for_word_in_type(shell->type, EXPAND) == 1)
 		expand_expansion(shell, shell->type, &shell->token);
@@ -93,20 +96,27 @@ int		join_clean_input(t_double_list **token, t_type *type)
 	return (0);
 }
 
-void	look_for_grammar_error(t_type *type, int fd_outfile,
-		t_shell *shell)
+int		look_for_grammar_error(t_type *type, t_shell *shell)
 {
 	if (look_for_word_in_type(type, HEREDOC) == 0 &&
 		(type->content == COMMAND_OPTION || type->content == WORD
 		 || type->content == EXPAND))
 	{
 		shell->command_count++;
-		return (error_message(COMMAND_ERROR, fd_outfile));
+		error_message(COMMAND_ERROR, shell->fd_outfile);
+		return (g_signal);
 	}
 	else if ((type->content == REDIR_RIGHT || type->content == REDIR_LEFT
 		|| type->content == HEREDOC || type->content == D_REDIR_RIGHT)
-		&& type->next == NULL)
-		return (error_message(SYNTAX, fd_outfile));
-	else if (type->content == PIPE)
-		return (error_message(SYNTAX, fd_outfile));
+		&& type->next->content == WHITE_SPACE)
+	{
+		error_message(SYNTAX, shell->fd_outfile);
+		return (g_signal);
+	}
+	else if (type->content == PIPE && type->next == NULL)
+	{
+		error_message(SYNTAX, shell->fd_outfile);
+		return (g_signal);
+	}
+	return (0);
 }

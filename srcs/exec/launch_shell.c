@@ -11,6 +11,7 @@ int prompt(char **user_input, t_shell *shell)
 		{
 			ft_double_free_list(&shell->token, 1);
 			ft_free_type(&shell->type);
+			free_command(&shell->command);
 		}
 		free(lign);
 		lign = NULL;
@@ -35,14 +36,16 @@ int	launch_shell(t_shell *shell)
 	user_input = NULL;
 	shell->token = NULL;
 	shell->type = NULL;
+	shell->command = NULL;
 	signal(SIGINT, handle_signals);
 	signal(SIGQUIT, handle_signals);
 	while (1)
 	{
 		if (prompt(&user_input, shell) != 0)
 			return (g_signal);
-		if (parsing(user_input, shell) != 0)
+		if (parsing(user_input, shell) < 0)
 			return (g_signal);
-//		execute_input(shell, user_input, shell->type, shell->token);
+		if (user_input != '\0')
+			execute_input(shell, shell->type, shell->token, shell->command);
 	}
 }

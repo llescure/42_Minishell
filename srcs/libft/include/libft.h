@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 20:02:11 by llescure          #+#    #+#             */
-/*   Updated: 2022/03/07 18:37:12 by llescure         ###   ########.fr       */
+/*   Updated: 2022/03/09 17:18:31 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef enum	e_category
 typedef struct	s_type
 {
 	t_category		content;
+	int				id;
 	struct s_type	*next;
 	struct s_type	*previous;
 }				t_type;
@@ -186,7 +187,7 @@ char			*get_temp(char *str, int c);
  ** Home_made_stuct
 */
 
-t_type	*ft_type_new(t_category content);
+t_type	*ft_type_new(t_category content, int id);
 void	ft_free_type(t_type **list);
 void	ft_type_add_back(t_type **alst, t_type *new);
 void	ft_print_type(t_type *lst);

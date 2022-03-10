@@ -1,33 +1,31 @@
 #include "../../include/minishell.h"
 
-/*void	ft_echo(t_shell *shell)
+void	ft_echo(t_shell *shell, t_type *type, t_double_list *token)
 {
 	char	*str;
 	char	*temp;
-	char	*type;
 	int	command_option_active;
 
-	shell->i++;
-	if (handle_cases_other_than_words(shell, &command_option_active) != 0)
+	type = type->next;
+	token = token->next;
+	command_option_active = handle_cases_other_than_words(shell, type, token);
+	if (command_option_active < 0)
 		return ;
 	str = ft_strdup("");
-	while (shell->type_bis[shell->i] != NULL)
+	while (type != NULL && token != NULL)
 	{
-		type = shell->type_bis[shell->i];
-		if (ft_strncmp(type, "pipe", ft_strlen("pipe")) == 0)
+		if (type->content == PIPE)
 			return ;
-		else if (ft_strncmp(type, "word", ft_strlen("word")) == 0
-			|| ft_strncmp(type, "white_space", ft_strlen("white_space")) == 0
-			|| ft_strncmp(type, "single_quote", ft_strlen("single_quote")) == 0
-			|| ft_strncmp(type, "double_quote", ft_strlen("double_quote")) == 0
-			|| ft_strncmp(type, "expand", ft_strlen("expand")) == 0
-			|| ft_strncmp(type, "command", ft_strlen("command")) == 0)
+		else if (type->content == WORD || type->content == WHITE_SPACE
+			|| type->content == QUOTE || type->content == D_QUOTE
+			|| type->content == EXPAND || type->content == COMMAND)
 		{
 			temp = str;
 			str = ft_strjoin(str, shell->token_bis[shell->i]);
 			free(temp);
 		}
-		shell->i++;
+		type = type->next;
+		token = token->next;
 	}
 	ft_putstr_fd(str, shell->fd_outfile);
 	if (command_option_active == 0)
@@ -36,33 +34,31 @@
 	exit(g_signal);
 }
 
-int	handle_cases_other_than_words(t_shell *shell,
-		int *command_option_active)
+int	handle_cases_other_than_words(t_shell *shell, t_type *type,
+		t_double_list *token)
 {
-	*command_option_active = 0;
-	if (shell->token_bis[shell->i] == NULL)
+	int	command_option_active;
+
+	command_option_active = 0;
+	if (token == NULL)
 	{
 		ft_putstr_fd("\n", shell->fd_outfile);
 		return (-1);
 	}
-	shell->i++;
-	while (shell->type_bis[shell->i] != NULL &&
-			((ft_strncmp(shell->type_bis[shell->i], "command_option",
-						 ft_strlen("command_option")) == 0
-			  && number_occurence_cara_in_str(shell->token_bis[shell->i], 'n')
-			  == (int)ft_strlen(shell->token_bis[shell->i]) - 1)
-			 || (ft_strncmp(shell->token_bis[shell->i], " ",
-					 ft_strlen(shell->token_bis[shell->i])) == 0)))
+	while (type != NULL && (type->content == COMMAND_OPTION
+		&& number_occurence_cara_in_str(token->content, 'n')
+		== (int)ft_strlen(token->content) - 1)
+		|| (ft_strncmp(token->content, " ", ft_strlen(token->content)) == 0))
 	{
-		if (ft_strncmp(shell->type_bis[shell->i], "command_option",
-					ft_strlen("command_option")) == 0)
-			*command_option_active = 1;
-		shell->i++;
+		if (type->content == COMMAND_OPTION)
+			command_option_active = 1;
+		token = token->next;
+		type = type->next;
 	}
-	return (0);
+	return (command_option_active);
 }
 
-void ft_pwd(t_shell *shell)
+void	ft_pwd(t_shell *shell)
 {
 	char cwd[PATH_MAX];
 
@@ -77,23 +73,25 @@ void ft_pwd(t_shell *shell)
 	exit(g_signal);
 }
 
-void	ft_cd(t_shell *shell)
+void	ft_cd(t_shell *shell, t_type *type, t_double_list *token)
 {
 	int	return_value;
 
-	shell->i++;
-	while (shell->token_bis[shell->i] != NULL &&
-			ft_strncmp(shell->type_bis[shell->i], "white_space",
-				ft_strlen("white_space")) == 0)
-		shell->i++;
-	if (shell->token_bis[shell->i] == NULL)
+	type = type->next;
+	token = token->next;
+	while (token != NULL && type != NULL && type->content == WHITE_SPACE)
+	{
+		type = type->next;
+		token = token->next;
+	}
+	if (token == NULL)
 		chdir(shell->absolute_path);
-	return_value = chdir(shell->token_bis[shell->i]);
+	return_value = chdir(token->content);
 	if (return_value == -1)
-		error_message(FILES, shell->fd_outfile);
+		error_message(FILES, 1);
 }
 
-void	execute_binary(t_shell *shell)
+void	execute_binary(t_shell *shell, t_type *type, t_double_list *token)
 {
 	char	*temp;
 	char	**command;
@@ -104,7 +102,7 @@ void	execute_binary(t_shell *shell)
 		shell->path = NULL;
 	}
 	set_path(shell);
-	command = create_binary(shell);
+	command = create_binary(shell, type, token);
 	if (command == NULL)
 	{
 		error_message(MALLOC, 0);
@@ -125,66 +123,56 @@ void	execute_binary(t_shell *shell)
 	free_tab(command);
 }
 
-char	**create_binary(t_shell *shell)
+char	**create_binary(t_shell *shell, t_type *type, t_double_list *token)
 {
 	char	**command;
 	int		i;
 
-	command = malloc(sizeof(char *) * (command_lenght(shell, shell->i) + 1));
+	command = malloc(sizeof(char *) * (command_lenght(shell, type, token) + 1));
 	if (command == NULL)
 		return (NULL);
 	i = 0;
-	while (shell->token_bis[shell->i] != NULL
-		&& (ft_strncmp(shell->type_bis[shell->i], "white_space",
-				ft_strlen("white_space")) == 0
-		|| ft_strncmp(shell->type_bis[shell->i], "command_option",
-				ft_strlen("command_option")) == 0
-		|| ft_strncmp(shell->type_bis[shell->i], "command",
-				ft_strlen("command")) == 0
-		|| ft_strncmp(shell->type_bis[shell->i], "word",
-				ft_strlen("word")) == 0))
+	while (token != NULL && (type->content == WHITE_SPACE
+		|| type->content == COMMAND_OPTION || type->content == COMMAND
+		|| type->content == WORD))
 	{
-		if (ft_strncmp(shell->type_bis[shell->i], "white_space",
-				ft_strlen("white_space")) == 0)
-			shell->i++;
+		if (type->content == WHITE_SPACE)
+		{
+			type = type->next;
+			token = token->next;
+		}
 		if (shell->token_bis[shell->i] == NULL
-			|| (ft_strncmp(shell->type_bis[shell->i], "word",
-				ft_strlen("word")) != 0
-			&&	ft_strncmp(shell->type_bis[shell->i], "command_option",
-				ft_strlen("command_option")) != 0
-			&&	ft_strncmp(shell->type_bis[shell->i], "command",
-				ft_strlen("command")) != 0))
+			|| (type->content != WORD && type->content != COMMAND_OPTION
+			&&	type->content != COMMAND))
 			break;
-		command[i] = ft_strdup(shell->token_bis[shell->i]);
-		shell->i++;
+		command[i] = ft_strdup(token->content);
+		type = type->next;
+		token = token->next;
 		i++;
 	}
 	command[i] = NULL;
 	return (command);
 }
 
-int		command_lenght(t_shell *shell, int index)
+int		command_lenght(t_shell *shell, t_type *type, t_double_list *token)
 {
 	int	size;
 
 	size = 1;
-	while (shell->token_bis[index] != NULL
-		&& (ft_strncmp(shell->type_bis[index], "white_space",
-				ft_strlen("white_space")) == 0
-		|| ft_strncmp(shell->type_bis[index], "command_option",
-				ft_strlen("command_option")) == 0
-		|| ft_strncmp(shell->type_bis[index], "command",
-				ft_strlen("command")) == 0
-		|| ft_strncmp(shell->type_bis[index], "word",
-				ft_strlen("word")) == 0))
+	while (token != NULL && (type->content == WHITE_SPACE
+		|| type->content == COMMAND_OPTION || type->content == COMMAND
+		|| type->content == WORD))
 	{
-		if (ft_strncmp(shell->type_bis[index], "white_space",
-				ft_strlen("white_space")) == 0)
-			index++;
-		if (shell->token_bis[index] == NULL)
+		if (type->content == WHITE_SPACE)
+		{
+			type = type->next;
+			token = token->next;
+		}
+			if (shell->token_bis[index] == NULL)
 			break;
 		size++;
-		index++;
+		type = type->next;
+		token = token->next;
 	}
 	return (size);
-}*/
+}

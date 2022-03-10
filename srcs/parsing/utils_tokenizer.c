@@ -1,23 +1,23 @@
 #include "../../include/minishell.h"
 
-void	check_first_special_cara(char *str, t_type **type)
+void	check_first_special_cara(char *str, t_type **type, int id)
 {
 	if (number_occurence_cara_in_str(str, '$') >= 1)
-		*type = ft_type_new(EXPAND);
+		*type = ft_type_new(EXPAND, id);
 	else if (str[0] == '=')
-		*type = ft_type_new(EQUAL);
+		*type = ft_type_new(EQUAL, id);
 	else if (str[0] == '-' && ft_isalnum(str[1]) == 1)
-		*type = ft_type_new(COMMAND_OPTION);
+		*type = ft_type_new(COMMAND_OPTION, id);
 }
 
-void	check_special_cara(char *str, t_type **type)
+void	check_special_cara(char *str, t_type **type, int id)
 {
 	if (number_occurence_cara_in_str(str, '$') >= 1)
-		ft_type_add_back(type, ft_type_new(EXPAND));
+		ft_type_add_back(type, ft_type_new(EXPAND, id));
 	else if (str[0] == '=')
-		ft_type_add_back(type, ft_type_new(EQUAL));
+		ft_type_add_back(type, ft_type_new(EQUAL, id));
 	else if (str[0] == '-' && ft_isalnum(str[1]) == 1)
-		ft_type_add_back(type, ft_type_new(COMMAND_OPTION));
+		ft_type_add_back(type, ft_type_new(COMMAND_OPTION, id));
 }
 
 int		check_command(char *str, t_shell *shell)
@@ -35,6 +35,7 @@ int		check_command(char *str, t_shell *shell)
 			&& ft_strncmp(str, "export", ft_strlen(str)) == 0)
 		|| (ft_strncmp(str, "unset", ft_strlen("unset")) == 0
 			&& ft_strncmp(str, "unset", ft_strlen(str)) == 0)
+		|| (ft_strncmp(str, "./", ft_strlen("./")) == 0)
 		|| (ft_strncmp(str, "env", ft_strlen("env")) == 0
 			&& ft_strncmp(str, "env", ft_strlen(str)) == 0))
 		return (1);
@@ -53,34 +54,60 @@ int		check_command(char *str, t_shell *shell)
 	return (0);
 }
 
-void	check_first_redirection(char *str, t_type **type)
+void	check_first_redirection(char *str, t_type **type, int id)
 {
-	if (str[0] == '<' && str[1] == '\0')
-		*type = ft_type_new(REDIR_LEFT);
-	else if (str[0] == '<' && str[1] == '<' && str[2] == '\0')
-		*type = ft_type_new(HEREDOC);
-	else if (str[0] == '<' && str[1] == '<' && str[2] == '<')
-		*type = ft_type_new(ERROR);
-	else if (str[0] == '>' && str[1] == '\0')
-		*type = ft_type_new(REDIR_RIGHT);
-	else if (str[0] == '>' && str[1] == '>' && str[2] == '\0')
-		*type = ft_type_new(D_REDIR_RIGHT);
-	else if (str[0] == '>' && str[1] == '>' && str[2] == '>')
-		*type = ft_type_new(ERROR);
+	int	i;
+	t_category	category;
+
+	i = 1;
+	if (str[0] == '<')
+		category = REDIR_LEFT;
+	else if (str[0] == '>')
+		category = REDIR_RIGHT;
+	if (str[0] == '<' && str[1] == '<')
+		category = HEREDOC;
+	if (str[0] == '>' && str[1] == '>')
+		category = D_REDIR_RIGHT;
+	if	((str[0] == '<' && str[1] == '<' && str[2] == '<')
+	 	|| (str[0] == '>' && str[1] == '>' && str[2] == '>')
+	 	|| (str[0] == '>' && str[1] == '<')
+	 	|| (str[0] == '<' && str[1] == '>')
+	 	|| (str[0] == '<' && str[1] == '<' && str[2] == '>')
+	 	|| (str[0] == '>' && str[1] == '>' && str[2] == '<'))
+		category = ERROR;
+	while (str[i] != '\0' && ft_isalnum(str[i]) == 0)
+		i++;
+	if (str[i] == '\0')
+		*type = ft_type_new(ERROR, id);
+	else
+		*type = ft_type_new(category, id);
 }
 
-void	check_redirection(char *str, t_type **type)
+void	check_redirection(char *str, t_type **type, int id)
 {
-	if (str[0] == '<' && str[1] == '\0')
-		ft_type_add_back(type, ft_type_new(REDIR_LEFT));
-	else if (str[0] == '<' && str[1] == '<' && str[2] == '\0')
-		ft_type_add_back(type, ft_type_new(HEREDOC));
-	else if (str[0] == '<' && str[1] == '<' && str[2] == '<')
-		ft_type_add_back(type, ft_type_new(ERROR));
-	else if (str[0] == '>' && str[1] == '\0')
-		ft_type_add_back(type, ft_type_new(REDIR_RIGHT));
-	else if (str[0] == '>' && str[1] == '>' && str[2] == '\0')
-		ft_type_add_back(type, ft_type_new(D_REDIR_RIGHT));
-	else if (str[0] == '>' && str[1] == '>' && str[2] == '>')
-		ft_type_add_back(type, ft_type_new(ERROR));
+	int	i;
+	t_category	category;
+
+	i = 1;
+	if (str[0] == '<')
+		category = REDIR_LEFT;
+	else if (str[0] == '>')
+		category = REDIR_RIGHT;
+	if (str[0] == '<' && str[1] == '<')
+		category = HEREDOC;
+	if (str[0] == '>' && str[1] == '>')
+		category = D_REDIR_RIGHT;
+	if	((str[0] == '<' && str[1] == '<' && str[2] == '<')
+	 	|| (str[0] == '>' && str[1] == '>' && str[2] == '>')
+	 	|| (str[0] == '>' && str[1] == '<')
+	 	|| (str[0] == '<' && str[1] == '>')
+	 	|| (str[0] == '<' && str[1] == '<' && str[2] == '>')
+	 	|| (str[0] == '>' && str[1] == '>' && str[2] == '<'))
+		category = ERROR;
+	while (str[i] != '\0' && ft_isalnum(str[i]) == 0)
+		i++;
+	if (str[i] == '\0')
+		ft_type_add_back(type, ft_type_new(ERROR, id));
+	else
+		ft_type_add_back(type, ft_type_new(category, id));
 }

@@ -19,10 +19,10 @@ void	error_message(t_error str, int fd_outfile)
 		return (display_message("bash: invalid option\n", 2, fd_outfile));
 	else if (str == ARGUMENTS)
 		return (display_message("bash: too many arguments\n", 1, fd_outfile));
-	else if (str == EXPORT)
+	else if (str == EXPORT_ERROR)
 		return (display_message("bash: export: not a valid identifier\n", 1,
 					fd_outfile));
-	else if (str == EXIT)
+	else if (str == EXIT_ERROR)
 		return (display_message("bash: exit: numeric argument required\n", 2,
 					fd_outfile));
 	else if (str == MALLOC)
