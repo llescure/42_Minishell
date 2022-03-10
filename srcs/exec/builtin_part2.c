@@ -1,4 +1,4 @@
-#include "../../include/minishell.h"
+/*#include "../../include/minishell.h"
 
 void	ft_exit(t_shell *shell, t_type *type, t_double_list *token)
 {
@@ -116,4 +116,4 @@ void	delete_env_variable(t_shell *shell, char *env_to_delete)
 		free_tab(shell->path);
 	shell->path = NULL;
 	create_env_tab(shell);
-}
+}*/

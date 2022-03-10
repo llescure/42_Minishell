@@ -6,7 +6,7 @@
 #    By: llescure <llescure@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/26 17:55:58 by llescure          #+#    #+#              #
-#    Updated: 2022/03/09 17:27:08 by llescure         ###   ########.fr        #
+#    Updated: 2022/03/10 10:39:45 by llescure         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,11 +78,6 @@ SRCS = srcs/convert/ft_itoa.c \
 		srcs/double_linked_lists/ft_double_lstsize.c \
 		srcs/double_linked_lists/ft_double_print_list.c \
 		srcs/double_linked_lists/ft_double_free.c \
-		srcs/home_made_struct/ft_free_type.c \
-		srcs/home_made_struct/ft_print_type.c \
-		srcs/home_made_struct/ft_type_add_back.c \
-		srcs/home_made_struct/ft_type_new.c \
-		srcs/home_made_struct/delete_type_node.c \
 
 HEADER = ../libft.h
 

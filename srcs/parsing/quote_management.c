@@ -1,4 +1,4 @@
-#include "../../include/minishell.h"
+/*#include "../../include/minishell.h"
 
 void	single_quote_expansion(t_shell *shell, t_type *type,
 		t_double_list **token)
@@ -10,7 +10,7 @@ void	double_quote_expansion(t_shell *shell, t_type *type,
 		t_double_list **token)
 {
 	quote_expansion(shell, type, token, D_QUOTE);
-}
+}*/
 
 /*
  ** This function spots all the occurence of quotes in the user_input string,
@@ -18,7 +18,7 @@ void	double_quote_expansion(t_shell *shell, t_type *type,
  ** freed. It also makes sure that there is not other expansion character.
  */
 
-void	quote_expansion(t_shell *shell, t_type *type,
+/*void	quote_expansion(t_shell *shell, t_type *type,
 		t_double_list **token, t_category category_expansion)
 {
 
@@ -62,4 +62,4 @@ char	*remove_cara(char *str, char type_cara_to_delete)
 		return (NULL);
 	ft_strlcpy_without_cara(cpy, str, type_cara_to_delete);
 	return (cpy);
-}
+}*/

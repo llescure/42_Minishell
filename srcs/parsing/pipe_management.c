@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-void	define_pipe_input_output(t_command *command, t_type *type, int id)
+/*void	define_pipe_input_output(t_command *command, t_type *type, int id)
 {
 	command->pipe_input = 0;
 	command->pipe_output = 0;
@@ -48,4 +48,4 @@ void	look_for_pipe_after_command(t_command *command, t_type *type, int id)
 		}
 		type = type->next;
 	}
-}
+}*/

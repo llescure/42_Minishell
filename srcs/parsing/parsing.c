@@ -12,49 +12,45 @@ int		parsing(char *user_input, t_shell *shell)
 		return (0);
 	if (scanner(user_input, shell) < 0)
 		return (error_malloc(shell));
-	if (tokenizer(shell->token, shell) < 0)
+	print_token(shell->token);
+/*	if (tokenizer(shell->token, shell) < 0)
 		return (error_malloc(shell));
-//	ft_double_print_list_char(shell->token);
-//	ft_print_type(shell->type);
 	if (clean_input(shell) != 0)
 		return (g_signal);
 //	printf("\n");
-	if (join_clean_input(&shell->token, shell->type) < 0)
+	if (join_clean_input(&shell->token) < 0)
 		return (error_malloc(shell));
-	ft_double_print_list_char(shell->token);
-	ft_print_type(shell->type);
-	ft_free_type(&shell->type);
 	if (tokenizer(shell->token, shell) < 0)
 		return (error_malloc(shell));
-	if (look_for_grammar_error(shell->type, shell) != 0)
+	if (look_for_grammar_error(shell->token, shell) != 0)
 		return (g_signal);
-	if (initialization_command(shell->type, shell->token, shell) < 0)
+	if (initialization_command(shell->token, shell) < 0)
 		return (error_malloc(shell));
 	return (0);
-}
+}*/
 
 /*
  * * This function checks if any error in the token was noticed +
  * * does quote and identifier expansion
 */
 
-int		clean_input(t_shell *shell)
+/*int		clean_input(t_shell *shell)
 {
-	if (look_for_word_in_type(shell->type, ERROR) == 1)
+	if (look_for_word_in_type(shell->token, ERROR) == 1)
 	{
 		error_message(SYNTAX, shell->fd_outfile);
 		return (1);
 	}
-	if (look_for_word_in_type(shell->type, QUOTE) == 1)
-		single_quote_expansion(shell, shell->type, &shell->token);
-	if (look_for_word_in_type(shell->type, D_QUOTE) == 1)
-		double_quote_expansion(shell, shell->type, &shell->token);
-	if (look_for_word_in_type(shell->type, EXPAND) == 1)
-		expand_expansion(shell, shell->type, &shell->token);
+	if (look_for_word_in_type(shell->token, QUOTE) == 1)
+		single_quote_expansion(shell, &shell->token);
+	if (look_for_word_in_type(shell->token, D_QUOTE) == 1)
+		double_quote_expansion(shell, &shell->token);
+	if (look_for_word_in_type(shell->token, EXPAND) == 1)
+		expand_expansion(shell, &shell->token);
 	if (g_signal < 0)
 		return(error_malloc(shell));
 	return (0);
-}
+}*/
 
 /*
  * * This function joins the node of the linked list after expansion.
@@ -62,33 +58,31 @@ int		clean_input(t_shell *shell)
  * * 3) a double quote, 4) an identifier and the next node if one of the 4 types
 */
 
-int		join_clean_input(t_double_list **token, t_type *type)
+/*int		join_clean_input(t_token **token)
 {
 	char	*str_temp;
 
-	while (type->next != NULL)
+	while (token->next != NULL)
 	{
-		if (special_condition_cara_is_respected(type->content) == 1)
+		if (special_condition_cara_is_respected(token->type) == 1)
 		{
 			while (type->next != NULL &&
-				special_condition_cara_is_respected(type->next->content) == 1)
+				special_condition_cara_is_respected(token->next->type) == 1)
 			{
 				str_temp = (*token)->content;
 				(*token)->content = ft_strjoin(str_temp, (*token)->next->content);
 				free(str_temp);
-				delete_node(token, 1);
-				delete_type_node(&type);
+				delete_token_node(token);
 			}
 		}
-		if (type->next == NULL)
+		if (token->next == NULL)
 			break;
-		if (type->content == WHITE_SPACE)
+		if (token->type == WHITE_SPACE)
 		{
 			str_temp = (*token)->content;
 			(*token)->content = ft_strdup(" ");
 			free(str_temp);
 		}
-		type = type->next;
 		*token = (*token)->next;
 	}
 	while ((*token)->previous != NULL)
@@ -96,27 +90,27 @@ int		join_clean_input(t_double_list **token, t_type *type)
 	return (0);
 }
 
-int		look_for_grammar_error(t_type *type, t_shell *shell)
+int		look_for_grammar_error(t_token *token, t_shell *shell)
 {
-	if (look_for_word_in_type(type, HEREDOC) == 0 &&
-		(type->content == COMMAND_OPTION || type->content == WORD
-		 || type->content == EXPAND))
+	if (look_for_word_in_type(token, HEREDOC) == 0 &&
+		(token->type == COMMAND_OPTION || token->type == WORD
+		 || token->type == EXPAND))
 	{
 		shell->command_count++;
 		error_message(COMMAND_ERROR, shell->fd_outfile);
 		return (g_signal);
 	}
-	else if ((type->content == REDIR_RIGHT || type->content == REDIR_LEFT
-		|| type->content == HEREDOC || type->content == D_REDIR_RIGHT)
-		&& type->next->content == WHITE_SPACE)
+	else if ((token->type == REDIR_RIGHT || token->type == REDIR_LEFT
+		|| token->type == HEREDOC || token->type == D_REDIR_RIGHT)
+		&& token->next->type == WHITE_SPACE)
 	{
 		error_message(SYNTAX, shell->fd_outfile);
 		return (g_signal);
 	}
-	else if (type->content == PIPE && type->next == NULL)
+	else if (token->type == PIPE && token->next->type == NULL)
 	{
 		error_message(SYNTAX, shell->fd_outfile);
 		return (g_signal);
 	}
 	return (0);
-}
+}*/

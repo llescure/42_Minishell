@@ -1,4 +1,4 @@
-#include "../../include/minishell.h"
+/*#include "../../include/minishell.h"
 
 void	check_first_special_cara(char *str, t_type **type, int id)
 {
@@ -110,4 +110,4 @@ void	check_redirection(char *str, t_type **type, int id)
 		ft_type_add_back(type, ft_type_new(ERROR, id));
 	else
 		ft_type_add_back(type, ft_type_new(category, id));
-}
+}*/

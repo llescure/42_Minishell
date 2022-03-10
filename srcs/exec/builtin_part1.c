@@ -1,4 +1,4 @@
-#include "../../include/minishell.h"
+/*#include "../../include/minishell.h"
 
 void	ft_echo(t_shell *shell, t_type *type, t_double_list *token)
 {
@@ -175,4 +175,4 @@ int		command_lenght(t_shell *shell, t_type *type, t_double_list *token)
 		token = token->next;
 	}
 	return (size);
-}
+}*/

@@ -1,4 +1,4 @@
-#include "../../include/minishell.h"
+/*#include "../../include/minishell.h"
 
 void	expand_expansion(t_shell *shell, t_type *type, t_double_list **token)
 {
@@ -14,7 +14,7 @@ void	expand_expansion(t_shell *shell, t_type *type, t_double_list **token)
 		expansion_cases(shell, &(*token)->content);
 	while ((*token)->previous != NULL)
 		*token = (*token)->previous;
-}
+}*/
 
 /*
  ** This function evaluates if the string has double quotes or just an
@@ -22,7 +22,7 @@ void	expand_expansion(t_shell *shell, t_type *type, t_double_list **token)
  ** the different double quoted part at the end
  */
 
-void	expansion_cases(t_shell *shell, void **str)
+/*void	expansion_cases(t_shell *shell, void **str)
 {
 	char	*temp;
 	char	**tab_for_quotes;
@@ -49,7 +49,7 @@ void	expansion_cases(t_shell *shell, void **str)
 		*str = tab_joined;
 		free(temp);
 	}
-}
+}*/
 
 /*
  ** This function handles the different cases of expansion:
@@ -63,7 +63,7 @@ void	expansion_cases(t_shell *shell, void **str)
  ** join back the string
  */
 
-void	get_identifier(t_shell *shell, char **str)
+/*void	get_identifier(t_shell *shell, char **str)
 {
 	char	*temp;
 	char	*temp2;
@@ -110,7 +110,7 @@ void	identifier_cases(char **str_to_change, char *original_str, char *temp2,
 		*str_to_change = ft_strdup("");
 	if (temp2 != NULL)
 		free(temp2);
-}
+}*/
 
 /*
  ** This function checks if the variable given in parameter actually exists
@@ -118,7 +118,7 @@ void	identifier_cases(char **str_to_change, char *original_str, char *temp2,
  ** env variable is equal inside env
  */
 
-char	*expand_env_variable(char *variable_to_find, t_env *env)
+/*char	*expand_env_variable(char *variable_to_find, t_env *env)
 {
 	int	i;
 
@@ -133,14 +133,14 @@ char	*expand_env_variable(char *variable_to_find, t_env *env)
 		i++;
 	}
 	return (NULL);
-}
+}*/
 
 /*
  ** This function splits the string into a tab if it encounters a $
  ** or simple quote
  */
 
-char	**split_expand(char *str, char cara)
+/*char	**split_expand(char *str, char cara)
 {
 	int		j;
 	int		i;
@@ -162,4 +162,4 @@ char	**split_expand(char *str, char cara)
 	}
 	tab[j] = NULL;
 	return (tab);
-}
+}*/

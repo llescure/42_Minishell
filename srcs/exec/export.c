@@ -1,6 +1,6 @@
-#include "../../include/minishell.h"
+/*#include "../../include/minishell.h"
 
-/*void	ft_export(t_shell *shell)
+void	ft_export(t_shell *shell)
 {
 	shell->i++;
 	if (export_without_argument(shell) == 1)

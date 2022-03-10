@@ -1,4 +1,4 @@
-#include "../../include/minishell.h"
+/*#include "../../include/minishell.h"
 
 int		execute_input(t_shell *shell, t_type *type, t_double_list *token,
 		t_command *command)
@@ -63,4 +63,4 @@ void	execute_child_process(t_shell *shell, t_type *type,
 	}
 	else
 		execute_binary(shell, type, token, command);
-}
+}*/

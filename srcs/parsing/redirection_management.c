@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-int		attach_redirections_to_command(t_command *command, t_type *type,
+/*int		attach_redirections_to_command(t_command *command, t_type *type,
 		t_double_list *token)
 {
 	t_redirection	*redirection;
@@ -137,4 +137,4 @@ void	print_redirection(t_redirection	*redirection)
 		redirection = redirection->next;
 	}
 	printf("compt = %d content = %s\n", compt, (*redirection).file);
-}
+}*/

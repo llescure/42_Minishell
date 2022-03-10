@@ -1,4 +1,4 @@
-#include "../../include/minishell.h"
+/*#include "../../include/minishell.h"
 
 int		tokenizer(t_double_list *token, t_shell *shell)
 {
@@ -86,4 +86,4 @@ int		check_content(char *str, t_type **type, t_shell *shell, int id)
 			return (g_signal);
 	}
 	return (0);
-}
+}*/

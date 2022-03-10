@@ -74,14 +74,16 @@ char	*find_lexeme(char *user_input, int starting_point, int *end,
 
 int		scanner(char *user_input, t_shell *shell)
 {
-	t_double_list	*list;
+	t_token	*token;
 	int		end;
 	char	*temp;
+	int		id;
 
+	id = 0;
 	temp = find_lexeme(user_input, 0, &end, 0);
 	if (temp != NULL)
-		list = ft_double_lstnew(temp);
-	if (list == NULL)
+		token = new_token(NULL, id, temp);
+	if (token == NULL)
 	{
 		g_signal = -1;
 		return (g_signal);
@@ -94,8 +96,9 @@ int		scanner(char *user_input, t_shell *shell)
 		else if (temp == NULL)
 			end++;
 		if (temp != NULL)
-			ft_double_lstadd_back(&list, ft_double_lstnew(temp));
+			add_back_token(&token, new_token(NULL, id, temp));
+		id++;
 	}
-	shell->token = list;
+	shell->token = token;
 	return (0);
 }

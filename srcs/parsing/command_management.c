@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-int		initialization_command(t_type *type, t_double_list *token,
+/*int		initialization_command(t_type *type, t_double_list *token,
 		t_shell *shell)
 {
 	while (type != NULL && token != NULL)
@@ -114,4 +114,4 @@ void	free_command(t_command	**command)
 	free_redirection(&(*command)->redirection);
 	free(*command);
 	*command = NULL;
-}
+}*/

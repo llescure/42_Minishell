@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 20:02:11 by llescure          #+#    #+#             */
-/*   Updated: 2022/03/09 17:18:31 by llescure         ###   ########.fr       */
+/*   Updated: 2022/03/10 10:39:27 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,32 +33,6 @@ typedef struct s_double_list
 	struct s_double_list	*next;
 	struct s_double_list	*previous;
 }				t_double_list;
-
-typedef enum	e_category
-{
-	WORD=0,
-	COMMAND,
-	COMMAND_OPTION,
-	WHITE_SPACE,
-	QUOTE,
-	D_QUOTE,
-	EQUAL,
-	ERROR,
-	PIPE,
-	EXPAND,
-	REDIR_RIGHT,
-	REDIR_LEFT,
-	D_REDIR_RIGHT,
-	HEREDOC
-}				t_category;
-
-typedef struct	s_type
-{
-	t_category		content;
-	int				id;
-	struct s_type	*next;
-	struct s_type	*previous;
-}				t_type;
 
 /*
  ** Strings
@@ -182,16 +156,5 @@ char			*copy_to_join(char *temp, char *buf);
 char			*copy_to_get_temp(char *temp);
 char			*ft_trim(char *str, int c);
 char			*get_temp(char *str, int c);
-
-/*
- ** Home_made_stuct
-*/
-
-t_type	*ft_type_new(t_category content, int id);
-void	ft_free_type(t_type **list);
-void	ft_type_add_back(t_type **alst, t_type *new);
-void	ft_print_type(t_type *lst);
-void	delete_type_node(t_type	**type);
-
 
 #endif

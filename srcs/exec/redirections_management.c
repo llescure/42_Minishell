@@ -1,6 +1,6 @@
-#include "../../include/minishell.h"
+/*#include "../../include/minishell.h"
 
-/*int		open_infile_redirection(t_shell *shell)
+int		open_infile_redirection(t_shell *shell)
 {
 	char	*type;
 	char	*next_token;

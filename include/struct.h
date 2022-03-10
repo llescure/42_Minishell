@@ -1,6 +1,43 @@
 #ifndef STRUCT_H
 # define STRUCT_H
 
+/*
+** Definition of main structure token which will store the type, content and id
+** of the token
+*/
+
+typedef enum	e_type
+{
+	WORD=0,
+	COMMAND,
+	COMMAND_OPTION,
+	WHITE_SPACE,
+	QUOTE,
+	D_QUOTE,
+	EQUAL,
+	ERROR,
+	PIPE,
+	EXPAND,
+	REDIR_RIGHT,
+	REDIR_LEFT,
+	D_REDIR_RIGHT,
+	HEREDOC
+}				t_type;
+
+typedef struct	s_token
+{
+	t_type			type;
+	char			**content;
+	int				id;
+	struct s_type	*next;
+	struct s_type	*previous;
+}				t_token;
+
+
+/*
+** Definition of structure for env variable
+*/
+
 typedef struct s_env {
     char		**env;
     char		**alpha;
@@ -8,6 +45,10 @@ typedef struct s_env {
 	char		**tab_variable_equals;
     int			index;
 }               t_env;
+
+/*
+** Definition of structure in case of error
+*/
 
 typedef enum	e_error
 {
@@ -22,10 +63,15 @@ typedef enum	e_error
 	PARAMETERS
 }				t_error;
 
+/*
+** Definition of structure command that will store if the command needs to be
+** piped or if the input fd or output fd needs to be changed due to redirection
+*/
+
 typedef struct	s_redirection
 {
 	char					*file;
-	t_category				category;
+	t_type					type;
 	struct s_redirection	*next;
 }				t_redirection;
 
@@ -51,6 +97,10 @@ typedef	struct		s_command
 	struct s_command	*next;
 }					t_command;
 
+/*
+** Main structure with all information
+*/
+
 typedef struct s_shell
 {
   char				*pwd;
@@ -59,8 +109,7 @@ typedef struct s_shell
   int				fd_infile;
   int				fd_outfile;
   t_env				*env;
-  t_double_list		*token;
-  t_type			*type;
+  t_token			*token;
   t_command			*command;
   int				command_count;
 }               	t_shell;
