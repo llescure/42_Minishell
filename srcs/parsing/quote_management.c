@@ -1,16 +1,14 @@
-/*#include "../../include/minishell.h"
+#include "../../include/minishell.h"
 
-void	single_quote_expansion(t_shell *shell, t_type *type,
-		t_double_list **token)
+void	single_quote_expansion(t_shell *shell, t_token **token)
 {
-	quote_expansion(shell, type, token, QUOTE);
+	quote_expansion(shell, token, QUOTE);
 }
 
-void	double_quote_expansion(t_shell *shell, t_type *type,
-		t_double_list **token)
+void	double_quote_expansion(t_shell *shell, t_token **token)
 {
-	quote_expansion(shell, type, token, D_QUOTE);
-}*/
+	quote_expansion(shell, token, D_QUOTE);
+}
 
 /*
  ** This function spots all the occurence of quotes in the user_input string,
@@ -18,33 +16,30 @@ void	double_quote_expansion(t_shell *shell, t_type *type,
  ** freed. It also makes sure that there is not other expansion character.
  */
 
-/*void	quote_expansion(t_shell *shell, t_type *type,
-		t_double_list **token, t_category category_expansion)
+void	quote_expansion(t_shell *shell, t_token **token, t_type type_expansion)
 {
 
-	while (type != NULL && (*token)->next != NULL)
+	while ((*token)->next != NULL)
 	{
-		if (type->content == category_expansion)
-			quote_cases(shell, (char **)&(*token)->content, category_expansion);
-		type = type->next;
+		if ((*token)->type == type_expansion)
+			quote_cases(shell, (char **)&(*token)->content, type_expansion);
 		*token = (*token)->next;
 	}
-	if (type->content == category_expansion)
-		quote_cases(shell, (char **)&(*token)->content, category_expansion);
+	if ((*token)->type == type_expansion)
+		quote_cases(shell, (char **)&(*token)->content, type_expansion);
 	while ((*token)->previous != NULL)
 		*token = (*token)->previous;
 }
 
 
-void	quote_cases(t_shell *shell, char **str, t_category category_expansion)
+void	quote_cases(t_shell *shell, char **str, t_type type_expansion)
 {
 	char	*temp;
 
-	if (category_expansion == D_QUOTE &&
-			find_cara_in_word(*str, '$') >= 0)
-		expansion_cases(shell, (void **)str);
+	if (type_expansion == D_QUOTE && find_cara_in_word(*str, '$') >= 0)
+		expansion_cases(shell, str);
 	temp = *str;
-	if (category_expansion == D_QUOTE)
+	if (type_expansion == D_QUOTE)
 		*str = remove_cara(*str, '"');
 	else
 		*str = remove_cara(*str, '\'');
@@ -62,4 +57,4 @@ char	*remove_cara(char *str, char type_cara_to_delete)
 		return (NULL);
 	ft_strlcpy_without_cara(cpy, str, type_cara_to_delete);
 	return (cpy);
-}*/
+}

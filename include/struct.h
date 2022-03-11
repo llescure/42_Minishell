@@ -27,10 +27,10 @@ typedef enum	e_type
 typedef struct	s_token
 {
 	t_type			type;
-	char			**content;
+	char			*content;
 	int				id;
-	struct s_type	*next;
-	struct s_type	*previous;
+	struct s_token	*next;
+	struct s_token	*previous;
 }				t_token;
 
 
@@ -84,6 +84,7 @@ typedef enum	e_command_type
 	EXPORT,
 	UNSET,
 	BINARY,
+	EXECUTABLE,
 	ENV
 }				t_command_type;
 

@@ -17,9 +17,7 @@ void free_all(t_shell *shell)
 	if (shell->env->tab_variable_equals != NULL)
 		free_tab(shell->env->tab_variable_equals);
 	if (shell->token != NULL)
-		ft_double_free_list(&shell->token, 1);
-	if (shell->type != NULL)
-		ft_free_type(&shell->type);
+		free_token(&shell->token);
 	if (shell->command != NULL)
 		free_command(&shell->command);
 	rl_clear_history();

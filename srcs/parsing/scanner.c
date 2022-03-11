@@ -82,12 +82,13 @@ int		scanner(char *user_input, t_shell *shell)
 	id = 0;
 	temp = find_lexeme(user_input, 0, &end, 0);
 	if (temp != NULL)
-		token = new_token(NULL, id, temp);
+		token = new_token(WHITE_SPACE, temp, id);
 	if (token == NULL)
 	{
 		g_signal = -1;
 		return (g_signal);
 	}
+	id++;
 	while (end < (int)ft_strlen(user_input))
 	{
 		temp = find_lexeme(user_input, end, &end, 0);
@@ -96,7 +97,7 @@ int		scanner(char *user_input, t_shell *shell)
 		else if (temp == NULL)
 			end++;
 		if (temp != NULL)
-			add_back_token(&token, new_token(NULL, id, temp));
+			add_back_token(&token, new_token(WHITE_SPACE, temp, id));
 		id++;
 	}
 	shell->token = token;

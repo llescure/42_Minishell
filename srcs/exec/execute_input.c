@@ -1,24 +1,23 @@
-/*#include "../../include/minishell.h"
+#include "../../include/minishell.h"
 
-int		execute_input(t_shell *shell, t_type *type, t_double_list *token,
-		t_command *command)
+int		execute_input(t_shell *shell, t_token *token, t_command *command)
 {
-	while (token != NULL && type != NULL)
+	while (token != NULL)
 	{
-		if (type->content == COMMAND)
+		if (token->type == COMMAND)
 		{
-			handle_builtin(shell, type, token, command);
+			handle_builtin(shell, &token, command);
+			if (token == NULL)
+				return (0);
 			command = command->next;
 			shell->command_count++;
 		}
 		token = token->next;
-		type = type->next;
 	}
 	return (0);
 }
 
-void	handle_builtin(t_shell *shell, t_type *type, t_double_list *token,
-		t_command *command)
+void	handle_builtin(t_shell *shell, t_token **token, t_command *command)
 {
 	int	pid;
 
@@ -26,41 +25,43 @@ void	handle_builtin(t_shell *shell, t_type *type, t_double_list *token,
 	if (pid < 0)
 		return ;
 	else if (pid == 0)
-		execute_child_process(shell, type, token, command);
+		execute_child_process(shell, *token, command);
 	else
 	{
 		signal(SIGINT, handle_exec_signals);
 		signal(SIGQUIT, handle_exec_signals);
 		waitpid(pid, &g_signal, 0);
 		if (command->command_type == EXIT)
-			ft_exit(shell, type, token, command);
+			ft_exit(shell, token);
+		else if (command->command_type == ECHO_CMD)
+			ft_echo(shell, token);
 		else if (command->command_type == CD)
-			ft_cd(shell, type, token, command);
+			ft_cd(shell, token);
 		else if (command->command_type == EXPORT)
-			ft_export(shell, type, token, command);
+			ft_export(shell, token);
 		else if (command->command_type == UNSET)
-			ft_unset(shell, type, token, command);
+			ft_unset(shell, token);
 		signal(SIGINT, handle_signals);
 		signal(SIGQUIT, handle_signals);
 	}
 }
 
-void	execute_child_process(t_shell *shell, t_type *type,
-		t_double_list *token, t_command *command)
+void	execute_child_process(t_shell *shell, t_token *token,
+		t_command *command)
 {
-	if (command->command_type == ECHO_CMD)
-		ft_echo(shell, type, token, command);
-	else if (command->command_type == PWD )
-		ft_pwd(shell, type, token, command);
+	if (command->command_type == PWD )
+		ft_pwd(shell);
 	else if (command->command_type == EXIT || command->command_type == CD
-			|| command->command_type == EXPORT
-			|| command->command_type == UNSET)
+		|| command->command_type == EXPORT || command->command_type == ECHO_CMD
+		|| command->command_type == UNSET)
 		exit(g_signal);
 	else if (command->command_type == ENV)
 	{
 		print_tab(shell->env->env);
 		exit(g_signal);
 	}
+	else if (command->command_type == EXECUTABLE)
+		execute_executable(shell, token);
 	else
-		execute_binary(shell, type, token, command);
-}*/
+		execute_binary(shell, token);
+}

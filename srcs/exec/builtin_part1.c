@@ -1,41 +1,41 @@
-/*#include "../../include/minishell.h"
+#include "../../include/minishell.h"
 
-void	ft_echo(t_shell *shell, t_type *type, t_double_list *token)
+void	ft_echo(t_shell *shell, t_token **token)
 {
 	char	*str;
 	char	*temp;
 	int	command_option_active;
 
-	type = type->next;
-	token = token->next;
-	command_option_active = handle_cases_other_than_words(shell, type, token);
+	*token = (*token)->next;
+	command_option_active = handle_cases_other_than_words(shell, *token);
 	if (command_option_active < 0)
 		return ;
+	while (*token != NULL && ((*token)->type == WHITE_SPACE
+		|| (command_option_active == 1	&& (*token)->type == COMMAND_OPTION)))
+		*token = (*token)->next;
 	str = ft_strdup("");
-	while (type != NULL && token != NULL)
+	while (*token != NULL)
 	{
-		if (type->content == PIPE)
+		if ((*token)->type == PIPE)
 			return ;
-		else if (type->content == WORD || type->content == WHITE_SPACE
-			|| type->content == QUOTE || type->content == D_QUOTE
-			|| type->content == EXPAND || type->content == COMMAND)
+		else if ((*token)->type == WORD || (*token)->type == WHITE_SPACE
+			|| (*token)->type == QUOTE || (*token)->type == D_QUOTE
+			|| (*token)->type == EXPAND || (*token)->type == COMMAND
+			|| ((*token)->type == COMMAND_OPTION && command_option_active == 0))
 		{
 			temp = str;
-			str = ft_strjoin(str, shell->token_bis[shell->i]);
+			str = ft_strjoin(str, (*token)->content);
 			free(temp);
 		}
-		type = type->next;
-		token = token->next;
+		*token = (*token)->next;
 	}
 	ft_putstr_fd(str, shell->fd_outfile);
 	if (command_option_active == 0)
 		ft_putstr_fd("\n", shell->fd_outfile);
 	free(str);
-	exit(g_signal);
 }
 
-int	handle_cases_other_than_words(t_shell *shell, t_type *type,
-		t_double_list *token)
+int	handle_cases_other_than_words(t_shell *shell, t_token *token)
 {
 	int	command_option_active;
 
@@ -45,15 +45,13 @@ int	handle_cases_other_than_words(t_shell *shell, t_type *type,
 		ft_putstr_fd("\n", shell->fd_outfile);
 		return (-1);
 	}
-	while (type != NULL && (type->content == COMMAND_OPTION
+	while (token != NULL && ((token->type == COMMAND_OPTION
 		&& number_occurence_cara_in_str(token->content, 'n')
-		== (int)ft_strlen(token->content) - 1)
-		|| (ft_strncmp(token->content, " ", ft_strlen(token->content)) == 0))
+		== (int)ft_strlen(token->content) - 1) || (token->type == WHITE_SPACE)))
 	{
-		if (type->content == COMMAND_OPTION)
+		if (token->type == COMMAND_OPTION)
 			command_option_active = 1;
 		token = token->next;
-		type = type->next;
 	}
 	return (command_option_active);
 }
@@ -73,25 +71,24 @@ void	ft_pwd(t_shell *shell)
 	exit(g_signal);
 }
 
-void	ft_cd(t_shell *shell, t_type *type, t_double_list *token)
+void	ft_cd(t_shell *shell, t_token **token)
 {
 	int	return_value;
 
-	type = type->next;
-	token = token->next;
-	while (token != NULL && type != NULL && type->content == WHITE_SPACE)
+	*token = (*token)->next;
+	while (*token != NULL && (*token)->type == WHITE_SPACE)
+		*token = (*token)->next;
+	if (*token == NULL)
 	{
-		type = type->next;
-		token = token->next;
-	}
-	if (token == NULL)
 		chdir(shell->absolute_path);
-	return_value = chdir(token->content);
+		return;
+	}
+	return_value = chdir((*token)->content);
 	if (return_value == -1)
 		error_message(FILES, 1);
 }
 
-void	execute_binary(t_shell *shell, t_type *type, t_double_list *token)
+void	execute_binary(t_shell *shell, t_token *token)
 {
 	char	*temp;
 	char	**command;
@@ -102,7 +99,7 @@ void	execute_binary(t_shell *shell, t_type *type, t_double_list *token)
 		shell->path = NULL;
 	}
 	set_path(shell);
-	command = create_binary(shell, type, token);
+	command = create_binary(token);
 	if (command == NULL)
 	{
 		error_message(MALLOC, 0);
@@ -123,30 +120,26 @@ void	execute_binary(t_shell *shell, t_type *type, t_double_list *token)
 	free_tab(command);
 }
 
-char	**create_binary(t_shell *shell, t_type *type, t_double_list *token)
+char	**create_binary(t_token *token)
 {
 	char	**command;
 	int		i;
 
-	command = malloc(sizeof(char *) * (command_lenght(shell, type, token) + 1));
+	command = malloc(sizeof(char *) * (command_lenght(token) + 1));
 	if (command == NULL)
 		return (NULL);
 	i = 0;
-	while (token != NULL && (type->content == WHITE_SPACE
-		|| type->content == COMMAND_OPTION || type->content == COMMAND
-		|| type->content == WORD))
+	while (token != NULL && (token->type == WHITE_SPACE
+		|| token->type == COMMAND_OPTION || token->type == COMMAND
+		|| token->type == WORD))
 	{
-		if (type->content == WHITE_SPACE)
-		{
-			type = type->next;
+		if (token->type == WHITE_SPACE)
 			token = token->next;
-		}
-		if (shell->token_bis[shell->i] == NULL
-			|| (type->content != WORD && type->content != COMMAND_OPTION
-			&&	type->content != COMMAND))
+		if (token == NULL
+			|| (token->type != WORD && token->type != COMMAND_OPTION
+			&&	token->type != COMMAND))
 			break;
 		command[i] = ft_strdup(token->content);
-		type = type->next;
 		token = token->next;
 		i++;
 	}
@@ -154,25 +147,40 @@ char	**create_binary(t_shell *shell, t_type *type, t_double_list *token)
 	return (command);
 }
 
-int		command_lenght(t_shell *shell, t_type *type, t_double_list *token)
+int		command_lenght(t_token *token)
 {
 	int	size;
 
 	size = 1;
-	while (token != NULL && (type->content == WHITE_SPACE
-		|| type->content == COMMAND_OPTION || type->content == COMMAND
-		|| type->content == WORD))
+	while (token != NULL && (token->type == WHITE_SPACE
+		|| token->type == COMMAND_OPTION || token->type == COMMAND
+		|| token->type == WORD))
 	{
-		if (type->content == WHITE_SPACE)
-		{
-			type = type->next;
+		if (token->type == WHITE_SPACE)
 			token = token->next;
-		}
-			if (shell->token_bis[index] == NULL)
+		if (token == NULL)
 			break;
 		size++;
-		type = type->next;
 		token = token->next;
 	}
 	return (size);
-}*/
+}
+
+void	execute_executable(t_shell *shell, t_token *token)
+{
+	char	**command;
+
+	command = create_binary(token);
+	if (command == NULL)
+	{
+		error_message(MALLOC, 0);
+		exit(g_signal);
+	}
+	if (execve(command[0], command, shell->env->env) < 0)
+	{
+		error_message(COMMAND_ERROR, 1);
+		free_tab(command);
+		exit(g_signal);
+	}
+	free_tab(command);
+}

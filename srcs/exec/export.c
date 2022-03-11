@@ -1,86 +1,65 @@
-/*#include "../../include/minishell.h"
+#include "../../include/minishell.h"
 
-void	ft_export(t_shell *shell)
+void	ft_export(t_shell *shell, t_token **token)
 {
-	shell->i++;
-	if (export_without_argument(shell) == 1)
+	*token = (*token)->next;
+	if (export_without_argument(shell, *token) == 1)
 		return ;
-	while (shell->token_bis[shell->i] != NULL
-			&& (ft_strncmp(shell->type_bis[shell->i], "white_space",
-					ft_strlen("white_space")) == 0
-				|| ft_strncmp(shell->type_bis[shell->i], "word",
-					ft_strlen("word")) == 0
-				|| ft_strncmp(shell->type_bis[shell->i], "command",
-					ft_strlen("command")) == 0
-				|| ft_strncmp(shell->type_bis[shell->i], "equal",
-					ft_strlen("equal")) == 0))
+	while (*token != NULL && ((*token)->type == WHITE_SPACE
+			|| (*token)->type == WORD || (*token)->type == COMMAND
+			|| (*token)->type == EQUAL))
 	{
-		if (ft_strncmp(shell->type_bis[shell->i], "word",
-					ft_strlen("word")) == 0
-				|| ft_strncmp(shell->type_bis[shell->i], "command",
-					ft_strlen("command")) == 0)
+		if ((*token)->type == WORD || (*token)->type == COMMAND)
 		{
-			shell->i++;
-			if (shell->token_bis[shell->i] == NULL)
-				create_lonely_env_variable(shell);
-			else if (ft_strncmp(shell->type_bis[shell->i], "white_space",
-						ft_strlen("white_space")) == 0
-				&& shell->token_bis[shell->i + 1] != NULL
-				&& ft_strncmp(shell->type_bis[shell->i + 1], "equal",
-						ft_strlen("equal")) == 0)
+			if ((*token)->next == NULL)
+				return (create_lonely_env_variable(shell, *token));
+			*token = (*token)->next;
+			if ((*token)->type == WHITE_SPACE && (*token)->next != NULL
+					&& (*token)->next->type == EQUAL)
 				return(error_message(EXPORT_ERROR, shell->fd_outfile));
-			else if (ft_strncmp(shell->type_bis[shell->i], "white_space",
-						ft_strlen("white_space")) == 0)
-				create_lonely_env_variable(shell);
-			else if (ft_strncmp(shell->type_bis[shell->i], "equal",
-						ft_strlen("equal")) == 0)
-				create_new_env_variable(shell);
+			else if ((*token)->type == WHITE_SPACE)
+				create_lonely_env_variable(shell, *token);
+			else if ((*token)->type == EQUAL)
+				create_new_env_variable(shell, token);
 		}
-		else if (ft_strncmp(shell->type_bis[shell->i], "equal",
-					ft_strlen("equal")) == 0)
+		else if ((*token)->type == EQUAL)
 			return (error_message(EXPORT_ERROR, shell->fd_outfile));
-		if (shell->token_bis[shell->i] == NULL)
+		if (*token == NULL)
 			break ;
-		shell->i++;
+		*token = (*token)->next;
 	}
 }
 
-void	create_lonely_env_variable(t_shell *shell)
+void	create_lonely_env_variable(t_shell *shell, t_token *token)
 {
 	char	*new_env_variable;
 
-	shell->i--;
-	if (check_if_variable_already_exists(shell, shell->token_bis[shell->i])
-		== 1)
+	if (token->next != NULL)
+		token = token->previous;
+	if (check_if_variable_already_exists(shell, token->content) == 1)
 		return ;
-	new_env_variable = ft_strdup(shell->token_bis[shell->i]);
+	new_env_variable = ft_strdup(token->content);
 	add_new_env_variable(new_env_variable, shell);
 }
 
-void	create_new_env_variable(t_shell *shell)
+void	create_new_env_variable(t_shell *shell, t_token **token)
 {
 	char	*new_env_variable;
 	char	*temp;
-	char	*str;
 
-	shell->i--;
-	new_env_variable = ft_strdup(shell->token_bis[shell->i]);
-	shell->i++;
-	while (shell->token_bis[shell->i] != NULL)
+	*token = (*token)->previous;
+	new_env_variable = ft_strdup((*token)->content);
+	*token = (*token)->next;
+	while (*token != NULL)
 	{
-		str = shell->type_bis[shell->i];
-		if (ft_strncmp(str, "pipe", ft_strlen("pipe")) == 0
-				|| ft_strncmp(str, "redir_left", ft_strlen("redir_left")) == 0
-				|| ft_strncmp(str, "redir_right", ft_strlen("redir_right")) == 0
-				|| ft_strncmp(str, "heredoc", ft_strlen("heredoc")) == 0
-				|| ft_strncmp(str, "d_redir_right", ft_strlen("d_redir_right")) == 0
-				|| ft_strncmp(str, "white_space", ft_strlen("white_space")) == 0)
+		if ((*token)->type == PIPE || (*token)->type == REDIR_LEFT
+			|| (*token)->type == REDIR_RIGHT || (*token)->type == HEREDOC
+			|| (*token)->type == D_REDIR_RIGHT || (*token)->type == WHITE_SPACE)
 			break;
 		temp = new_env_variable;
-		new_env_variable = ft_strjoin(new_env_variable,
-				shell->token_bis[shell->i]);
+		new_env_variable = ft_strjoin(new_env_variable, (*token)->content);
 		free(temp);
-		shell->i++;
+		*token = (*token)->next;
 	}
 	temp = ft_cut_str(new_env_variable, 0, find_cara_in_word(new_env_variable,
 				'='));
@@ -132,13 +111,11 @@ int	check_if_variable_already_exists(t_shell *shell, char *new_env_variable)
 	return (0);
 }
 
-int	export_without_argument(t_shell *shell)
+int	export_without_argument(t_shell *shell, t_token *token)
 {
-	while (shell->token_bis[shell->i] != NULL
-			&& ft_strncmp(shell->type_bis[shell->i], "white_space",
-					ft_strlen("white_space")) == 0)
-		shell->i++;
-	if (shell->token_bis[shell->i] == NULL)
+	while (token != NULL && token->type == WHITE_SPACE)
+		token = token->next;
+	if (token == NULL)
 	{
 		if (shell->env->alpha != NULL)
 			free_tab(shell->env->alpha);
@@ -149,4 +126,4 @@ int	export_without_argument(t_shell *shell)
 		return (1);
 	}
 	return (0);
-}*/
+}

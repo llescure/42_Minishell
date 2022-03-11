@@ -12,12 +12,10 @@ int		parsing(char *user_input, t_shell *shell)
 		return (0);
 	if (scanner(user_input, shell) < 0)
 		return (error_malloc(shell));
-	print_token(shell->token);
-/*	if (tokenizer(shell->token, shell) < 0)
+	if (tokenizer(shell->token, shell) < 0)
 		return (error_malloc(shell));
 	if (clean_input(shell) != 0)
 		return (g_signal);
-//	printf("\n");
 	if (join_clean_input(&shell->token) < 0)
 		return (error_malloc(shell));
 	if (tokenizer(shell->token, shell) < 0)
@@ -26,15 +24,16 @@ int		parsing(char *user_input, t_shell *shell)
 		return (g_signal);
 	if (initialization_command(shell->token, shell) < 0)
 		return (error_malloc(shell));
+//	print_token(shell->token);
 	return (0);
-}*/
+}
 
 /*
  * * This function checks if any error in the token was noticed +
  * * does quote and identifier expansion
 */
 
-/*int		clean_input(t_shell *shell)
+int		clean_input(t_shell *shell)
 {
 	if (look_for_word_in_type(shell->token, ERROR) == 1)
 	{
@@ -50,7 +49,7 @@ int		parsing(char *user_input, t_shell *shell)
 	if (g_signal < 0)
 		return(error_malloc(shell));
 	return (0);
-}*/
+}
 
 /*
  * * This function joins the node of the linked list after expansion.
@@ -58,16 +57,16 @@ int		parsing(char *user_input, t_shell *shell)
  * * 3) a double quote, 4) an identifier and the next node if one of the 4 types
 */
 
-/*int		join_clean_input(t_token **token)
+int		join_clean_input(t_token **token)
 {
 	char	*str_temp;
 
-	while (token->next != NULL)
+	while ((*token)->next != NULL)
 	{
-		if (special_condition_cara_is_respected(token->type) == 1)
+		if (special_condition_cara_is_respected((*token)->type) == 1)
 		{
-			while (type->next != NULL &&
-				special_condition_cara_is_respected(token->next->type) == 1)
+			while ((*token)->next != NULL &&
+				special_condition_cara_is_respected((*token)->next->type) == 1)
 			{
 				str_temp = (*token)->content;
 				(*token)->content = ft_strjoin(str_temp, (*token)->next->content);
@@ -75,9 +74,9 @@ int		parsing(char *user_input, t_shell *shell)
 				delete_token_node(token);
 			}
 		}
-		if (token->next == NULL)
+		if ((*token)->next == NULL)
 			break;
-		if (token->type == WHITE_SPACE)
+		if ((*token)->type == WHITE_SPACE)
 		{
 			str_temp = (*token)->content;
 			(*token)->content = ft_strdup(" ");
@@ -107,10 +106,10 @@ int		look_for_grammar_error(t_token *token, t_shell *shell)
 		error_message(SYNTAX, shell->fd_outfile);
 		return (g_signal);
 	}
-	else if (token->type == PIPE && token->next->type == NULL)
+	else if (token->type == PIPE && token->next == NULL)
 	{
 		error_message(SYNTAX, shell->fd_outfile);
 		return (g_signal);
 	}
 	return (0);
-}*/
+}

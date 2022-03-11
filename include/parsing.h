@@ -17,8 +17,8 @@ void		set_path(t_shell *shell);
 
 int			parsing(char *user_input, t_shell *shell);
 int			clean_input(t_shell *shell);
-int			join_clean_input(t_token **token;
-int			look_for_grammar_error(t_token *token);
+int			join_clean_input(t_token **token);
+int			look_for_grammar_error(t_token *token, t_shell *shell);
 int			look_for_word_in_type(t_token *token, t_type type);
 int			special_condition_cara_is_respected(t_type type);
 
@@ -58,13 +58,10 @@ int			delimit_redirections(char *str, int pos, int initial_pos);
 ** TOKENIZER
 */
 
-int			tokenizer(t_double_list *type, t_shell *shell);
-int			check_first_content(char *str, t_type **type, t_shell *shell, int id);
-int			check_content(char *str, t_type **type, t_shell *shell, int id);
-void		check_redirection(char *str, t_type **type, int id);
-void		check_first_redirection(char *str, t_type **type, int id);
-void		check_first_special_cara(char *str, t_type **type, int id);
-void		check_special_cara(char *str, t_type **type, int id);
+int			tokenizer(t_token *token, t_shell *shell);
+int			check_content(char *str, t_token **token, t_shell *shell);
+void		check_redirection(char *str, t_token **token);
+void		check_special_cara(char *str, t_token **token);
 int			check_command(char *str, t_shell *shell);
 
 
@@ -81,17 +78,13 @@ int			error_malloc(t_shell *shell);
 ** QUOTE AND EXPAND MANAGEMENT
 */
 
-void		quote_expansion(t_shell *shell, t_type *type,
-			t_double_list **token, t_type type_expansion);
-void		expand_expansion(t_shell *shell, t_type *type,
-			t_double_list **token);
-void		single_quote_expansion(t_shell *shell, t_type *type,
-			t_double_list **token);
-void		double_quote_expansion(t_shell *shell, t_type *type,
-			t_double_list **token);
+void		quote_expansion(t_shell *shell, t_token **token, t_type type_expansion);
+void		expand_expansion(t_shell *shell, t_token **token);
+void		single_quote_expansion(t_shell *shell, t_token **token);
+void		double_quote_expansion(t_shell *shell, t_token **token);
 char		*remove_cara(char *str, char type_cara_to_delete);
 char		*expand_env_variable(char *variable_to_find, t_env *env);
-void		expansion_cases(t_shell *shell, void **str);
+void		expansion_cases(t_shell *shell, char **str);
 void		quote_cases(t_shell *shell, char **str, t_type type_expansion);
 void		get_identifier(t_shell *shell, char **str);
 void		identifier_cases(char **str_to_change, char *original_str, char *temp2,
@@ -103,13 +96,11 @@ char		**split_expand(char *str, char cara);
 ** COMMAND_MANAGEMENT
 */
 
-int			initialization_command(t_type *type, t_double_list *token,
-			t_shell *shell);
-t_command	*create_command_struct(char *str, t_type *type, t_double_list *token,
-		int	id);
-int			append_command_struct(t_command **command, char *str, t_shell *shell,
-		int	id);
-void		free_command(t_command **list);
+int			initialization_command(t_token *token, t_shell *shell);
+t_command	*create_command_struct(char *str, t_token *token);
+int			append_command_struct(t_command **command, t_token *token,
+		t_shell *shell);
+void		free_command(t_command **command);
 char		*find_correct_path(char **path, char *cmd);
 char		*create_command_path(char *cmd);
 void		free_tab(char **tab);
@@ -119,12 +110,11 @@ void		free_tab(char **tab);
 ** REDIRECTIONS MANAGEMENT
 */
 
-int			attach_redirections_to_command(t_command *command, t_type *type,
-			t_double_list *token);
-void		look_for_redirection_before_command(t_command *command, t_type *type,
-			t_double_list *token, t_redirection **redirection);
-void		look_for_redirection_after_command(t_command *command, t_type *type,
-			t_double_list *token, t_redirection **redirection);
+int			attach_redirections_to_command(t_command *command, t_token *token);
+void		look_for_redirection_before_command(t_token *token,
+		t_redirection **redirection);
+void		look_for_redirection_after_command(t_token *token,
+		t_redirection **redirection);
 t_redirection	*create_redirection_struct(char *str, t_type type);
 char		*find_file_for_redir(char	*str, char redir);
 int			append_redirection_struct(t_redirection **redirection, char *str,
@@ -137,9 +127,9 @@ void		print_redirection(t_redirection *redirection);
 ** PIPE MANAGEMENT
 */
 
-void		define_pipe_input_output(t_command *command, t_type *type, int id);
-void		look_for_pipe_before_command(t_command *command, t_type *type, int id);
-void		look_for_pipe_after_command(t_command *command, t_type *type, int id);
+void		define_pipe_input_output(t_command *command, t_token *token);
+void		look_for_pipe_before_command(t_command *command, t_token *token);
+void		look_for_pipe_after_command(t_command *command, t_token *token);
 
 
 /*

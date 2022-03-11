@@ -1,97 +1,94 @@
 #include "../../include/minishell.h"
 
-/*int		attach_redirections_to_command(t_command *command, t_type *type,
-		t_double_list *token)
+int		attach_redirections_to_command(t_command *command, t_token *token)
 {
 	t_redirection	*redirection;
 
 	redirection = NULL;
-	look_for_redirection_before_command(command, type, token, &redirection);
-	look_for_redirection_after_command(command, type, token, &redirection);
+	look_for_redirection_before_command(token, &redirection);
+	look_for_redirection_after_command(token, &redirection);
 	if (g_signal == -1)
 		return (g_signal);
 	command->redirection = redirection;
 	return (0);
 }
 
-void	look_for_redirection_before_command(t_command *command, t_type *type,
-		t_double_list *token, t_redirection **redirection)
+void	look_for_redirection_before_command(t_token *token,
+		t_redirection **redirection)
 {
-	int	compt;
+/*	int	compt;
 
 	compt = 0;
-	while (type != NULL && compt != command->id)
+	while (token != NULL && compt != command->id)
 	{
-		type = type->next;
+		token = token->next;
 		compt++;
-	}
-	while (type != NULL && type->content != PIPE && token != NULL)
+	}*/
+	while (token != NULL && token->type != PIPE)
 	{
-		if (type->content == REDIR_RIGHT || type->content == REDIR_LEFT
-				|| type->content == HEREDOC || type->content == D_REDIR_RIGHT)
+		if (token->type == REDIR_RIGHT || token->type == REDIR_LEFT
+				|| token->type == HEREDOC || token->type == D_REDIR_RIGHT)
 		{
 			if (*redirection == NULL)
 			{
 				*redirection = create_redirection_struct(token->content,
-						type->content);
+						token->type);
 				if (*redirection == NULL)
 					return (error_message(MALLOC, 1));
 			}
 			else
 				append_redirection_struct(redirection, token->content,
-						type->content);
+						token->type);
 		}
-		type = type->previous;
 		token = token->previous;
 	}
 }
 
-void	look_for_redirection_after_command(t_command *command, t_type *type,
-		t_double_list *token, t_redirection **redirection)
+void	look_for_redirection_after_command(t_token *token,
+		t_redirection **redirection)
 {
-	int	compt;
+	/*int	compt;
 
 	compt = 0;
-	while (type != NULL && compt != command->id)
+	while (token != NULL && compt != command->id)
 	{
-		type = type->next;
+		token = token->next;
 		compt++;
-	}
-	while (type != NULL && type->content != PIPE && token != NULL)
+	}*/
+	while (token != NULL && token->type != PIPE)
 	{
-		if (type->content == REDIR_RIGHT || type->content == REDIR_LEFT
-			   	|| type->content == HEREDOC || type->content == D_REDIR_RIGHT)
+		if (token->type == REDIR_RIGHT || token->type == REDIR_LEFT
+			   	|| token->type == HEREDOC || token->type == D_REDIR_RIGHT)
 		{
 			if (*redirection == NULL)
 			{
 				*redirection = create_redirection_struct(token->content,
-						type->content);
+						token->type);
 				if (*redirection == NULL)
 					return (error_message(MALLOC, 1));
 			}
 			else
 			{
 				append_redirection_struct(redirection, token->content,
-						type->content);
+						token->type);
 			}
 		}
-		type = type->next;
 		token = token->next;
 	}
 }
 
-t_redirection	*create_redirection_struct(char *str, t_category category)
+t_redirection	*create_redirection_struct(char *str, t_type type)
 {
 	t_redirection	*redirection;
 
 	redirection = malloc(sizeof(*redirection));
 	if (redirection == NULL)
 		return (NULL);
-	if (category == REDIR_RIGHT || category == D_REDIR_RIGHT)
+	if (type == REDIR_RIGHT || type == D_REDIR_RIGHT)
 		redirection->file = find_file_for_redir(str, '>');
-	else if (category == REDIR_LEFT || category == HEREDOC)
+	else if (type == REDIR_LEFT || type == HEREDOC)
 		redirection->file = find_file_for_redir(str, '<');
-	redirection->category = category;
+	redirection->type = type;
 	redirection->next = NULL;
 	return (redirection);
 }
@@ -107,14 +104,14 @@ char	*find_file_for_redir(char	*str, char redir)
 }
 
 int		append_redirection_struct(t_redirection **redirection, char *str,
-		t_category category)
+		t_type type)
 {
 	t_redirection	*temp;
 
 	temp = *redirection;
 	while((temp)->next != NULL)
 		temp = temp->next;
-	temp->next = create_redirection_struct(str, category);
+	temp->next = create_redirection_struct(str, type);
 	if (temp->next == NULL)
 	{
 		error_message(MALLOC, 1);
@@ -137,4 +134,4 @@ void	print_redirection(t_redirection	*redirection)
 		redirection = redirection->next;
 	}
 	printf("compt = %d content = %s\n", compt, (*redirection).file);
-}*/
+}

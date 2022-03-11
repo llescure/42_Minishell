@@ -36,7 +36,7 @@ void	add_back_token(t_token **token, t_token *new)
 
 void	free_token(t_token **token)
 {
-	t_type	*temp;
+	t_token	*temp;
 
 	if (*token == NULL || token == NULL)
 		return ;
@@ -58,11 +58,11 @@ void	print_token(t_token *token)
 		return ;
 	while (token->next != NULL)
 	{
-		printf("compt = %d type = %d\n content = %s\n", (*token).id,
+		printf("compt = %d type = %d content = %s\n", (*token).id,
 				(int)(*token).type, (*token).content);
 		token = token->next;
 	}
-	printf("compt = %d type = %d\n content = %s\n", (*token).id,
+	printf("compt = %d type = %d content = %s\n", (*token).id,
 			(int)(*token).type, (*token).content);
 }
 
