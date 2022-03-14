@@ -16,14 +16,14 @@ void	ft_export(t_shell *shell, t_token **token)
 			*token = (*token)->next;
 			if ((*token)->type == WHITE_SPACE && (*token)->next != NULL
 					&& (*token)->next->type == EQUAL)
-				return(error_message(EXPORT_ERROR, shell->fd_outfile));
+				return(error_message(EXPORT_ERROR, 1));
 			else if ((*token)->type == WHITE_SPACE)
 				create_lonely_env_variable(shell, *token);
 			else if ((*token)->type == EQUAL)
 				create_new_env_variable(shell, token);
 		}
 		else if ((*token)->type == EQUAL)
-			return (error_message(EXPORT_ERROR, shell->fd_outfile));
+			return (error_message(EXPORT_ERROR, 1));
 		if (*token == NULL)
 			break ;
 		*token = (*token)->next;

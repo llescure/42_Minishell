@@ -1,13 +1,13 @@
 #include "../../include/minishell.h"
 
-void	ft_echo(t_shell *shell, t_token **token)
+void	ft_echo(t_token **token)
 {
 	char	*str;
 	char	*temp;
 	int	command_option_active;
 
 	*token = (*token)->next;
-	command_option_active = handle_cases_other_than_words(shell, *token);
+	command_option_active = handle_cases_other_than_words(*token);
 	if (command_option_active < 0)
 		return ;
 	while (*token != NULL && ((*token)->type == WHITE_SPACE
@@ -29,20 +29,20 @@ void	ft_echo(t_shell *shell, t_token **token)
 		}
 		*token = (*token)->next;
 	}
-	ft_putstr_fd(str, shell->fd_outfile);
+	ft_putstr_fd(str, 1);
 	if (command_option_active == 0)
-		ft_putstr_fd("\n", shell->fd_outfile);
+		ft_putstr_fd("\n", 1);
 	free(str);
 }
 
-int	handle_cases_other_than_words(t_shell *shell, t_token *token)
+int	handle_cases_other_than_words(t_token *token)
 {
 	int	command_option_active;
 
 	command_option_active = 0;
 	if (token == NULL)
 	{
-		ft_putstr_fd("\n", shell->fd_outfile);
+		ft_putstr_fd("\n", 1);
 		return (-1);
 	}
 	while (token != NULL && ((token->type == COMMAND_OPTION
@@ -65,8 +65,8 @@ void	ft_pwd(t_shell *shell)
 		if (shell->pwd != NULL)
 			free(shell->pwd);
 		shell->pwd = ft_strdup(cwd);
-		ft_putstr_fd(shell->pwd, shell->fd_outfile);
-		ft_putstr_fd("\n", shell->fd_outfile);
+		ft_putstr_fd(shell->pwd, 1);
+		ft_putstr_fd("\n", 1);
 	}
 	exit(g_signal);
 }

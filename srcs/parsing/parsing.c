@@ -37,7 +37,7 @@ int		clean_input(t_shell *shell)
 {
 	if (look_for_word_in_type(shell->token, ERROR) == 1)
 	{
-		error_message(SYNTAX, shell->fd_outfile);
+		error_message(SYNTAX, 1);
 		return (1);
 	}
 	if (look_for_word_in_type(shell->token, QUOTE) == 1)
@@ -96,19 +96,19 @@ int		look_for_grammar_error(t_token *token, t_shell *shell)
 		 || token->type == EXPAND))
 	{
 		shell->command_count++;
-		error_message(COMMAND_ERROR, shell->fd_outfile);
+		error_message(COMMAND_ERROR, 1);
 		return (g_signal);
 	}
 	else if ((token->type == REDIR_RIGHT || token->type == REDIR_LEFT
 		|| token->type == HEREDOC || token->type == D_REDIR_RIGHT)
 		&& token->next->type == WHITE_SPACE)
 	{
-		error_message(SYNTAX, shell->fd_outfile);
+		error_message(SYNTAX, 1);
 		return (g_signal);
 	}
 	else if (token->type == PIPE && token->next == NULL)
 	{
-		error_message(SYNTAX, shell->fd_outfile);
+		error_message(SYNTAX, 1);
 		return (g_signal);
 	}
 	return (0);

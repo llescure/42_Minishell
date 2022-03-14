@@ -14,7 +14,6 @@ SRCS =	./srcs/main.c								\
 		./srcs/exec/launch_shell.c					\
 		./srcs/exec/signals.c						\
 		./srcs/exec/export.c						\
-		./srcs/exec/redirections_management.c		\
 		./srcs/exec/execute_input.c					\
 		./srcs/parsing/scanner.c					\
 		./srcs/parsing/tokenizer.c					\

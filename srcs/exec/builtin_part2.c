@@ -11,8 +11,8 @@ void	ft_exit(t_shell *shell, t_token **token)
 		g_signal = ft_atoi((*token)->content);
 	else if (is_number((*token)->content) == 0)
 	{
-		ft_putstr_fd("exit\n", shell->fd_outfile);
-		error_message(EXIT_ERROR, shell->fd_outfile);
+		ft_putstr_fd("exit\n", 1);
+		error_message(EXIT_ERROR, 1);
 		free_all(shell);
 		exit(g_signal);
 	}
@@ -20,7 +20,7 @@ void	ft_exit(t_shell *shell, t_token **token)
 	if (check_number_of_arguments(shell, *token) != 0)
 		exit(g_signal);
 	free_all(shell);
-	ft_putstr_fd("exit\n", shell->fd_outfile);
+	ft_putstr_fd("exit\n", 1);
 	exit(g_signal % 256);
 }
 
@@ -28,7 +28,7 @@ void	exit_basic_case(t_shell *shell, t_token *token)
 {
 	if (token == NULL)
 	{
-		ft_putstr_fd("exit\n", shell->fd_outfile);
+		ft_putstr_fd("exit\n", 1);
 		free_all(shell);
 		exit (g_signal);
 	}
@@ -40,8 +40,8 @@ int	check_number_of_arguments(t_shell *shell, t_token *token)
 	{
 		if (token->type == WHITE_SPACE)
 		{
-			ft_putstr_fd("exit\n", shell->fd_outfile);
-			error_message(ARGUMENTS, shell->fd_outfile);
+			ft_putstr_fd("exit\n", 1);
+			error_message(ARGUMENTS, 1);
 			free_all(shell);
 			return (g_signal);;
 		}
@@ -64,7 +64,7 @@ void	ft_unset(t_shell *shell, t_token **token)
 		*token = (*token)->next;
 	}
 	if ((*token) != NULL && (*token)->type == EQUAL)
-		error_message(EXPORT_ERROR, shell->fd_outfile);
+		error_message(EXPORT_ERROR, 1);
 }
 
 void	delete_env_variable(t_shell *shell, char *env_to_delete)

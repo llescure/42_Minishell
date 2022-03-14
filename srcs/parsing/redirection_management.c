@@ -16,14 +16,6 @@ int		attach_redirections_to_command(t_command *command, t_token *token)
 void	look_for_redirection_before_command(t_token *token,
 		t_redirection **redirection)
 {
-/*	int	compt;
-
-	compt = 0;
-	while (token != NULL && compt != command->id)
-	{
-		token = token->next;
-		compt++;
-	}*/
 	while (token != NULL && token->type != PIPE)
 	{
 		if (token->type == REDIR_RIGHT || token->type == REDIR_LEFT
@@ -47,14 +39,6 @@ void	look_for_redirection_before_command(t_token *token,
 void	look_for_redirection_after_command(t_token *token,
 		t_redirection **redirection)
 {
-	/*int	compt;
-
-	compt = 0;
-	while (token != NULL && compt != command->id)
-	{
-		token = token->next;
-		compt++;
-	}*/
 	while (token != NULL && token->type != PIPE)
 	{
 		if (token->type == REDIR_RIGHT || token->type == REDIR_LEFT

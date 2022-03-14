@@ -22,17 +22,17 @@ void		execute_child_process(t_shell *shell, t_token *token,
 ** REDIRECTIONS
 */
 
-int			open_infile_redirection(t_shell *shell);
-int			open_outfile_redirection(t_shell *shell);
+int 		handle_redirection(t_redirection *redirection, t_shell *shell);
+int			open_file_descriptor(int in, int out, t_shell *shell);
 
 /*
 ** COMMAND
 */
 
 void		ft_pwd(t_shell *shell);
-void		ft_echo(t_shell *shell, t_token **token);
+void		ft_echo(t_token **token);
 void		ft_exit(t_shell *shell, t_token **token);
-int			handle_cases_other_than_words(t_shell *shell, t_token *token);
+int			handle_cases_other_than_words(t_token *token);
 void		ft_cd(t_shell *shell, t_token **token);
 void		ft_export(t_shell *shell, t_token **token);
 int			export_without_argument(t_shell *shell, t_token *token);
