@@ -62,7 +62,7 @@ t_command	*create_command_struct(char *str, t_token *token)
 	new_command->id = token->id;
 	attach_redirections_to_command(new_command, token);
 	define_pipe_input_output(new_command, token);
-	//print_redirection(new_command->redirection);
+//	print_redirection(new_command->redirection);
 	return(new_command);
 }
 
@@ -89,9 +89,11 @@ void	free_redirection(t_redirection **redirection)
 	while ((*redirection)->next != NULL)
 	{
 		temp = (*redirection)->next;
+		free((*redirection)->file);
 		free(*redirection);
 		*redirection = temp;
 	}
+	free((*redirection)->file);
 	free(*redirection);
 	*redirection = NULL;
 }

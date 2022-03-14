@@ -121,6 +121,7 @@ int			append_redirection_struct(t_redirection **redirection, char *str,
 			t_type type);
 void		free_redirection(t_redirection **list);
 void		print_redirection(t_redirection *redirection);
+void		delete_redirection_in_token(t_token **token);
 
 
 /*
@@ -141,5 +142,7 @@ void		free_token(t_token **token);
 void		add_back_token(t_token **token, t_token *new);
 void		print_token(t_token *token);
 void		delete_token_node(t_token **token);
+void		delete_first_token_node(t_token **token);
+void		delete_last_token_node(t_token **token);
 
 #endif

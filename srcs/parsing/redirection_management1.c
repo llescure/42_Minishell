@@ -61,61 +61,26 @@ void	look_for_redirection_after_command(t_token *token,
 	}
 }
 
-t_redirection	*create_redirection_struct(char *str, t_type type)
+void	delete_redirection_in_token(t_token **token)
 {
-	t_redirection	*redirection;
-
-	redirection = malloc(sizeof(*redirection));
-	if (redirection == NULL)
-		return (NULL);
-	if (type == REDIR_RIGHT || type == D_REDIR_RIGHT)
-		redirection->file = find_file_for_redir(str, '>');
-	else if (type == REDIR_LEFT || type == HEREDOC)
-		redirection->file = find_file_for_redir(str, '<');
-	redirection->type = type;
-	redirection->next = NULL;
-	return (redirection);
-}
-
-char	*find_file_for_redir(char	*str, char redir)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0' && (str[i] == redir || ft_isspace(str[i]) == 1))
-		i++;
-	return(&str[i]);
-}
-
-int		append_redirection_struct(t_redirection **redirection, char *str,
-		t_type type)
-{
-	t_redirection	*temp;
-
-	temp = *redirection;
-	while((temp)->next != NULL)
-		temp = temp->next;
-	temp->next = create_redirection_struct(str, type);
-	if (temp->next == NULL)
+	while ((*token)->next != NULL)
 	{
-		error_message(MALLOC, 1);
-		return(-1);
+		while ((*token)->next != NULL && ((*token)->type == REDIR_RIGHT
+			|| (*token)->type == REDIR_LEFT || (*token)->type == D_REDIR_RIGHT
+			|| (*token)->type == HEREDOC))
+		{
+			if ((*token)->id == 0)
+				delete_first_token_node(token);
+			else
+				delete_token_node(token);
+		}
+		if ((*token)->next == NULL)
+			break;
+		*token = (*token)->next;
 	}
-	return (0);
-}
-
-void	print_redirection(t_redirection	*redirection)
-{
-	int	compt;
-
-	compt = 0;
-	if (redirection == NULL)
-		return ;
-	while (redirection->next != NULL)
-	{
-		printf("compt = %d content = %s\n", compt, (*redirection).file);
-		compt++;
-		redirection = redirection->next;
-	}
-	printf("compt = %d content = %s\n", compt, (*redirection).file);
+	if ((*token)->type == REDIR_RIGHT || (*token)->type == REDIR_LEFT
+		|| (*token)->type == D_REDIR_RIGHT || (*token)->type == HEREDOC)
+		delete_last_token_node(token);
+	while ((*token)->previous != NULL)
+		*token = (*token)->previous;
 }

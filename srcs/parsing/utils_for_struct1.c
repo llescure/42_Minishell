@@ -65,15 +65,3 @@ void	print_token(t_token *token)
 	printf("compt = %d type = %d content = %s\n", (*token).id,
 			(int)(*token).type, (*token).content);
 }
-
-void	delete_token_node(t_token **token)
-{
-	t_token	*temp;
-
-	temp = (*token)->next;
-	(*token)->next = temp->next;
-	if ((*token)->next != NULL)
-		(*token)->next->previous = temp->previous;
-	free(temp->content);
-	free(temp);
-}

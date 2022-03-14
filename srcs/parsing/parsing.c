@@ -24,6 +24,7 @@ int		parsing(char *user_input, t_shell *shell)
 		return (g_signal);
 	if (initialization_command(shell->token, shell) < 0)
 		return (error_malloc(shell));
+	delete_redirection_in_token(&shell->token);
 //	print_token(shell->token);
 	return (0);
 }
@@ -101,7 +102,7 @@ int		look_for_grammar_error(t_token *token, t_shell *shell)
 	}
 	else if ((token->type == REDIR_RIGHT || token->type == REDIR_LEFT
 		|| token->type == HEREDOC || token->type == D_REDIR_RIGHT)
-		&& token->next->type == WHITE_SPACE)
+		&& token->next == NULL)
 	{
 		error_message(SYNTAX, 1);
 		return (g_signal);

@@ -28,8 +28,10 @@ SRCS =	./srcs/main.c								\
 		./srcs/parsing/use_env.c					\
 		./srcs/parsing/command_management.c			\
 		./srcs/parsing/pipe_management.c			\
-		./srcs/parsing/redirection_management.c		\
-		./srcs/parsing/utils_for_struct.c			\
+		./srcs/parsing/redirection_management1.c	\
+		./srcs/parsing/redirection_management2.c	\
+		./srcs/parsing/utils_for_struct1.c			\
+		./srcs/parsing/utils_for_struct2.c			\
 
 BLACK		:= $(shell tput -Txterm setaf 0)
 RED		:= $(shell tput -Txterm setaf 1)
