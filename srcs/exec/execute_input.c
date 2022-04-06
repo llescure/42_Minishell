@@ -71,56 +71,6 @@ void	execute_child_process(t_shell *shell, t_token *token,
 		execute_binary(shell, token);
 }
 
-int	handle_redirection(t_redirection *redirection, t_shell *shell)
-{
-	int	in;
-	int	out;
-
-	in = 0;
-	out = 0;
-	if (redirection == NULL)
-		return (0);
-	while (redirection != NULL)
-	{
-		if (redirection->type == REDIR_RIGHT)
-			out = open(redirection->file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		else if (redirection->type == D_REDIR_RIGHT)
-			out = open(redirection->file, O_WRONLY | O_CREAT | O_APPEND, 0777);
-		else if (redirection->type == REDIR_LEFT)
-			in = open(redirection->file, O_RDONLY);
-	//	else if (command->command_type == HEREDOC)
-	//		handle_heredoc(shell, &command);
-		redirection = redirection->next;
-	}
-	if (open_file_descriptor(in, out, shell) < 0)
-		return (-1);
-	return (0);
-}
-
-int	open_file_descriptor(int in, int out, t_shell *shell)
-{
-	if (in == -1 || out == -1)
-	{
-		error_message(FILES, 1);
-		return(-1);
-	}
-	if (in != 0)
-	{
-		shell->fd_infile = dup(STDIN_FILENO);
-		close(STDIN_FILENO);
-		dup2(in, STDIN_FILENO);
-		close(in);
-	}
-	if (out != 0)
-	{
-		shell->fd_outfile = dup(STDOUT_FILENO);
-		close(STDOUT_FILENO);
-		dup2(out, STDOUT_FILENO);
-		close(out);
-	}
-	return (0);
-}
-
 /*void	handle_pipe(t_shell *shell, t_command *command)
 {
 	if (pipe_input == 1)

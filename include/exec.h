@@ -24,6 +24,9 @@ void		execute_child_process(t_shell *shell, t_token *token,
 
 int 		handle_redirection(t_redirection *redirection, t_shell *shell);
 int			open_file_descriptor(int in, int out, t_shell *shell);
+int			handle_heredoc(char *file);
+t_list		*create_delimitator_list(t_redirection *redirection);
+void		new_line_until_delimitator(int *fd, char *file);
 
 /*
 ** COMMAND
