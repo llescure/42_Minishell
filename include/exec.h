@@ -16,16 +16,17 @@ void		free_all(t_shell *shell);
 int			execute_input(t_shell *shell, t_token *token, t_command *command);
 void		handle_builtin(t_shell *shell, t_token **token, t_command *command);
 void		execute_child_process(t_shell *shell, t_token *token,
-		t_command *command);
+				t_command *command);
+void		execute_parent_process(t_shell *shell, t_token **token,
+				t_command *command, int pid);
 
 /*
 ** REDIRECTIONS
 */
 
-int 		handle_redirection(t_redirection *redirection, t_shell *shell);
+int			handle_redirection(t_redirection *redirection, t_shell *shell);
 int			open_file_descriptor(int in, int out, t_shell *shell);
-int			handle_heredoc(char *file);
-t_list		*create_delimitator_list(t_redirection *redirection);
+int			handle_heredoc(char *file, t_shell *shell);
 void		new_line_until_delimitator(int *fd, char *file);
 
 /*
@@ -34,19 +35,23 @@ void		new_line_until_delimitator(int *fd, char *file);
 
 void		ft_pwd(t_shell *shell);
 void		ft_echo(t_token **token);
+void		create_buffer_for_echo(t_token **token, int command_option_active,
+				char **str);
 void		ft_exit(t_shell *shell, t_token **token);
 int			handle_cases_other_than_words(t_token *token);
 void		ft_cd(t_shell *shell, t_token **token);
 void		ft_export(t_shell *shell, t_token **token);
+int			condition_for_token_export(t_type type);
 int			export_without_argument(t_shell *shell, t_token *token);
 char		**create_binary(t_token *token);
 int			command_lenght(t_token *token);
 void		exit_basic_case(t_shell *shell, t_token *token);
 int			check_number_of_arguments(t_shell *shell, t_token *token);
 int			check_if_variable_already_exists(t_shell *shell,
-		char *new_env_variable);
+				char *new_env_variable);
 void		delete_env_variable(t_shell *shell, char *env_to_delete);
 void		ft_unset(t_shell *shell, t_token **token);
+char		**copy_previous_env_variable(t_shell *shell, char *env_to_delete);
 void		execute_binary(t_shell *shell, t_token *token);
 void		create_new_env_variable(t_shell *shell, t_token **token);
 void		create_lonely_env_variable(t_shell *shell, t_token *token);

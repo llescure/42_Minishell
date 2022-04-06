@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-void free_all(t_shell *shell)
+void	free_all(t_shell *shell)
 {
 	if (shell->path != NULL)
 		free_tab(shell->path);
@@ -37,9 +37,9 @@ void	free_tab(char **tab)
 		free(tab);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_shell shell;
+	t_shell	shell;
 	t_env	env;
 
 	g_signal = 0;
@@ -49,7 +49,7 @@ int main(int argc, char **argv, char **envp)
 	shell.env->tab_variable_name = NULL;
 	shell.env->tab_variable_equals = NULL;
 	if (ft_strncmp(argv[0], "./minishell", ft_strlen("./minishell")) != 0
-			|| argc != 1)
+		|| argc != 1)
 	{
 		error_message(PARAMETERS, 1);
 		free_all(&shell);

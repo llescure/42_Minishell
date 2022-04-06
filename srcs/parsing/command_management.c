@@ -76,7 +76,7 @@ int		append_command_struct(t_command **command, t_token *token,
 		temp = temp->next;
 	temp->next = create_command_struct(token->content, token);
 	if (temp->next == NULL)
-		return(error_malloc(shell));
+		return(error_system(shell, MALLOC));
 	return (0);
 }
 

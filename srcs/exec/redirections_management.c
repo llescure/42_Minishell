@@ -18,7 +18,10 @@ int	handle_redirection(t_redirection *redirection, t_shell *shell)
 		else if (redirection->type == REDIR_LEFT)
 			in = open(redirection->file, O_RDONLY);
 		else if (redirection->type == HEREDOC)
-			handle_heredoc(redirection->file);
+		{
+			if (handle_heredoc(redirection->file, shell) < 0)
+				return (g_signal);
+		}
 		redirection = redirection->next;
 	}
 	if (open_file_descriptor(in, out, shell) < 0)
@@ -31,7 +34,7 @@ int	open_file_descriptor(int in, int out, t_shell *shell)
 	if (in == -1 || out == -1)
 	{
 		error_message(FILES, 1);
-		return(-1);
+		return (-1);
 	}
 	if (in != 0)
 	{
@@ -50,16 +53,16 @@ int	open_file_descriptor(int in, int out, t_shell *shell)
 	return (0);
 }
 
-int		handle_heredoc(char *file)
+int	handle_heredoc(char *file, t_shell *shell)
 {
 	int	fd[2];
-	int		reader;
+	int	reader;
 
 	if (pipe(fd) == -1)
-		return (-1);
+		return (error_system(shell, PIPE_FORK));
 	reader = fork();
 	if (reader < 0)
-		return (-1);
+		return (error_system(shell, PIPE_FORK));
 	if (reader == 0)
 		new_line_until_delimitator(fd, file);
 	else
@@ -73,7 +76,7 @@ int		handle_heredoc(char *file)
 
 void	new_line_until_delimitator(int *fd, char *file)
 {
-	char *line;
+	char	*line;
 
 	close (fd[0]);
 	ft_putstr_fd("> ", STDOUT_FILENO);

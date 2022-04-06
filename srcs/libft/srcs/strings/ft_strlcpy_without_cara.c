@@ -6,15 +6,15 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 17:42:21 by llescure          #+#    #+#             */
-/*   Updated: 2022/02/10 17:50:27 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/06 14:59:01 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/libft.h"
 
-int			ft_strlcpy_without_cara(char *dst, char *src, char cara)
+int	ft_strlcpy_without_cara(char *dst, char *src, char cara)
 {
-	int i;
+	int	i;
 	int	j;
 
 	i = 0;

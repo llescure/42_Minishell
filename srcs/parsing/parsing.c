@@ -11,19 +11,19 @@ int		parsing(char *user_input, t_shell *shell)
 	if (user_input[0] == '\0')
 		return (0);
 	if (scanner(user_input, shell) < 0)
-		return (error_malloc(shell));
+		return (error_system(shell, MALLOC));
 	if (tokenizer(shell->token, shell) < 0)
-		return (error_malloc(shell));
+		return (error_system(shell, MALLOC));
 	if (clean_input(shell) != 0)
 		return (g_signal);
 	if (join_clean_input(&shell->token) < 0)
-		return (error_malloc(shell));
+		return (error_system(shell, MALLOC));
 	if (tokenizer(shell->token, shell) < 0)
-		return (error_malloc(shell));
+		return (error_system(shell, MALLOC));
 	if (look_for_grammar_error(shell->token, shell) != 0)
 		return (g_signal);
 	if (initialization_command(shell->token, shell) < 0)
-		return (error_malloc(shell));
+		return (error_system(shell, MALLOC));
 	delete_redirection_in_token(&shell->token);
 //	print_token(shell->token);
 	return (0);
@@ -48,7 +48,7 @@ int		clean_input(t_shell *shell)
 	if (look_for_word_in_type(shell->token, EXPAND) == 1)
 		expand_expansion(shell, &shell->token);
 	if (g_signal < 0)
-		return(error_malloc(shell));
+		return(error_system(shell, MALLOC));
 	return (0);
 }
 

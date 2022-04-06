@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 16:30:25 by llescure          #+#    #+#             */
-/*   Updated: 2022/03/07 16:31:41 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/06 14:56:57 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_type_add_back(t_type **alst, t_type *new)
 {
-	t_type *temp;
+	t_type	*temp;
 
 	if (alst == NULL)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 15:28:55 by llescure          #+#    #+#             */
-/*   Updated: 2022/02/11 15:45:47 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/06 14:53:48 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_join_tab(char **tab)
 {
-	int	i;
+	int		i;
 	char	*temp;
 	char	*new_str;
 

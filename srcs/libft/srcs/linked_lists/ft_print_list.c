@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 15:21:09 by llescure          #+#    #+#             */
-/*   Updated: 2022/02/07 17:21:18 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/06 14:55:28 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_print_list(t_list *lst)
 {
-	int compt;
+	int	compt;
 
 	compt = 0;
 	if (lst == NULL)

@@ -6,7 +6,7 @@
 ** of the token
 */
 
-typedef enum	e_type
+typedef enum e_type
 {
 	WORD=0,
 	COMMAND,
@@ -24,7 +24,7 @@ typedef enum	e_type
 	HEREDOC
 }				t_type;
 
-typedef struct	s_token
+typedef struct s_token
 {
 	t_type			type;
 	char			*content;
@@ -33,24 +33,23 @@ typedef struct	s_token
 	struct s_token	*previous;
 }				t_token;
 
-
 /*
 ** Definition of structure for env variable
 */
 
 typedef struct s_env {
-    char		**env;
-    char		**alpha;
-	char		**tab_variable_name;
-	char		**tab_variable_equals;
-    int			index;
-}               t_env;
+    char			**env;
+    char			**alpha;
+	char			**tab_variable_name;
+	char			**tab_variable_equals;
+    int				index;
+}					t_env;
 
 /*
 ** Definition of structure in case of error
 */
 
-typedef enum	e_error
+typedef enum e_error
 {
 	COMMAND_ERROR,
 	SYNTAX,
@@ -60,6 +59,7 @@ typedef enum	e_error
 	EXPORT_ERROR,
 	EXIT_ERROR,
 	MALLOC,
+	PIPE_FORK,
 	PARAMETERS
 }				t_error;
 
@@ -68,14 +68,14 @@ typedef enum	e_error
 ** piped or if the input fd or output fd needs to be changed due to redirection
 */
 
-typedef struct	s_redirection
+typedef struct s_redirection
 {
 	char					*file;
 	t_type					type;
 	struct s_redirection	*next;
 }				t_redirection;
 
-typedef enum	e_command_type
+typedef enum e_command_type
 {
 	EXIT,
 	ECHO_CMD,
@@ -88,7 +88,7 @@ typedef enum	e_command_type
 	ENV
 }				t_command_type;
 
-typedef	struct		s_command
+typedef	struct s_command
 {
 	t_command_type		command_type;
 	t_redirection		*redirection;

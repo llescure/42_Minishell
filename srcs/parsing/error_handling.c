@@ -28,14 +28,17 @@ void	error_message(t_error str, int fd_outfile)
 	else if (str == MALLOC)
 		return (display_message("Error: couldn't allocate memory\n", -1,
 					fd_outfile));
+	else if (str == PIPE_FORK)
+		return (display_message("Error: couldn't fork or pipe\n", -1,
+					fd_outfile));
 	else if (str == PARAMETERS)
 		return (display_message("Error: Too many arguments\n\
 Usage: ./minishell\n", -1, fd_outfile));
 }
 
-int		error_malloc(t_shell *shell)
+int		error_system(t_shell *shell, t_error str)
 {
-	error_message(MALLOC, shell->fd_outfile);
+	error_message(str, shell->fd_outfile);
 	free_all(shell);
 	return (g_signal);
 }

@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-int prompt(char **user_input, t_shell *shell)
+int	prompt(char **user_input, t_shell *shell)
 {
 	char	*lign;
 
