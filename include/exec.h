@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/07 07:49:46 by llescure          #+#    #+#             */
+/*   Updated: 2022/04/07 07:49:50 by llescure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef EXEC_H
 # define EXEC_H
 
@@ -57,6 +69,8 @@ void		create_new_env_variable(t_shell *shell, t_token **token);
 void		create_lonely_env_variable(t_shell *shell, t_token *token);
 void		add_new_env_variable(char *new_env_variable, t_shell *shell);
 void		execute_executable(t_shell *shell, t_token *token);
+void		print_tab(char **tab);
+char		**export_tab(char **tab);
 
 /*
 ** SIGNALS

@@ -9,14 +9,14 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -lreadline
 
 SRCS =	./srcs/main.c								\
-		./srcs/exec/builtin_part1.c					\
+		./srcs/exec/other_builtin.c					\
 		./srcs/exec/ft_echo.c						\
 		./srcs/exec/ft_exit.c						\
 		./srcs/exec/ft_unset.c						\
 		./srcs/exec/ft_binary.c						\
 		./srcs/exec/launch_shell.c					\
 		./srcs/exec/signals.c						\
-		./srcs/exec/ft_export.c						\
+		./srcs/exec/ft_export1.c					\
 		./srcs/exec/ft_export2.c					\
 		./srcs/exec/execute_input.c					\
 		./srcs/exec/redirections_management.c		\
@@ -28,7 +28,8 @@ SRCS =	./srcs/main.c								\
 		./srcs/parsing/initialization.c				\
 		./srcs/parsing/error_handling.c				\
 		./srcs/parsing/create_command.c				\
-		./srcs/parsing/expand_management.c			\
+		./srcs/parsing/expand_management1.c			\
+		./srcs/parsing/expand_management2.c			\
 		./srcs/parsing/quote_management.c			\
 		./srcs/parsing/use_env.c					\
 		./srcs/parsing/command_management.c			\

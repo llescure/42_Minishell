@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirection_management2.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/07 08:06:15 by llescure          #+#    #+#             */
+/*   Updated: 2022/04/07 08:06:17 by llescure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 t_redirection	*create_redirection_struct(char *str, t_type type)
@@ -23,22 +35,22 @@ char	*find_file_for_redir(char	*str, char redir)
 	i = 0;
 	while (str[i] != '\0' && (str[i] == redir || ft_isspace(str[i]) == 1))
 		i++;
-	return(&str[i]);
+	return (&str[i]);
 }
 
-int		append_redirection_struct(t_redirection **redirection, char *str,
+int	append_redirection_struct(t_redirection **redirection, char *str,
 		t_type type)
 {
 	t_redirection	*temp;
 
 	temp = *redirection;
-	while((temp)->next != NULL)
+	while ((temp)->next != NULL)
 		temp = temp->next;
 	temp->next = create_redirection_struct(str, type);
 	if (temp->next == NULL)
 	{
 		error_message(MALLOC, 1);
-		return(-1);
+		return (-1);
 	}
 	return (0);
 }

@@ -58,3 +58,33 @@ int	export_without_argument(t_shell *shell, t_token *token)
 	}
 	return (0);
 }
+
+void	print_tab(char	**tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i] != NULL)
+	{
+		printf("%s\n", tab[i]);
+		i++;
+	}
+}
+
+char	**export_tab(char **tab)
+{
+	char	*env;
+	char	*temp;
+	int		i;
+
+	env = "export ";
+	i = 0;
+	while (tab[i] != NULL)
+	{
+		temp = tab[i];
+		tab[i] = ft_strjoin(env, tab[i]);
+		free(temp);
+		i++;
+	}
+	return (tab);
+}

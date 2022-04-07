@@ -1,10 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_for_struct1.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/07 08:07:29 by llescure          #+#    #+#             */
+/*   Updated: 2022/04/07 08:07:32 by llescure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 t_token	*new_token(t_type type, char *content, int id)
 {
-	t_token *new_token;
+	t_token	*new_token;
 
-	if (!(new_token = malloc(sizeof(*new_token))))
+	new_token = malloc(sizeof(*new_token));
+	if (!(new_token))
 		return (NULL);
 	new_token->type = type;
 	new_token->content = content;
@@ -16,7 +29,7 @@ t_token	*new_token(t_type type, char *content, int id)
 
 void	add_back_token(t_token **token, t_token *new)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	if (token == NULL)
 		return ;
@@ -59,9 +72,9 @@ void	print_token(t_token *token)
 	while (token->next != NULL)
 	{
 		printf("compt = %d type = %d content = %s\n", (*token).id,
-				(int)(*token).type, (*token).content);
+			(int)(*token).type, (*token).content);
 		token = token->next;
 	}
 	printf("compt = %d type = %d content = %s\n", (*token).id,
-			(int)(*token).type, (*token).content);
+		(int)(*token).type, (*token).content);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/07 07:50:08 by llescure          #+#    #+#             */
+/*   Updated: 2022/04/07 07:50:11 by llescure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSING_H
 # define PARSING_H
 
@@ -17,21 +29,21 @@ void			set_path(t_shell *shell);
 int				parsing(char *user_input, t_shell *shell);
 int				clean_input(t_shell *shell);
 int				join_clean_input(t_token **token);
+void			join_quote_word_expand(t_token **token);
 int				look_for_grammar_error(t_token *token, t_shell *shell);
 int				look_for_word_in_type(t_token *token, t_type type);
-int				special_condition_cara_is_respected(t_type type);
+int				check_special_condition_cara(t_type type);
 
 /*
 ** ENV MANAGEMENT
 */
 
-void			print_tab(char **tab);
 void			alpha_sort(t_shell *shell);
 void			get_env(t_shell *shell, char **envp);
-char			**export_tab(char **tab);
 void			create_env_tab(t_shell *shell);
 char			**copy_tab(char **tab, int size);
 void			get_absolute_path(t_shell *shell, char *path);
+void			initialize_env_tab(t_shell *shell);
 
 /*
 ** SCANNER
@@ -98,6 +110,7 @@ void			free_command(t_command **command);
 char			*find_correct_path(char **path, char *cmd);
 char			*create_command_path(char *cmd);
 void			free_tab(char **tab);
+void			find_type_command(char *str, t_command **command);
 
 /*
 ** REDIRECTIONS MANAGEMENT

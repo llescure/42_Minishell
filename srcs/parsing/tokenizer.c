@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/07 08:06:38 by llescure          #+#    #+#             */
+/*   Updated: 2022/04/07 08:06:41 by llescure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
-int		tokenizer(t_token *token, t_shell *shell)
+int	tokenizer(t_token *token, t_shell *shell)
 {
 	set_path(shell);
 	while (token != NULL)
@@ -12,7 +24,7 @@ int		tokenizer(t_token *token, t_shell *shell)
 	return (0);
 }
 
-int		check_content(char *str, t_token **token, t_shell *shell)
+int	check_content(char *str, t_token **token, t_shell *shell)
 {
 	if (str[0] == '|' && str[1] == '\0')
 		(*token)->type = PIPE;
@@ -25,7 +37,7 @@ int		check_content(char *str, t_token **token, t_shell *shell)
 	else if (str[0] == '<' || str[0] == '>')
 		check_redirection(str, token);
 	else if (str[0] == '$' || str[0] == '='
-			|| (str[0] == '-' && ft_isalnum(str[1]) == 1))
+		|| (str[0] == '-' && ft_isalnum(str[1]) == 1))
 		check_special_cara(str, token);
 	else if (ft_is_only_space(str) == 1)
 		(*token)->type = WHITE_SPACE;
@@ -51,24 +63,18 @@ void	check_special_cara(char *str, t_token **token)
 		(*token)->type = COMMAND_OPTION;
 }
 
-int		check_command(char *str, t_shell *shell)
+int	check_command(char *str, t_shell *shell)
 {
 	char	*temp;
-	if ((ft_strncmp(str, "exit", ft_strlen("exit")) == 0
-			&& ft_strncmp(str, "exit", ft_strlen(str)) == 0)
-		|| (ft_strncmp(str, "pwd", ft_strlen("pwd")) == 0
-			&& ft_strncmp(str, "pwd", ft_strlen(str)) == 0)
-		|| (ft_strncmp(str, "echo", ft_strlen("echo")) == 0
-			&& ft_strncmp(str, "echo", ft_strlen(str)) == 0)
-		|| (ft_strncmp(str, "cd", ft_strlen("cd")) == 0
-			&& ft_strncmp(str, "cd", ft_strlen(str)) == 0)
-		|| (ft_strncmp(str, "export", ft_strlen("export")) == 0
-			&& ft_strncmp(str, "export", ft_strlen(str)) == 0)
-		|| (ft_strncmp(str, "unset", ft_strlen("unset")) == 0
-			&& ft_strncmp(str, "unset", ft_strlen(str)) == 0)
-		|| (ft_strncmp(str, "./", ft_strlen("./")) == 0)
-		|| (ft_strncmp(str, "env", ft_strlen("env")) == 0
-			&& ft_strncmp(str, "env", ft_strlen(str)) == 0))
+
+	if (double_ft_strncmp(str, "exit") == 1
+		|| double_ft_strncmp(str, "pwd") == 1
+		|| double_ft_strncmp(str, "cd") == 1
+		|| double_ft_strncmp(str, "export") == 1
+		|| double_ft_strncmp(str, "unset") == 1
+		|| double_ft_strncmp(str, "./") == 1
+		|| double_ft_strncmp(str, "env") == 1
+		|| double_ft_strncmp(str, "echo") == 1)
 		return (1);
 	temp = find_correct_path(shell->path, str);
 	if (temp != NULL)
@@ -87,7 +93,7 @@ int		check_command(char *str, t_shell *shell)
 
 void	check_redirection(char *str, t_token **token)
 {
-	int	i;
+	int		i;
 	t_type	type;
 
 	i = 1;
@@ -99,12 +105,12 @@ void	check_redirection(char *str, t_token **token)
 		type = HEREDOC;
 	if (str[0] == '>' && str[1] == '>')
 		type = D_REDIR_RIGHT;
-	if	((str[0] == '<' && str[1] == '<' && str[2] == '<')
-	 	|| (str[0] == '>' && str[1] == '>' && str[2] == '>')
-	 	|| (str[0] == '>' && str[1] == '<')
-	 	|| (str[0] == '<' && str[1] == '>')
-	 	|| (str[0] == '<' && str[1] == '<' && str[2] == '>')
-	 	|| (str[0] == '>' && str[1] == '>' && str[2] == '<'))
+	if ((str[0] == '<' && str[1] == '<' && str[2] == '<')
+		|| (str[0] == '>' && str[1] == '>' && str[2] == '>')
+		|| (str[0] == '>' && str[1] == '<')
+		|| (str[0] == '<' && str[1] == '>')
+		|| (str[0] == '<' && str[1] == '<' && str[2] == '>')
+		|| (str[0] == '>' && str[1] == '>' && str[2] == '<'))
 		type = ERROR;
 	while (str[i] != '\0' && ft_isalnum(str[i]) == 0)
 		i++;

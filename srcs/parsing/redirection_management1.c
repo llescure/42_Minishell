@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirection_management1.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/07 08:01:57 by llescure          #+#    #+#             */
+/*   Updated: 2022/04/07 08:06:08 by llescure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
-int		attach_redirections_to_command(t_command *command, t_token *token)
+int	attach_redirections_to_command(t_command *command, t_token *token)
 {
 	t_redirection	*redirection;
 
@@ -19,7 +31,7 @@ void	look_for_redirection_before_command(t_token *token,
 	while (token != NULL && token->type != PIPE)
 	{
 		if (token->type == REDIR_RIGHT || token->type == REDIR_LEFT
-				|| token->type == HEREDOC || token->type == D_REDIR_RIGHT)
+			|| token->type == HEREDOC || token->type == D_REDIR_RIGHT)
 		{
 			if (*redirection == NULL)
 			{
@@ -30,7 +42,7 @@ void	look_for_redirection_before_command(t_token *token,
 			}
 			else
 				append_redirection_struct(redirection, token->content,
-						token->type);
+					token->type);
 		}
 		token = token->previous;
 	}
@@ -42,7 +54,7 @@ void	look_for_redirection_after_command(t_token *token,
 	while (token != NULL && token->type != PIPE)
 	{
 		if (token->type == REDIR_RIGHT || token->type == REDIR_LEFT
-			   	|| token->type == HEREDOC || token->type == D_REDIR_RIGHT)
+			|| token->type == HEREDOC || token->type == D_REDIR_RIGHT)
 		{
 			if (*redirection == NULL)
 			{
@@ -54,7 +66,7 @@ void	look_for_redirection_after_command(t_token *token,
 			else
 			{
 				append_redirection_struct(redirection, token->content,
-						token->type);
+					token->type);
 			}
 		}
 		token = token->next;
@@ -66,8 +78,9 @@ void	delete_redirection_in_token(t_token **token)
 	while ((*token)->next != NULL)
 	{
 		while ((*token)->next != NULL && ((*token)->type == REDIR_RIGHT
-			|| (*token)->type == REDIR_LEFT || (*token)->type == D_REDIR_RIGHT
-			|| (*token)->type == HEREDOC))
+				|| (*token)->type == REDIR_LEFT
+				|| (*token)->type == D_REDIR_RIGHT
+				|| (*token)->type == HEREDOC))
 		{
 			if ((*token)->id == 0)
 				delete_first_token_node(token);
@@ -75,7 +88,7 @@ void	delete_redirection_in_token(t_token **token)
 				delete_token_node(token);
 		}
 		if ((*token)->next == NULL)
-			break;
+			break ;
 		*token = (*token)->next;
 	}
 	if ((*token)->type == REDIR_RIGHT || (*token)->type == REDIR_LEFT

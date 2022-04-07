@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   struct.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/07 07:49:58 by llescure          #+#    #+#             */
+/*   Updated: 2022/04/07 07:50:01 by llescure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STRUCT_H
 # define STRUCT_H
 
@@ -38,12 +50,12 @@ typedef struct s_token
 */
 
 typedef struct s_env {
-    char			**env;
-    char			**alpha;
+	char			**env;
+	char			**alpha;
 	char			**tab_variable_name;
 	char			**tab_variable_equals;
-    int				index;
-}					t_env;
+	int				index;
+}				t_env;
 
 /*
 ** Definition of structure in case of error
@@ -88,7 +100,7 @@ typedef enum e_command_type
 	ENV
 }				t_command_type;
 
-typedef	struct s_command
+typedef struct s_command
 {
 	t_command_type		command_type;
 	t_redirection		*redirection;
@@ -104,15 +116,15 @@ typedef	struct s_command
 
 typedef struct s_shell
 {
-  char				*pwd;
-  char				**path;
-  char				*absolute_path;
-  int				fd_infile;
-  int				fd_outfile;
-  t_env				*env;
-  t_token			*token;
-  t_command			*command;
-  int				command_count;
-}               	t_shell;
+	char				*pwd;
+	char				**path;
+	char				*absolute_path;
+	int					fd_infile;
+	int					fd_outfile;
+	t_env				*env;
+	t_token				*token;
+	t_command			*command;
+	int					command_count;
+}				t_shell;
 
 #endif

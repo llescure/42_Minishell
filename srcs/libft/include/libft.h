@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 20:02:11 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/06 13:14:53 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/06 20:07:43 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ char			*ft_join_tab(char **tab);
 unsigned long	ft_count_words(char const *str, char sep);
 unsigned long	ft_count_words_multiple(char const *str, char sep1, char sep2);
 void			ft_free(char **s, unsigned long pos);
+int				double_ft_strncmp(char *s1, char *s2);
 
 /*
  ** Display

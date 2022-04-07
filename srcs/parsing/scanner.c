@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   scanner.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/07 08:06:28 by llescure          #+#    #+#             */
+/*   Updated: 2022/04/07 08:06:31 by llescure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 /*
@@ -56,13 +68,11 @@ char	*find_lexeme(char *user_input, int starting_point, int *end,
 	int quote_indication)
 {
 	char	*temp;
-	int	beginning;
+	int		beginning;
 
 	beginning = ft_beginning_lexeme(user_input, starting_point,
 			quote_indication);
-	//printf("beginning = %d\n", beginning);
 	*end = ft_end_lexeme(user_input, beginning, quote_indication);
-	//printf("end = %d\n", *end);
 	temp = ft_cut_str(user_input, beginning, *end);
 	return (temp);
 }
@@ -72,7 +82,7 @@ char	*find_lexeme(char *user_input, int starting_point, int *end,
  ** redirections and put it into a linked list in the structure
  */
 
-int		scanner(char *user_input, t_shell *shell)
+int	scanner(char *user_input, t_shell *shell)
 {
 	t_token	*token;
 	int		end;
@@ -84,10 +94,7 @@ int		scanner(char *user_input, t_shell *shell)
 	if (temp != NULL)
 		token = new_token(WHITE_SPACE, temp, id);
 	if (token == NULL)
-	{
-		g_signal = -1;
-		return (g_signal);
-	}
+		return (-1);
 	id++;
 	while (end < (int)ft_strlen(user_input))
 	{

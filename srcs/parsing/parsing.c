@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/07 08:01:16 by llescure          #+#    #+#             */
+/*   Updated: 2022/04/07 08:01:18 by llescure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 /*
@@ -5,7 +17,7 @@
  ** expansions with $ and between quotes and 4) finally the grammatical check
  */
 
-int		parsing(char *user_input, t_shell *shell)
+int	parsing(char *user_input, t_shell *shell)
 {
 	shell->command_count = 0;
 	if (user_input[0] == '\0')
@@ -25,7 +37,6 @@ int		parsing(char *user_input, t_shell *shell)
 	if (initialization_command(shell->token, shell) < 0)
 		return (error_system(shell, MALLOC));
 	delete_redirection_in_token(&shell->token);
-//	print_token(shell->token);
 	return (0);
 }
 
@@ -34,7 +45,7 @@ int		parsing(char *user_input, t_shell *shell)
  * * does quote and identifier expansion
 */
 
-int		clean_input(t_shell *shell)
+int	clean_input(t_shell *shell)
 {
 	if (look_for_word_in_type(shell->token, ERROR) == 1)
 	{
@@ -48,7 +59,7 @@ int		clean_input(t_shell *shell)
 	if (look_for_word_in_type(shell->token, EXPAND) == 1)
 		expand_expansion(shell, &shell->token);
 	if (g_signal < 0)
-		return(error_system(shell, MALLOC));
+		return (error_system(shell, MALLOC));
 	return (0);
 }
 
@@ -58,25 +69,16 @@ int		clean_input(t_shell *shell)
  * * 3) a double quote, 4) an identifier and the next node if one of the 4 types
 */
 
-int		join_clean_input(t_token **token)
+int	join_clean_input(t_token **token)
 {
 	char	*str_temp;
 
 	while ((*token)->next != NULL)
 	{
-		if (special_condition_cara_is_respected((*token)->type) == 1)
-		{
-			while ((*token)->next != NULL &&
-				special_condition_cara_is_respected((*token)->next->type) == 1)
-			{
-				str_temp = (*token)->content;
-				(*token)->content = ft_strjoin(str_temp, (*token)->next->content);
-				free(str_temp);
-				delete_token_node(token);
-			}
-		}
+		if (check_special_condition_cara((*token)->type) == 1)
+			join_quote_word_expand(token);
 		if ((*token)->next == NULL)
-			break;
+			break ;
 		if ((*token)->type == WHITE_SPACE)
 		{
 			str_temp = (*token)->content;
@@ -90,18 +92,18 @@ int		join_clean_input(t_token **token)
 	return (0);
 }
 
-int		look_for_grammar_error(t_token *token, t_shell *shell)
+int	look_for_grammar_error(t_token *token, t_shell *shell)
 {
-	if (look_for_word_in_type(token, HEREDOC) == 0 &&
-		(token->type == COMMAND_OPTION || token->type == WORD
-		 || token->type == EXPAND))
+	if (look_for_word_in_type(token, HEREDOC) == 0
+		&& (token->type == COMMAND_OPTION || token->type == WORD
+			|| token->type == EXPAND))
 	{
 		shell->command_count++;
 		error_message(COMMAND_ERROR, 1);
 		return (g_signal);
 	}
 	else if ((token->type == REDIR_RIGHT || token->type == REDIR_LEFT
-		|| token->type == HEREDOC || token->type == D_REDIR_RIGHT)
+			|| token->type == HEREDOC || token->type == D_REDIR_RIGHT)
 		&& token->next == NULL)
 	{
 		error_message(SYNTAX, 1);

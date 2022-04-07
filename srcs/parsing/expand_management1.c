@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_management1.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/07 08:00:27 by llescure          #+#    #+#             */
+/*   Updated: 2022/04/07 08:00:30 by llescure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 void	expand_expansion(t_shell *shell, t_token **token)
 {
-
 	while ((*token)->next != NULL)
 	{
 		if ((*token)->type == EXPAND)
@@ -26,7 +37,7 @@ void	expansion_cases(t_shell *shell, char **str)
 	char	*temp;
 	char	**tab_for_quotes;
 	char	*tab_joined;
-	int	i;
+	int		i;
 
 	i = 0;
 	tab_for_quotes = NULL;
@@ -68,7 +79,7 @@ void	get_identifier(t_shell *shell, char **str)
 	char	*temp2;
 	char	**tab;
 	char	*tab_joined;
-	int	i;
+	int		i;
 
 	i = 0;
 	tab = split_expand(*str, '$');
@@ -100,7 +111,7 @@ void	identifier_cases(char **str_to_change, char *original_str, char *temp2,
 	else if (original_str[0] == '$' && *str_to_change[0] == '\0')
 		*str_to_change = ft_strdup("$");
 	else if (original_str[0] == '$'
-			&& expand_env_variable(*str_to_change, shell->env) != NULL)
+		&& expand_env_variable(*str_to_change, shell->env) != NULL)
 		*str_to_change = ft_strdup(expand_env_variable(*str_to_change,
 					shell->env));
 	else if (original_str[0] != '$')
@@ -125,40 +136,11 @@ char	*expand_env_variable(char *variable_to_find, t_env *env)
 	while (i < env->index)
 	{
 		if (ft_strncmp(env->tab_variable_name[i], variable_to_find,
-					ft_strlen(env->tab_variable_name[i])) == 0
-				&& ft_strncmp(env->tab_variable_name[i], variable_to_find,
-					ft_strlen(variable_to_find)) == 0)
+				ft_strlen(env->tab_variable_name[i])) == 0
+			&& ft_strncmp(env->tab_variable_name[i], variable_to_find,
+				ft_strlen(variable_to_find)) == 0)
 			return (env->tab_variable_equals[i]);
 		i++;
 	}
 	return (NULL);
-}
-
-/*
- ** This function splits the string into a tab if it encounters a $
- ** or simple quote
- */
-
-char	**split_expand(char *str, char cara)
-{
-	int		j;
-	int		i;
-	char	**tab;
-
-	i = 0;
-	j = 0;
-	tab = malloc(sizeof(char *) * (ft_count_words_multiple(str, cara, '\'')
-				+ 2));
-	if (tab == NULL)
-	{
-		g_signal = -1;
-		return (NULL);
-	}
-	while (str[i] != '\0')
-	{
-		tab[j] = find_lexeme(str, i, &i, 1);
-		j++;
-	}
-	tab[j] = NULL;
-	return (tab);
 }

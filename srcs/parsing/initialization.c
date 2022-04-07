@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   initialization.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/07 08:01:06 by llescure          #+#    #+#             */
+/*   Updated: 2022/04/07 08:01:09 by llescure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
-int		init_struct(t_shell *shell, char **envp)
+int	init_struct(t_shell *shell, char **envp)
 {
 	get_env(shell, envp);
 	if (g_signal == -1)
@@ -81,6 +93,24 @@ void	set_path(t_shell *shell)
 	{
 		error_message(MALLOC, shell->fd_outfile);
 		free_all(shell);
+		return ;
+	}
+}
+
+void	initialize_env_tab(t_shell *shell)
+{
+	shell->env->tab_variable_name = malloc(sizeof(char *)
+			* (shell->env->index + 1));
+	if (shell->env->tab_variable_name == NULL)
+	{
+		g_signal = -1;
+		return ;
+	}
+	shell->env->tab_variable_equals = malloc(sizeof(char *)
+			* (shell->env->index + 1));
+	if (shell->env->tab_variable_name == NULL)
+	{
+		g_signal = -1;
 		return ;
 	}
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quote_management.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/07 08:01:35 by llescure          #+#    #+#             */
+/*   Updated: 2022/04/07 08:01:38 by llescure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 void	single_quote_expansion(t_shell *shell, t_token **token)
@@ -18,7 +30,6 @@ void	double_quote_expansion(t_shell *shell, t_token **token)
 
 void	quote_expansion(t_shell *shell, t_token **token, t_type type_expansion)
 {
-
 	while ((*token)->next != NULL)
 	{
 		if ((*token)->type == type_expansion)
@@ -30,7 +41,6 @@ void	quote_expansion(t_shell *shell, t_token **token, t_type type_expansion)
 	while ((*token)->previous != NULL)
 		*token = (*token)->previous;
 }
-
 
 void	quote_cases(t_shell *shell, char **str, t_type type_expansion)
 {
@@ -49,7 +59,7 @@ void	quote_cases(t_shell *shell, char **str, t_type type_expansion)
 char	*remove_cara(char *str, char type_cara_to_delete)
 {
 	char	*cpy;
-	int	nbr_occurence;
+	int		nbr_occurence;
 
 	nbr_occurence = number_occurence_cara_in_str(str, type_cara_to_delete);
 	cpy = malloc(sizeof(char) * (ft_strlen(str) - nbr_occurence + 1));

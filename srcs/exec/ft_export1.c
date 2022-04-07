@@ -70,7 +70,7 @@ void	create_new_env_variable(t_shell *shell, t_token **token)
 int	condition_for_token_export(t_type type)
 {
 	if (type == WHITE_SPACE || type == WORD || type == COMMAND
-			|| type == EQUAL)
+		|| type == EQUAL)
 		return (1);
 	return (0);
 }

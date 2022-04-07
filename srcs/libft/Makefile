@@ -6,7 +6,7 @@
 #    By: llescure <llescure@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/26 17:55:58 by llescure          #+#    #+#              #
-#    Updated: 2022/04/06 13:14:42 by llescure         ###   ########.fr        #
+#    Updated: 2022/04/06 20:08:16 by llescure         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRCS = srcs/convert/ft_itoa.c \
 	  	srcs/strings/ft_strmapi.c \
 	  	srcs/strings/find_cara_in_word.c \
 	  	srcs/strings/ft_join_tab.c \
+	  	srcs/strings/double_ft_strncmp.c \
 	  	srcs/types/ft_isalpha.c \
 	  	srcs/types/ft_isdigit.c \
 	  	srcs/types/ft_isalnum.c \

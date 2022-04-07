@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_scanner.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/07 08:08:04 by llescure          #+#    #+#             */
+/*   Updated: 2022/04/07 08:08:11 by llescure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 char	*ft_cut_str(char *user_input, int beginning, int end)
@@ -16,7 +28,7 @@ char	*ft_cut_str(char *user_input, int beginning, int end)
 		g_signal = -1;
 		return (new_str);
 	}
-	while ( j < end - beginning && user_input[i] != '\0')
+	while (j < end - beginning && user_input[i] != '\0')
 	{
 		new_str[j] = user_input[i];
 		i++;
@@ -87,9 +99,9 @@ int	delimit_redirections(char *str, int pos, int initial_pos)
 	while (ft_isredirections(str[i]) == 1)
 	i++;
 	while (ft_isspace(str[i]) == 1)
-	   i++;
-	while (ft_isspace(str[i]) == 0 && str[i] != '\0' &&
-			(ft_isalnum(str[i]) == 1 || ft_isredirections(str[i]) == 1))
+		i++;
+	while (ft_isspace(str[i]) == 0 && str[i] != '\0'
+		&& (ft_isalnum(str[i]) == 1 || ft_isredirections(str[i]) == 1))
 		i++;
 	return (i);
 }
