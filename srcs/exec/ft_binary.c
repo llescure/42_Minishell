@@ -14,7 +14,7 @@ void	execute_binary(t_shell *shell, t_token *token)
 	command = create_binary(token);
 	if (command == NULL)
 		exit(error_system(shell, MALLOC));
-	if (shell->path != NULL)
+	if (shell->path != NULL && access(command[0], F_OK) == -1)
 	{
 		temp = command[0];
 		command[0] = find_correct_path(shell->path, command[0]);
@@ -23,6 +23,8 @@ void	execute_binary(t_shell *shell, t_token *token)
 	if (execve(command[0], command, shell->env->env) < 0)
 	{
 		error_message(COMMAND_ERROR, 1);
+		free_tab(shell->path);
+		shell->path = NULL;
 		free_tab(command);
 		exit(g_signal);
 	}

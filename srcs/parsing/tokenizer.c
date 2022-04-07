@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:06:38 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/07 09:01:48 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/07 14:33:46 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ int	check_command(char *str, t_shell *shell)
 		|| ft_strncmp(str, "./", ft_strlen("./")) == 0
 		|| double_ft_strncmp(str, "env") == 1
 		|| double_ft_strncmp(str, "echo") == 1)
+		return (1);
+	if (access(str, F_OK) == 0)
 		return (1);
 	temp = find_correct_path(shell->path, str);
 	if (temp != NULL)
