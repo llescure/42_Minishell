@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:01:16 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/07 09:47:03 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/07 10:04:06 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,23 +69,14 @@ int	clean_input(t_shell *shell)
  * * 3) a double quote, 4) an identifier and the next node if one of the 4 types
 */
 
-int		join_clean_input(t_token **token)
+int	join_clean_input(t_token **token)
 {
 	char	*str_temp;
 
 	while ((*token)->next != NULL)
 	{
 		if (check_special_condition_cara((*token)->type) == 1)
-		{
-			while ((*token)->next != NULL &&
-				check_special_condition_cara((*token)->next->type) == 1)
-			{
-				str_temp = (*token)->content;
-				(*token)->content = ft_strjoin(str_temp, (*token)->next->content);
-				free(str_temp);
-				delete_token_node(token);
-			}
-		}
+				join_quote_word_expand(token);
 		if ((*token)->next == NULL)
 			break ;
 		if ((*token)->type == WHITE_SPACE)
@@ -101,18 +92,18 @@ int		join_clean_input(t_token **token)
 	return (0);
 }
 
-int		look_for_grammar_error(t_token *token, t_shell *shell)
+int	look_for_grammar_error(t_token *token, t_shell *shell)
 {
-	if (look_for_word_in_type(token, HEREDOC) == 0 &&
-		(token->type == COMMAND_OPTION || token->type == WORD
-		 || token->type == EXPAND))
+	if (look_for_word_in_type(token, HEREDOC) == 0
+		&& (token->type == COMMAND_OPTION || token->type == WORD
+			|| token->type == EXPAND))
 	{
 		shell->command_count++;
 		error_message(COMMAND_ERROR, 1);
 		return (g_signal);
 	}
 	else if ((token->type == REDIR_RIGHT || token->type == REDIR_LEFT
-		|| token->type == HEREDOC || token->type == D_REDIR_RIGHT)
+			|| token->type == HEREDOC || token->type == D_REDIR_RIGHT)
 		&& token->next == NULL)
 	{
 		error_message(SYNTAX, 1);
