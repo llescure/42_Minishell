@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:06:38 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/07 08:06:41 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/07 09:01:48 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	check_command(char *str, t_shell *shell)
 		|| double_ft_strncmp(str, "cd") == 1
 		|| double_ft_strncmp(str, "export") == 1
 		|| double_ft_strncmp(str, "unset") == 1
-		|| double_ft_strncmp(str, "./") == 1
+		|| ft_strncmp(str, "./", ft_strlen("./")) == 0
 		|| double_ft_strncmp(str, "env") == 1
 		|| double_ft_strncmp(str, "echo") == 1)
 		return (1);

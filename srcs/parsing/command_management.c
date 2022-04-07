@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:59:34 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/07 07:59:37 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/07 09:08:27 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	initialization_command(t_token *token, t_shell *shell)
 			if (shell->command == NULL)
 			{
 				shell->command = create_command_struct(token->content, token);
-				if (shell->command == NULL)
-					return (error_system(shell, MALLOC));
+				if (g_signal < 0)
+					return (g_signal);
 			}
 			else
 			{
@@ -41,7 +41,10 @@ t_command	*create_command_struct(char *str, t_token *token)
 
 	new_command = malloc(sizeof(*new_command));
 	if (new_command == NULL)
+	{
+		error_message(MALLOC, 1);
 		return (NULL);
+	}
 	find_type_command(str, &new_command);
 	new_command->next = NULL;
 	new_command->id = token->id;
