@@ -28,7 +28,11 @@ void	handle_builtin(t_shell *shell, t_token **token, t_command *command)
 	if (pid < 0)
 		return ;
 	else if (pid == 0)
+	{
+		free_tab(shell->path);
+		shell->path = NULL;
 		execute_child_process(shell, *token, command);
+	}
 	else
 		execute_parent_process(shell, token, command, pid);
 	dup2(shell->fd_infile, STDIN_FILENO);

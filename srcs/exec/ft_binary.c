@@ -23,8 +23,6 @@ void	execute_binary(t_shell *shell, t_token *token)
 	if (execve(command[0], command, shell->env->env) < 0)
 	{
 		error_message(COMMAND_ERROR, 1);
-		free_tab(shell->path);
-		shell->path = NULL;
 		free_tab(command);
 		exit(g_signal);
 	}
