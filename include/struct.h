@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:58 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/07 07:50:01 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/08 08:20:31 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef enum e_command_type
 	UNSET,
 	BINARY,
 	EXECUTABLE,
+	VOID,
 	ENV
 }				t_command_type;
 

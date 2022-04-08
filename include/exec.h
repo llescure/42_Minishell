@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/07 07:49:50 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/08 11:50:46 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int			export_without_argument(t_shell *shell, t_token *token);
 char		**create_binary(t_token *token);
 int			command_lenght(t_token *token);
 void		exit_basic_case(t_shell *shell, t_token *token);
-int			check_number_of_arguments(t_shell *shell, t_token *token);
+int			check_number_of_arguments(t_token *token);
 int			check_if_variable_already_exists(t_shell *shell,
 				char *new_env_variable);
 void		delete_env_variable(t_shell *shell, char *env_to_delete);

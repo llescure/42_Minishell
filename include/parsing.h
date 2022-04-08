@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:50:08 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/07 07:50:11 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/08 08:57:08 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,9 +135,8 @@ void			delete_redirection_in_token(t_token **token);
 */
 
 void			define_pipe_input_output(t_command *command, t_token *token);
-void			look_for_pipe_before_command(t_command *command,
-					t_token *token);
-void			look_for_pipe_after_command(t_command *command, t_token *token);
+int				look_for_type_before_command(t_token *token, t_type type);
+int				look_for_type_after_command(t_token *token, t_type type);
 
 /*
 ** UTILS_FOR_STRUCT

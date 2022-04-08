@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:01:57 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/07 08:06:08 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/08 09:44:11 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	attach_redirections_to_command(t_command *command, t_token *token)
 	t_redirection	*redirection;
 
 	redirection = NULL;
-	look_for_redirection_before_command(token, &redirection);
+	if (token->previous != NULL)
+		look_for_redirection_before_command(token, &redirection);
 	look_for_redirection_after_command(token, &redirection);
 	if (g_signal == -1)
 		return (g_signal);
@@ -28,7 +29,8 @@ int	attach_redirections_to_command(t_command *command, t_token *token)
 void	look_for_redirection_before_command(t_token *token,
 		t_redirection **redirection)
 {
-	while (token != NULL && token->type != PIPE)
+	token = token->previous;
+	while (token != NULL && token->type != PIPE && token->type != COMMAND)
 	{
 		if (token->type == REDIR_RIGHT || token->type == REDIR_LEFT
 			|| token->type == HEREDOC || token->type == D_REDIR_RIGHT)

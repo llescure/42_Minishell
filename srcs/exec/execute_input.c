@@ -22,14 +22,18 @@ void	handle_builtin(t_shell *shell, t_token **token, t_command *command)
 	int	pid;
 
 //	handle_pipe(shell, command);
-	if (handle_redirection(command->redirection, shell) < 0)
-		return ;
+	if (command->command_type != VOID)
+	{
+		if (handle_redirection(command->redirection, shell) < 0)
+			return ;
+	}
 	pid = fork();
 	if (pid < 0)
 		return ;
 	else if (pid == 0)
 	{
-		free_tab(shell->path);
+		if (shell->path != NULL)
+			free_tab(shell->path);
 		shell->path = NULL;
 		execute_child_process(shell, *token, command);
 	}
@@ -46,7 +50,7 @@ void	execute_child_process(t_shell *shell, t_token *token,
 		ft_pwd(shell);
 	else if (command->command_type == EXIT || command->command_type == CD
 		|| command->command_type == EXPORT || command->command_type == ECHO_CMD
-		|| command->command_type == UNSET)
+		|| command->command_type == UNSET || command->command_type == VOID)
 		exit(g_signal);
 	else if (command->command_type == ENV)
 	{
@@ -55,7 +59,7 @@ void	execute_child_process(t_shell *shell, t_token *token,
 	}
 	else if (command->command_type == EXECUTABLE)
 		execute_executable(shell, token);
-	else
+	else if (command->command_type == BINARY)
 		execute_binary(shell, token);
 }
 

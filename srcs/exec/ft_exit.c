@@ -17,8 +17,8 @@ void	ft_exit(t_shell *shell, t_token **token)
 		exit(g_signal);
 	}
 	*token = (*token)->next;
-	if (check_number_of_arguments(shell, *token) != 0)
-		exit(g_signal);
+	if (check_number_of_arguments(*token) != 0)
+		return ;
 	free_all(shell);
 	ft_putstr_fd("exit\n", 1);
 	exit(g_signal % 256);
@@ -34,7 +34,7 @@ void	exit_basic_case(t_shell *shell, t_token *token)
 	}
 }
 
-int	check_number_of_arguments(t_shell *shell, t_token *token)
+int	check_number_of_arguments(t_token *token)
 {
 	while (token != NULL)
 	{
@@ -42,7 +42,6 @@ int	check_number_of_arguments(t_shell *shell, t_token *token)
 		{
 			ft_putstr_fd("exit\n", 1);
 			error_message(ARGUMENTS, 1);
-			free_all(shell);
 			return (g_signal);
 		}
 		token = token->next;
