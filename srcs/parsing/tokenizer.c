@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:06:38 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/07 15:47:16 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/08 16:58:43 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,7 @@ int	check_command(char *str, t_shell *shell)
 {
 	char	*temp;
 
-	if (double_ft_strncmp(str, "exit") == 1
-		|| double_ft_strncmp(str, "pwd") == 1
-		|| double_ft_strncmp(str, "cd") == 1
-		|| double_ft_strncmp(str, "export") == 1
-		|| double_ft_strncmp(str, "unset") == 1
-		|| ft_strncmp(str, "./", ft_strlen("./")) == 0
-		|| double_ft_strncmp(str, "env") == 1
-		|| double_ft_strncmp(str, "echo") == 1)
+	if (command_is_builtin(str) == 1)
 		return (1);
 	if (access(str, F_OK) == 0)
 		return (1);

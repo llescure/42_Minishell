@@ -46,6 +46,7 @@ int	main(int argc, char **argv, char **envp)
 	shell.path = NULL;
 	shell.pwd = NULL;
 	shell.env = &env;
+	shell.absolute_path = NULL;
 	shell.env->tab_variable_name = NULL;
 	shell.env->tab_variable_equals = NULL;
 	if (ft_strncmp(argv[0], "./minishell", ft_strlen("./minishell")) != 0

@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 13:55:13 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/08 14:17:10 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/08 16:51:25 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	modify_shlvl(t_shell *shell)
 	char	*level;
 	char	*temp;
 
+	if (shell->env->index == 0)
+		return ;
 	shlvl = ft_strdup("SHLVL=");
 	level = ft_itoa(shell->shlvl);
 	temp = shlvl;
@@ -36,8 +38,8 @@ char	*find_variable_value_env(t_shell *shell, char *value_to_find)
 	while (i < shell->env->index)
 	{
 		if (ft_strncmp(shell->env->tab_variable_name[i], value_to_find,
-					ft_strlen(value_to_find)) == 0)
-				return (shell->env->tab_variable_equals[i]);
+				ft_strlen(value_to_find)) == 0)
+			return (shell->env->tab_variable_equals[i]);
 		i++;
 	}
 	return (NULL);

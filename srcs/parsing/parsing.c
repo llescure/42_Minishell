@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:01:16 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/08 16:31:14 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/08 16:52:31 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	join_clean_input(t_token **token)
 	while ((*token)->next != NULL)
 	{
 		if (check_special_condition_cara((*token)->type) == 1)
-				join_quote_word_expand(token);
+			join_quote_word_expand(token);
 		if ((*token)->next == NULL)
 			break ;
 		if ((*token)->type == WHITE_SPACE)
