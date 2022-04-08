@@ -54,13 +54,13 @@ void	execute_child_process(t_shell *shell, t_token *token,
 		exit(g_signal);
 	else if (command->command_type == ENV)
 	{
-		print_tab(shell->env->env);
+		print_env(shell->env->env);
 		exit(g_signal);
 	}
-	else if (command->command_type == EXECUTABLE)
-		execute_executable(shell, token);
 	else if (command->command_type == BINARY)
 		execute_binary(shell, token);
+	else if (command->command_type == EXECUTABLE)
+		execute_executable(shell, token);
 }
 
 void	execute_parent_process(t_shell *shell, t_token **token,

@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:58 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/08 08:20:31 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/08 11:55:49 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ typedef struct s_shell
 	t_token				*token;
 	t_command			*command;
 	int					command_count;
+	int					shlvl;
 }				t_shell;
 
 #endif

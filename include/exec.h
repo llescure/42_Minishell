@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/08 11:50:46 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/08 15:44:59 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void		create_new_env_variable(t_shell *shell, t_token **token);
 void		create_lonely_env_variable(t_shell *shell, t_token *token);
 void		add_new_env_variable(char *new_env_variable, t_shell *shell);
 void		execute_executable(t_shell *shell, t_token *token);
+void		print_env(char **tab);
 void		print_tab(char **tab);
 char		**export_tab(char **tab);
 

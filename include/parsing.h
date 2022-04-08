@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:50:08 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/08 08:57:08 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/08 14:12:48 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void			create_env_tab(t_shell *shell);
 char			**copy_tab(char **tab, int size);
 void			get_absolute_path(t_shell *shell, char *path);
 void			initialize_env_tab(t_shell *shell);
+void			modify_shlvl(t_shell *shell);
+char			*find_variable_value_env(t_shell *shell, char *value_to_find);
 
 /*
 ** SCANNER

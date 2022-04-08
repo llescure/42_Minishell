@@ -59,14 +59,15 @@ int	export_without_argument(t_shell *shell, t_token *token)
 	return (0);
 }
 
-void	print_tab(char	**tab)
+void	print_env(char	**tab)
 {
 	int	i;
 
 	i = 0;
 	while (tab[i] != NULL)
 	{
-		printf("%s\n", tab[i]);
+		if (find_cara_in_word(tab[i], '=') != -1)
+			printf("%s\n", tab[i]);
 		i++;
 	}
 }

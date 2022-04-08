@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:01:16 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/07 15:48:17 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/08 16:31:14 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	parsing(char *user_input, t_shell *shell)
 	if (initialization_command(shell->token, shell) < 0)
 		return (error_system(shell, MALLOC));
 	delete_redirection_in_token(&shell->token);
-//	print_token(shell->token);
+	print_token(shell->token);
 	return (0);
 }
 

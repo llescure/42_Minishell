@@ -36,6 +36,7 @@ SRCS =	./srcs/main.c								\
 		./srcs/parsing/pipe_management.c			\
 		./srcs/parsing/redirection_management1.c	\
 		./srcs/parsing/redirection_management2.c	\
+		./srcs/parsing/increment_shlvl.c			\
 		./srcs/parsing/utils_for_struct1.c			\
 		./srcs/parsing/utils_for_struct2.c			\
 
