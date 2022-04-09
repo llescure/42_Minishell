@@ -14,6 +14,8 @@
 
 int	init_struct(t_shell *shell, char **envp)
 {
+	char	tmp[PATH_MAX];
+
 	get_env(shell, envp);
 	if (g_signal == -1)
 	{
@@ -32,6 +34,8 @@ int	init_struct(t_shell *shell, char **envp)
 	}
 	modify_shlvl(shell);
 	set_path(shell);
+	shell->path_in = ft_strjoin(getcwd(tmp, PATH_MAX), "/.tmp_in");
+	shell->path_out = ft_strjoin(getcwd(tmp, PATH_MAX), "/.tmp_out");
 	return (0);
 }
 

@@ -20,6 +20,12 @@ void	free_all(t_shell *shell)
 		free_token(&shell->token);
 	if (shell->command != NULL)
 		free_command(&shell->command);
+	unlink(shell->path_out);
+	unlink(shell->path_in);
+	if (shell->path_in != NULL)
+		free(shell->path_in);
+	if (shell->path_out != NULL)
+		free(shell->path_out);
 	rl_clear_history();
 }
 

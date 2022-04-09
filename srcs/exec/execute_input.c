@@ -39,8 +39,13 @@ void	handle_builtin(t_shell *shell, t_token **token, t_command *command)
 	}
 	else
 		execute_parent_process(shell, token, command, pid);
-	dup2(shell->fd_infile, STDIN_FILENO);
-	dup2(shell->fd_outfile, STDOUT_FILENO);
+	if (command->pipe_input == 1 || command->pipe_output == 1)
+		ft_pipe_close_fd(shell, command);
+	else
+	{
+		dup2(shell->fd_infile, STDIN_FILENO);
+		dup2(shell->fd_outfile, STDOUT_FILENO);
+	}
 }
 
 void	execute_child_process(t_shell *shell, t_token *token,
