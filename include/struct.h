@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:58 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/08 11:55:49 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/09 10:13:13 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,12 @@ typedef struct s_shell
 	char				*absolute_path;
 	int					fd_infile;
 	int					fd_outfile;
+	int					fd_in;
+	int					ofd_in;
+	int					fd_out;
+	int					ofd_out;
+	char				*path_in;
+	char				*path_out;
 	t_env				*env;
 	t_token				*token;
 	t_command			*command;

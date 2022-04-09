@@ -21,7 +21,7 @@ void	handle_builtin(t_shell *shell, t_token **token, t_command *command)
 {
 	int	pid;
 
-//	handle_pipe(shell, command);
+	handle_pipe(shell, command);
 	if (command->command_type != VOID)
 	{
 		if (handle_redirection(command->redirection, shell) < 0)
@@ -83,8 +83,10 @@ void	execute_parent_process(t_shell *shell, t_token **token,
 	signal(SIGQUIT, handle_signals);
 }
 
-/*void	handle_pipe(t_shell *shell, t_command *command)
+void	handle_pipe(t_shell *shell, t_command *command)
 {
-	if (pipe_input == 1)
-	if (pipe_output == 1)
-}*/
+	if (command->pipe_output == 1)
+		ft_pipe_in(shell);
+	if (command->pipe_input == 1)
+		ft_pipe_out(shell);
+}

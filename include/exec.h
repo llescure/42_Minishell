@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/08 15:44:59 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/09 10:14:04 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,16 @@ char		**export_tab(char **tab);
 
 void		handle_signals(int signum);
 void		handle_exec_signals(int signum);
+
+/*
+** PIPE
+*/
+
+void	ft_pipe_out(t_shell *shell); // redirige la sortie de la prochaine commande dans le TMP_OUT
+void	ft_copy_fd(int fd_s, int fd_d); // copy le fd source dans le fd dest
+void	ft_pipe_in(t_shell *shell); // redirige l'entree de la prochaine commande dans le tmp_file
+
+void	handle_pipe(t_shell *shell, t_command *command);
+void	ft_pipe_close_fd(t_shell *shell, t_command *cmd);
 
 #endif

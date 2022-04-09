@@ -18,6 +18,7 @@ SRCS =	./srcs/main.c								\
 		./srcs/exec/signals.c						\
 		./srcs/exec/ft_export1.c					\
 		./srcs/exec/ft_export2.c					\
+		./srcs/exec/ft_pipe.c						\
 		./srcs/exec/execute_input.c					\
 		./srcs/exec/redirections_management.c		\
 		./srcs/parsing/scanner.c					\
