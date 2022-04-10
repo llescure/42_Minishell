@@ -14,7 +14,7 @@ void	execute_binary(t_shell *shell, t_token *token)
 	command = create_binary(token);
 	if (command == NULL)
 		exit(error_system(shell, MALLOC));
-	if (shell->path != NULL && access(command[0], F_OK) == -1)
+	if (shell->path != NULL && find_cara_in_word(command[0], '/') == -1)
 	{
 		temp = command[0];
 		command[0] = find_correct_path(shell->path, command[0]);
