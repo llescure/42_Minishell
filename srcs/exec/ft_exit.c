@@ -2,14 +2,20 @@
 
 void	ft_exit(t_shell *shell, t_token **token)
 {
+	long long	number;
+
+	number = 0;
+	while ((*token)->next != NULL && (*token)->next->type == WHITE_SPACE)
+		*token = (*token)->next;
+	if (look_for_type_before_command(*token, PIPE) == 1
+			&& (*token)->next == NULL)
+		return ;
 	*token = (*token)->next;
 	exit_basic_case(shell, *token);
-	while (*token != NULL && (*token)->type == WHITE_SPACE)
-		*token = (*token)->next;
-	exit_basic_case(shell, *token);
 	if (is_number((*token)->content) == 1)
-		g_signal = ft_atoi((*token)->content);
-	else if (is_number((*token)->content) == 0)
+		number = ft_atoi_long((*token)->content);
+	if (is_number((*token)->content) == 0 || number < -2147483648
+			|| number > 2147483647)
 	{
 		if (look_for_type_after_command(*token, PIPE) == 0
 				&& look_for_type_before_command(*token, PIPE) == 0)
@@ -21,7 +27,7 @@ void	ft_exit(t_shell *shell, t_token **token)
 		free_all(shell);
 		exit(g_signal);
 	}
-	*token = (*token)->next;
+	g_signal = number % 256;
 	if (check_number_of_arguments(*token) != 0)
 		return ;
 	if (look_for_type_after_command(*token, PIPE) == 0
@@ -36,9 +42,8 @@ void	ft_exit(t_shell *shell, t_token **token)
 
 void	exit_basic_case(t_shell *shell, t_token *token)
 {
-	if (token == NULL && look_for_type_before_command(token, PIPE) == 0)
+	if (token == NULL)
 	{
-		printf("type_before = %d\n", look_for_type_before_command(token, PIPE));
 		ft_putstr_fd("exit\n", 1);
 		free_all(shell);
 		exit (g_signal);

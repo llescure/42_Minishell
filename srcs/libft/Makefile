@@ -6,7 +6,7 @@
 #    By: llescure <llescure@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/26 17:55:58 by llescure          #+#    #+#              #
-#    Updated: 2022/04/06 20:08:16 by llescure         ###   ########.fr        #
+#    Updated: 2022/04/11 11:43:33 by llescure         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME = libft.a
 
 SRCS = srcs/convert/ft_itoa.c \
 	  	srcs/convert/ft_atoi.c \
+	  	srcs/convert/ft_atoi_long.c \
 	  	srcs/convert/ft_toupper.c \
 	  	srcs/convert/ft_tolower.c \
 		srcs/display/ft_putchar_fd.c \

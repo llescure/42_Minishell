@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 20:02:11 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/06 20:07:43 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/11 11:46:47 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,13 @@ int				ft_is_only_space(char *str);
 */
 
 int				ft_atoi(const char *str);
+long long		ft_atoi_long(const char *str);
 char			*ft_itoa(int n);
 int				ft_tolower(int c);
 int				ft_toupper(int c);
+int				ft_is_white_space(char c);
+long			ft_check_sign(const char *str);
+
 
 /*
  ** Linked_lists
