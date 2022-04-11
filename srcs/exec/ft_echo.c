@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-void	ft_echo(t_token **token)
+void	ft_echo(t_token **token, t_command **command)
 {
 	int		command_option_active;
 	char	*str;
@@ -14,7 +14,7 @@ void	ft_echo(t_token **token)
 				== COMMAND_OPTION)))
 		*token = (*token)->next;
 	str = ft_strdup("");
-	create_buffer_for_echo(token, command_option_active, &str);
+	create_buffer_for_echo(token, command_option_active, &str, command);
 	ft_putstr_fd(str, 1);
 	if (command_option_active == 0)
 		ft_putstr_fd("\n", 1);
@@ -44,7 +44,7 @@ int	handle_cases_other_than_words(t_token *token)
 }
 
 void	create_buffer_for_echo(t_token **token, int command_option_active,
-		char **str)
+		char **str, t_command **command)
 {
 	char	*temp;
 
@@ -60,6 +60,8 @@ void	create_buffer_for_echo(t_token **token, int command_option_active,
 			temp = *str;
 			*str = ft_strjoin(*str, (*token)->content);
 			free(temp);
+			if ((*token)->type == COMMAND)
+				*command = (*command)->next;
 		}
 		*token = (*token)->next;
 	}

@@ -6,7 +6,7 @@ int	execute_input(t_shell *shell, t_token *token, t_command *command)
 	{
 		if (token->type == COMMAND)
 		{
-			handle_builtin(shell, &token, command);
+			handle_builtin(shell, &token, &command);
 			if (token == NULL)
 				return (0);
 			command = command->next;
@@ -17,14 +17,14 @@ int	execute_input(t_shell *shell, t_token *token, t_command *command)
 	return (0);
 }
 
-void	handle_builtin(t_shell *shell, t_token **token, t_command *command)
+void	handle_builtin(t_shell *shell, t_token **token, t_command **command)
 {
 	int	pid;
 
-	handle_pipe(shell, command);
-	if (command->command_type != VOID)
+	handle_pipe(shell, *command);
+	if ((*command)->command_type != VOID)
 	{
-		if (handle_redirection(command->redirection, shell) < 0)
+		if (handle_redirection((*command)->redirection, shell) < 0)
 			return ;
 	}
 	pid = fork();
@@ -35,12 +35,12 @@ void	handle_builtin(t_shell *shell, t_token **token, t_command *command)
 		if (shell->path != NULL)
 			free_tab(shell->path);
 		shell->path = NULL;
-		execute_child_process(shell, *token, command);
+		execute_child_process(shell, *token, *command);
 	}
 	else
 		execute_parent_process(shell, token, command, pid);
-	if (command->pipe_input == 1 || command->pipe_output == 1)
-		ft_pipe_close_fd(shell, command);
+	if ((*command)->pipe_input == 1 || (*command)->pipe_output == 1)
+		ft_pipe_close_fd(shell, *command);
 	else
 	{
 		dup2(shell->fd_infile, STDIN_FILENO);
@@ -69,20 +69,20 @@ void	execute_child_process(t_shell *shell, t_token *token,
 }
 
 void	execute_parent_process(t_shell *shell, t_token **token,
-		t_command *command, int pid)
+		t_command **command, int pid)
 {
 	signal(SIGINT, handle_exec_signals);
 	signal(SIGQUIT, handle_exec_signals);
 	waitpid(pid, &g_signal, 0);
-	if (command->command_type == EXIT)
+	if ((*command)->command_type == EXIT)
 		ft_exit(shell, token);
-	else if (command->command_type == ECHO_CMD)
-		ft_echo(token);
-	else if (command->command_type == CD)
+	else if ((*command)->command_type == ECHO_CMD)
+		ft_echo(token, command);
+	else if ((*command)->command_type == CD)
 		ft_cd(shell, token);
-	else if (command->command_type == EXPORT)
+	else if ((*command)->command_type == EXPORT)
 		ft_export(shell, token);
-	else if (command->command_type == UNSET)
+	else if ((*command)->command_type == UNSET)
 		ft_unset(shell, token);
 	signal(SIGINT, handle_signals);
 	signal(SIGQUIT, handle_signals);

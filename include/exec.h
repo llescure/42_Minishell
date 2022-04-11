@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/09 10:14:04 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/11 08:02:45 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ void		free_all(t_shell *shell);
 */
 
 int			execute_input(t_shell *shell, t_token *token, t_command *command);
-void		handle_builtin(t_shell *shell, t_token **token, t_command *command);
+void		handle_builtin(t_shell *shell, t_token **token,
+		t_command **command);
 void		execute_child_process(t_shell *shell, t_token *token,
 				t_command *command);
 void		execute_parent_process(t_shell *shell, t_token **token,
-				t_command *command, int pid);
+				t_command **command, int pid);
 
 /*
 ** REDIRECTIONS
@@ -46,9 +47,9 @@ void		new_line_until_delimitator(int *fd, char *file);
 */
 
 void		ft_pwd(t_shell *shell);
-void		ft_echo(t_token **token);
+void		ft_echo(t_token **token, t_command **command);
 void		create_buffer_for_echo(t_token **token, int command_option_active,
-				char **str);
+				char **str, t_command **command);
 void		ft_exit(t_shell *shell, t_token **token);
 int			handle_cases_other_than_words(t_token *token);
 void		ft_cd(t_shell *shell, t_token **token);
