@@ -22,6 +22,7 @@ void	ft_cd(t_shell *shell, t_token **token, t_command *cmd)
 	*token = (*token)->next;
 	while (*token != NULL && (*token)->type == WHITE_SPACE)
 		*token = (*token)->next;
+	//printf("token->content = %s\n", (*token)->content);
 	if (cmd->pipe_output == 0 && cmd->pipe_input == 0)
 	{
 		if (*token == NULL)
