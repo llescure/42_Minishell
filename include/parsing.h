@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:50:08 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/08 16:58:01 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/11 14:37:02 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int				tokenizer(t_token *token, t_shell *shell);
 int				check_content(char *str, t_token **token, t_shell *shell);
 void			check_redirection(char *str, t_token **token);
 void			check_special_cara(char *str, t_token **token);
-int				check_command(char *str, t_shell *shell);
+int				check_command(char *str, t_shell *shell, t_token *previous);
 int				command_is_builtin(char *str);
 
 /*

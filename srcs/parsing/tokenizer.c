@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:06:38 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/11 14:23:32 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/11 14:46:34 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,10 @@ int	check_content(char *str, t_token **token, t_shell *shell)
 		(*token)->type = WHITE_SPACE;
 	else if (ft_isascii(str[0]) == 1)
 	{
-		if (check_command(str, shell) == 1)
+		if (check_command(str, shell, (*token)->previous) == 1)
 			(*token)->type = COMMAND;
-		else if (check_command(str, shell) == 0)
+		else if (check_command(str, shell, (*token)->previous) == 0)
 			(*token)->type = WORD;
-		else if (check_command(str, shell) == 0)
-			return (g_signal);
 	}
 	return (0);
 }
@@ -63,7 +61,7 @@ void	check_special_cara(char *str, t_token **token)
 		(*token)->type = COMMAND_OPTION;
 }
 
-int	check_command(char *str, t_shell *shell)
+int	check_command(char *str, t_shell *shell, t_token *token)
 {
 	char	*temp;
 
@@ -71,7 +69,10 @@ int	check_command(char *str, t_shell *shell)
 		return (1);
 	if (ft_strncmp(str, "..", ft_strlen(str)) == 0)
 		return (0);
-	if (access(str, F_OK) == 0 && (str[0] == '.' || str[0] == '/'))
+	if (ft_strncmp(str, "/", ft_strlen(str)) == 0)
+		return (0);
+	if (access(str, F_OK) == 0 && (str[0] == '.' || str[0] == '/')
+			&& token == NULL)
 		return (1);
 	temp = find_correct_path(shell->path, str);
 	if (temp != NULL)
