@@ -14,7 +14,7 @@ void	ft_echo(t_token **token, t_command **command)
 				== COMMAND_OPTION)))
 		*token = (*token)->next;
 	str = ft_strdup("");
-	create_buffer_for_echo(token, command_option_active, &str, command);
+	create_buffer_for_echo(token, &str, command);
 	ft_putstr_fd(str, 1);
 	if (command_option_active == 0)
 		ft_putstr_fd("\n", 1);
@@ -43,8 +43,7 @@ int	handle_cases_other_than_words(t_token *token)
 	return (command_option_active);
 }
 
-void	create_buffer_for_echo(t_token **token, int command_option_active,
-		char **str, t_command **command)
+void	create_buffer_for_echo(t_token **token, char **str, t_command **command)
 {
 	char	*temp;
 
@@ -52,10 +51,7 @@ void	create_buffer_for_echo(t_token **token, int command_option_active,
 	{
 		if ((*token)->type == PIPE)
 			return ;
-		else if ((*token)->type == WORD || (*token)->type == WHITE_SPACE
-			|| (*token)->type == QUOTE || (*token)->type == D_QUOTE
-			|| (*token)->type == EXPAND || (*token)->type == COMMAND
-			|| ((*token)->type == COMMAND_OPTION && command_option_active == 0))
+		else
 		{
 			temp = *str;
 			*str = ft_strjoin(*str, (*token)->content);

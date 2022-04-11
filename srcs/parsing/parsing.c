@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 12:23:17 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/11 14:09:00 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/11 21:57:04 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,12 @@ int	parsing(char *user_input, t_shell *shell)
 		return (g_signal);
 	if (join_clean_input(&shell->token) < 0)
 		return (error_system(shell, MALLOC));
-	if (tokenizer(shell->token, shell) < 0)
-		return (error_system(shell, MALLOC));
 	if (look_for_grammar_error(shell->token, shell) != 0)
 		return (g_signal);
 	if (initialization_command(shell->token, shell) < 0)
 		return (error_system(shell, MALLOC));
-	delete_redirection_in_token(&shell->token);
-//	print_token(shell->token);
+	delete_redirection_in_token(&shell->token, shell);
+	//print_token(shell->token);
 	return (0);
 }
 
@@ -105,17 +103,14 @@ int	look_for_grammar_error(t_token *token, t_shell *shell)
 		error_message(COMMAND_ERROR, 1);
 		return (g_signal);
 	}
-	else if ((token->type == REDIR_RIGHT || token->type == REDIR_LEFT
-			|| token->type == HEREDOC || token->type == D_REDIR_RIGHT)
-		&& token->next == NULL)
+	while (token != NULL)
 	{
-		error_message(SYNTAX, 1);
-		return (g_signal);
-	}
-	else if (token->type == PIPE && token->next == NULL)
-	{
-		error_message(SYNTAX, 1);
-		return (g_signal);
+		if (token->type == PIPE && token->next == NULL)
+		{
+			error_message(SYNTAX, 1);
+			return (g_signal);
+		}
+		token = token->next;
 	}
 	return (0);
 }

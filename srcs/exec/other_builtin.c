@@ -45,19 +45,17 @@ void	execute_executable(t_shell *shell, t_token *token)
 	{
 		shell->shlvl++;
 		modify_shlvl(shell);
-		signal(SIGINT, handle_signals);
-		signal(SIGQUIT, handle_signals);
 	}
 	if (command == NULL)
 	{
 		error_message(MALLOC, 0);
-		return ;
+		exit(g_signal);
 	}
 	if (execve(command[0], command, shell->env->env) < 0)
 	{
 		error_message(COMMAND_ERROR, 1);
 		free_tab(command);
-		return ;
+		exit(g_signal) ;
 	}
 	free_tab(command);
 }

@@ -24,7 +24,7 @@ void	handle_builtin(t_shell *shell, t_token **token, t_command **command)
 	handle_pipe(shell, *command);
 	if ((*command)->command_type != VOID)
 	{
-		if (handle_redirection((*command)->redirection, shell) < 0)
+		if (handle_redirection((*command)->redirection, shell, 1) < 0)
 			return ;
 	}
 	pid = fork();

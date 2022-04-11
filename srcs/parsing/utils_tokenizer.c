@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 16:56:05 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/08 16:57:03 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/11 15:13:00 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,16 @@ int	command_is_builtin(char *str)
 		|| double_ft_strncmp(str, "env") == 1
 		|| double_ft_strncmp(str, "echo") == 1)
 		return (1);
+	return (0);
+}
+
+int	only_type_before_token(t_token *token, t_type type)
+{
+	while (token != NULL && (token->type == type || token->type == WHITE_SPACE))
+	{
+		if (token->type == type)
+			return (1);
+		token = token->previous;
+	}
 	return (0);
 }

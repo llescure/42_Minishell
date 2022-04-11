@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:01:57 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/08 09:44:11 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/11 22:15:12 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,10 @@ void	look_for_redirection_after_command(t_token *token,
 	}
 }
 
-void	delete_redirection_in_token(t_token **token)
+void	delete_redirection_in_token(t_token **token, t_shell *shell)
 {
+	if (check_lonely_redirection(*token, shell) > 0)
+		return ;
 	while ((*token)->next != NULL)
 	{
 		while ((*token)->next != NULL && ((*token)->type == REDIR_RIGHT
@@ -98,4 +100,28 @@ void	delete_redirection_in_token(t_token **token)
 		delete_last_token_node(token);
 	while ((*token)->previous != NULL)
 		*token = (*token)->previous;
+}
+
+int	check_lonely_redirection(t_token *token, t_shell *shell)
+{
+	t_redirection *redirection;
+
+	redirection = NULL;
+	while (token != NULL && (token->type == REDIR_RIGHT
+			|| token->type == REDIR_LEFT || token->type == HEREDOC
+			|| token->type == D_REDIR_RIGHT || token->type == WHITE_SPACE))
+	{
+		if (redirection == NULL && (token->type == REDIR_LEFT
+				|| token->type == REDIR_RIGHT
+				|| token->type == HEREDOC || token->type == D_REDIR_RIGHT))
+			redirection = create_redirection_struct(token->content, token->type);
+		else if (redirection != NULL && token->type != WHITE_SPACE)
+			append_redirection_struct(&redirection, token->content, token->type);
+		token = token->next;
+	}
+	if (token != NULL)
+		return (0);
+	handle_redirection(redirection, shell, 0);
+	free_redirection(&redirection);
+	return (1);
 }

@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-int	handle_redirection(t_redirection *redirection, t_shell *shell)
+int	handle_redirection(t_redirection *redirection, t_shell *shell, int open_fd)
 {
 	int	in;
 	int	out;
@@ -24,18 +24,21 @@ int	handle_redirection(t_redirection *redirection, t_shell *shell)
 		}
 		redirection = redirection->next;
 	}
-	if (open_file_descriptor(in, out, shell) < 0)
-		return (-1);
-	return (0);
-}
-
-int	open_file_descriptor(int in, int out, t_shell *shell)
-{
 	if (in == -1 || out == -1)
 	{
 		error_message(FILES, 1);
 		return (-1);
 	}
+	if (open_fd == 1)
+	{
+		if (open_file_descriptor(in, out, shell) < 0)
+			return (-1);
+	}
+	return (0);
+}
+
+int	open_file_descriptor(int in, int out, t_shell *shell)
+{
 	if (in != 0)
 	{
 		shell->fd_infile = dup(STDIN_FILENO);

@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:50:08 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/11 14:37:02 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/11 21:52:14 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void			check_redirection(char *str, t_token **token);
 void			check_special_cara(char *str, t_token **token);
 int				check_command(char *str, t_shell *shell, t_token *previous);
 int				command_is_builtin(char *str);
+int				only_type_before_token(t_token *token, t_type type);
 
 /*
 ** ERROR MANAGEMENT
@@ -131,7 +132,8 @@ int				append_redirection_struct(t_redirection **redirection,
 					char *str, t_type type);
 void			free_redirection(t_redirection **list);
 void			print_redirection(t_redirection *redirection);
-void			delete_redirection_in_token(t_token **token);
+void			delete_redirection_in_token(t_token **token, t_shell *shell);
+int				check_lonely_redirection(t_token *token, t_shell *shell);
 
 /*
 ** PIPE MANAGEMENT
