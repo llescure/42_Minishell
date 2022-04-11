@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:06:38 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/10 19:53:21 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/11 12:03:39 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ int	check_command(char *str, t_shell *shell)
 
 	if (command_is_builtin(str) == 1)
 		return (1);
-	if (access(str, F_OK) == 0 && find_cara_in_word(str, '.') > 0
-			&& find_cara_in_word(str, '/') > 0)
+	if (access(str, F_OK) == 0 && find_cara_in_word(str, '/') >= 0)
 		return (1);
 	temp = find_correct_path(shell->path, str);
 	if (temp != NULL)
