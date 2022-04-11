@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:01:16 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/11 07:41:34 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/11 12:10:05 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	parsing(char *user_input, t_shell *shell)
 
 int	clean_input(t_shell *shell)
 {
+	unlink(shell->path_in);
+	unlink(shell->path_out);
 	if (look_for_word_in_type(shell->token, ERROR) == 1)
 	{
 		error_message(SYNTAX, 1);

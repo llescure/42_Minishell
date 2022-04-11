@@ -15,13 +15,20 @@ void	ft_copy_fd(int fd_s, int fd_d)
 {
 	char	buff[2];
 
+	printf ("STDERR_FILENO : '%d'\n", g_signal);
 	while(read(fd_s, buff, 1) > 0)
+	{
+		//printf ("STDERR_FILENO : '%d'\n", g_signal);
+		if (g_signal != 0)
+			write(1, buff, 1);
 		write(fd_d, buff, 1);
+	}
 }
 
 void	ft_pipe_in(t_shell *shell)
 {
 	int		out;
+	
 
 	shell->ofd_in = dup(STDIN_FILENO);
 	close (STDIN_FILENO);
