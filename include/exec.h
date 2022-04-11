@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/11 08:02:45 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/11 11:45:38 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void		create_buffer_for_echo(t_token **token, int command_option_active,
 				char **str, t_command **command);
 void		ft_exit(t_shell *shell, t_token **token);
 int			handle_cases_other_than_words(t_token *token);
-void		ft_cd(t_shell *shell, t_token **token);
+void		ft_cd(t_shell *shell, t_token **token, t_command *cmd);
 void		ft_export(t_shell *shell, t_token **token);
 int			condition_for_token_export(t_type type);
 int			export_without_argument(t_shell *shell, t_token *token);

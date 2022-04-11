@@ -15,21 +15,24 @@ void	ft_pwd(t_shell *shell)
 	exit(g_signal);
 }
 
-void	ft_cd(t_shell *shell, t_token **token)
+void	ft_cd(t_shell *shell, t_token **token, t_command *cmd)
 {
 	int	return_value;
 
 	*token = (*token)->next;
 	while (*token != NULL && (*token)->type == WHITE_SPACE)
 		*token = (*token)->next;
-	if (*token == NULL)
+	if (cmd->pipe_output == 0 && cmd->pipe_input == 0)
 	{
-		chdir(shell->absolute_path);
-		return ;
+		if (*token == NULL)
+		{
+			chdir(shell->absolute_path);
+			return ;
+		}
+		return_value = chdir((*token)->content);
+		if (return_value == -1)
+			error_message(FILES, 1);
 	}
-	return_value = chdir((*token)->content);
-	if (return_value == -1)
-		error_message(FILES, 1);
 }
 
 void	execute_executable(t_shell *shell, t_token *token)
