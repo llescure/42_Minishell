@@ -15,7 +15,7 @@ void	ft_copy_fd(int fd_s, int fd_d)
 {
 	char	buff[2];
 
-	printf ("STDERR_FILENO : '%d'\n", g_signal);
+//	printf ("STDERR_FILENO : '%d'\n", g_signal);
 	while(read(fd_s, buff, 1) > 0)
 	{
 		//printf ("STDERR_FILENO : '%d'\n", g_signal);

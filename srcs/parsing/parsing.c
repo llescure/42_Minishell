@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 12:23:17 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/11 21:57:04 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/13 21:17:24 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,17 @@ int	parsing(char *user_input, t_shell *shell)
 		return (error_system(shell, MALLOC));
 	if (clean_input(shell) != 0)
 		return (g_signal);
+	transform_expand_quote_command(shell->token);
 	if (join_clean_input(&shell->token) < 0)
 		return (error_system(shell, MALLOC));
-	if (look_for_grammar_error(shell->token, shell) != 0)
+	if (look_for_grammar_error(shell->token) != 0)
 		return (g_signal);
+	//print_token(shell->token);
+	find_word_in_token(shell->token);
 	if (initialization_command(shell->token, shell) < 0)
 		return (error_system(shell, MALLOC));
 	delete_redirection_in_token(&shell->token, shell);
-	//print_token(shell->token);
+	delete_word_in_command(shell->token, shell->command);
 	return (0);
 }
 
@@ -93,16 +96,8 @@ int	join_clean_input(t_token **token)
 	return (0);
 }
 
-int	look_for_grammar_error(t_token *token, t_shell *shell)
+int	look_for_grammar_error(t_token *token)
 {
-	if (look_for_word_in_type(token, HEREDOC) == 0
-		&& (token->type == COMMAND_OPTION || token->type == WORD
-			|| token->type == EXPAND))
-	{
-		shell->command_count++;
-		error_message(COMMAND_ERROR, 1);
-		return (g_signal);
-	}
 	while (token != NULL)
 	{
 		if (token->type == PIPE && token->next == NULL)

@@ -1,20 +1,20 @@
 #include "../../include/minishell.h"
 
-void	ft_echo(t_token **token, t_command **command)
+void	ft_echo(t_token *token)
 {
 	int		command_option_active;
 	char	*str;
 
-	*token = (*token)->next;
-	command_option_active = handle_cases_other_than_words(*token);
+	token = token->next;
+	command_option_active = handle_cases_other_than_words(token);
 	if (command_option_active < 0)
 		return ;
-	while (*token != NULL && ((*token)->type == WHITE_SPACE
-			|| (command_option_active == 1 && (*token)->type
+	while (token != NULL && (token->type == WHITE_SPACE
+			|| (command_option_active == 1 && token->type
 				== COMMAND_OPTION)))
-		*token = (*token)->next;
+		token = token->next;
 	str = ft_strdup("");
-	create_buffer_for_echo(token, &str, command);
+	create_buffer_for_echo(token, &str);
 	ft_putstr_fd(str, 1);
 	if (command_option_active == 0)
 		ft_putstr_fd("\n", 1);
@@ -43,22 +43,20 @@ int	handle_cases_other_than_words(t_token *token)
 	return (command_option_active);
 }
 
-void	create_buffer_for_echo(t_token **token, char **str, t_command **command)
+void	create_buffer_for_echo(t_token *token, char **str)
 {
 	char	*temp;
 
-	while (*token != NULL)
+	while (token != NULL)
 	{
-		if ((*token)->type == PIPE)
+		if (token->type == PIPE)
 			return ;
 		else
 		{
 			temp = *str;
-			*str = ft_strjoin(*str, (*token)->content);
+			*str = ft_strjoin(*str, token->content);
 			free(temp);
-			if ((*token)->type == COMMAND)
-				*command = (*command)->next;
 		}
-		*token = (*token)->next;
+		token = token->next;
 	}
 }

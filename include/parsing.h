@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:50:08 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/11 21:52:14 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/13 21:11:03 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,13 @@ int				parsing(char *user_input, t_shell *shell);
 int				clean_input(t_shell *shell);
 int				join_clean_input(t_token **token);
 void			join_quote_word_expand(t_token **token);
-int				look_for_grammar_error(t_token *token, t_shell *shell);
+int				look_for_grammar_error(t_token *token);
 int				look_for_word_in_type(t_token *token, t_type type);
 int				check_special_condition_cara(t_type type);
+void			transform_expand_quote_command(t_token *token);
+void			find_word_in_token(t_token *token);
+void			delete_word_in_command(t_token *token, t_command *command);
+t_type			previous_type(t_token *token);
 
 /*
 ** ENV MANAGEMENT
@@ -69,9 +73,9 @@ int				delimit_redirections(char *str, int pos, int initial_pos);
 */
 
 int				tokenizer(t_token *token, t_shell *shell);
-int				check_content(char *str, t_token **token, t_shell *shell);
-void			check_redirection(char *str, t_token **token);
-void			check_special_cara(char *str, t_token **token);
+int				check_content(char *str, t_token *token);
+void			check_redirection(char *str, t_token *token);
+void			check_special_cara(char *str, t_token *token);
 int				check_command(char *str, t_shell *shell, t_token *previous);
 int				command_is_builtin(char *str);
 int				only_type_before_token(t_token *token, t_type type);

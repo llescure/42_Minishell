@@ -1,19 +1,19 @@
 #include "../../include/minishell.h"
 
-void	ft_unset(t_shell *shell, t_token **token)
+void	ft_unset(t_shell *shell, t_token *token)
 {
-	*token = (*token)->next;
-	while (*token != NULL && ((*token)->type == WHITE_SPACE
-			|| (*token)->type == WORD || (*token)->type == COMMAND))
+	token = token->next;
+	while (token != NULL && (token->type == WHITE_SPACE
+			|| token->type == WORD || token->type == COMMAND))
 	{
-		if ((*token)->type == WORD || (*token)->type == COMMAND)
+		if (token->type == WORD || token->type == COMMAND)
 		{
-			if (check_if_variable_already_exists(shell, (*token)->content) == 1)
-				delete_env_variable(shell, (*token)->content);
+			if (check_if_variable_already_exists(shell, token->content) == 1)
+				delete_env_variable(shell, token->content);
 		}
-		*token = (*token)->next;
+		token = token->next;
 	}
-	if ((*token) != NULL && (*token)->type == EQUAL)
+	if (token != NULL && token->type == EQUAL)
 		error_message(EXPORT_ERROR, 1);
 }
 
