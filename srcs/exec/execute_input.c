@@ -68,7 +68,7 @@ void	execute_parent_process(t_shell *shell, t_token *token,
 	else if (command->command_type == ECHO_CMD)
 		ft_echo(token);
 	else if (command->command_type == CD)
-		ft_cd(shell, token, command);
+		ft_cd(shell, token);
 	else if (command->command_type == EXPORT)
 		ft_export(shell, token);
 	else if (command->command_type == UNSET)

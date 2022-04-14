@@ -27,6 +27,10 @@ void	ft_cd(t_shell *shell, t_token *token)
 		chdir(shell->absolute_path);
 		return ;
 	}
+	if (token->next != NULL)
+		token = token->next;
+	if (check_number_of_arguments(token, 0) < 0)
+		return ;
 	return_value = chdir(token->content);
 	if (return_value == -1)
 		error_message(FILES, 1);
