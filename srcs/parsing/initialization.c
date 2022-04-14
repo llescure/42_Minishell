@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:01:06 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/08 14:19:16 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/14 20:47:15 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int	init_struct(t_shell *shell, char **envp)
 		return (g_signal);
 	}
 	shell->pwd = NULL;
-	shell->fd_infile = STDIN_FILENO;
-	shell->fd_outfile = STDOUT_FILENO;
 	if (find_variable_value_env(shell, "SHLVL") != NULL)
 	{
 		shell->shlvl = ft_atoi(find_variable_value_env(shell, "SHLVL"));
@@ -34,8 +32,6 @@ int	init_struct(t_shell *shell, char **envp)
 	}
 	modify_shlvl(shell);
 	set_path(shell);
-	shell->path_in = ft_strjoin(getcwd(tmp, PATH_MAX), "/.tmp_in");
-	shell->path_out = ft_strjoin(getcwd(tmp, PATH_MAX), "/.tmp_out");
 	return (0);
 }
 
