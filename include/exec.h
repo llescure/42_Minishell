@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/14 12:04:49 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/14 20:58:22 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ void		ft_echo(t_token *token);
 void		create_buffer_for_echo(t_token *token, char **str);
 void		ft_exit(t_shell *shell, t_token *token);
 int			handle_cases_other_than_words(t_token *token);
-void		ft_cd(t_shell *shell, t_token *token, t_command *command);
+void		ft_cd(t_shell *shell, t_token *token);
 void		ft_export(t_shell *shell, t_token *token);
 int			condition_for_token_export(t_type type);
 int			export_without_argument(t_shell *shell, t_token *token);
 char		**create_binary(t_token *token);
 int			command_lenght(t_token *token);
-int			exit_basic_case(t_shell *shell, t_token *token);
+void		exit_basic_case(t_shell *shell, t_token *token);
 int			check_number_of_arguments(t_token *token);
 int			check_if_variable_already_exists(t_shell *shell,
 				char *new_env_variable);
