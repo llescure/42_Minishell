@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 12:23:17 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/14 12:05:13 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/14 21:25:05 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,6 @@ int	join_clean_input(t_token **token)
 			join_quote_word_expand(token);
 		if ((*token)->next == NULL)
 			break ;
-	//	if ((*token)->type == WHITE_SPACE)
-	//	{
-	//		str_temp = (*token)->content;
-	//		(*token)->content = ft_strdup(" ");
-	//		free(str_temp);
-	//	}
 		*token = (*token)->next;
 	}
 	while ((*token)->previous != NULL)
@@ -102,10 +96,21 @@ int	look_for_grammar_error(t_token *token)
 {
 	while (token != NULL)
 	{
-		if (token->type == PIPE && token->next == NULL)
+		if (token->type == PIPE)
 		{
-			error_message(SYNTAX, 1);
-			return (g_signal);
+			token = token->next;
+			while (token != NULL && token->type == WHITE_SPACE)
+				token = token->next;
+			if (token == NULL)
+			{
+				error_message(SYNTAX, 1);
+				return (g_signal);
+			}
+			else if (token->type == PIPE)
+			{
+				error_message(SYNTAX, 1);
+				return (g_signal);
+			}
 		}
 		token = token->next;
 	}
