@@ -45,13 +45,7 @@ void	ft_pipe_in(t_shell *shell)
 void	ft_pipe_close_fd(t_shell *shell, t_command *cmd)
 {
 	if (cmd->pipe_output == 1)
-	{
 		dup2(shell->ofd_in, STDIN_FILENO);
-		close(shell->ofd_in);
-	}
 	if (cmd->pipe_input == 1)
-	{
 		dup2(shell->ofd_out, STDOUT_FILENO);
-		close(shell->ofd_out);
-	}
 }

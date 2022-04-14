@@ -51,6 +51,9 @@ void	create_buffer_for_echo(t_token *token, char **str)
 	{
 		if (token->type == PIPE)
 			return ;
+		else if (token->type == WHITE_SPACE && (token->next == NULL ||
+				token->next->type == PIPE))
+			return ;
 		else
 		{
 			temp = *str;

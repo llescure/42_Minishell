@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:08:04 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/08 16:17:10 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/14 09:58:04 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,11 @@ int	delimit_expand(char *str, int pos, int initial_pos)
 	i++;
 	while (ft_isspace(str[i]) == 0 && str[i] != '\0' && (ft_isalnum(str[i]) == 1
 			|| str[i] == '?'))
+	{
+		if (str[i] == '?')
+			return (i + 1) ;
 		i++;
+	}
 	return (i);
 }
 

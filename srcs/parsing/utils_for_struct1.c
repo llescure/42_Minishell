@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:07:29 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/07 08:07:32 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/14 10:08:42 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ void	print_token(t_token *token)
 		return ;
 	while (token->next != NULL)
 	{
-		printf("compt = %d type = %d content = %s\n", (*token).id,
+		printf("compt = %d type = %d content = %s$\n", (*token).id,
 			(int)(*token).type, (*token).content);
 		token = token->next;
 	}
-	printf("compt = %d type = %d content = %s\n", (*token).id,
+	printf("compt = %d type = %d content = %s$\n", (*token).id,
 		(int)(*token).type, (*token).content);
 }
