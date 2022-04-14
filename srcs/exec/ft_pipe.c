@@ -6,7 +6,7 @@ void	ft_pipe_out(t_shell *shell)
 	close (STDOUT_FILENO);
 	unlink(shell->path_out);
 	open(shell->path_out, O_CREAT, 00777);
-	 shell->fd_out = open(shell->path_out, O_RDWR);
+	shell->fd_out = open(shell->path_out, O_RDWR);
 	dup2(shell->fd_out, STDOUT_FILENO);
 	close (shell->fd_out);
 }
@@ -28,7 +28,6 @@ void	ft_copy_fd(int fd_s, int fd_d)
 void	ft_pipe_in(t_shell *shell)
 {
 	int		out;
-	
 
 	shell->ofd_in = dup(STDIN_FILENO);
 	close (STDIN_FILENO);
@@ -46,7 +45,13 @@ void	ft_pipe_in(t_shell *shell)
 void	ft_pipe_close_fd(t_shell *shell, t_command *cmd)
 {
 	if (cmd->pipe_output == 1)
+	{
 		dup2(shell->ofd_in, STDIN_FILENO);
+		close(shell->ofd_in);
+	}
 	if (cmd->pipe_input == 1)
+	{
 		dup2(shell->ofd_out, STDOUT_FILENO);
+		close(shell->ofd_out);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 13:55:13 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/08 16:51:25 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/13 21:56:02 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	modify_shlvl(t_shell *shell)
 	shlvl = ft_strdup("SHLVL=");
 	level = ft_itoa(shell->shlvl);
 	temp = shlvl;
-	shlvl = ft_strjoin(shlvl, level);
+	shlvl = ft_strjoin(temp, level);
 	free(temp);
 	free(level);
 	delete_env_variable(shell, "SHLVL");

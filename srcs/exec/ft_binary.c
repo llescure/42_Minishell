@@ -5,6 +5,8 @@ void	execute_binary(t_shell *shell, t_token *token)
 	char	*temp;
 	char	**command;
 
+	if (double_ft_strncmp(token->content, ""))
+			exit(g_signal) ;
 	if (shell->path != NULL)
 	{
 		free(shell->path);
@@ -22,8 +24,8 @@ void	execute_binary(t_shell *shell, t_token *token)
 	}
 	if (execve(command[0], command, shell->env->env) < 0)
 	{
-		error_message(COMMAND_ERROR, 1);
 		free_tab(command);
+		error_message(COMMAND_ERROR, 1);
 		exit(g_signal);
 	}
 	free_tab(command);

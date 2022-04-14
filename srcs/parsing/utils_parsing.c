@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:07:52 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/13 21:17:16 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/14 09:05:15 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,4 +120,25 @@ t_type	previous_type(t_token *token)
 		return (token->type);
 	else
 		return (ERROR);
+}
+
+void	delete_empty_word(t_token *token)
+{
+	while (token != NULL)
+	{
+		if (token->type == WORD && double_ft_strncmp(token->content, "") == 1)
+			token->type = WHITE_SPACE;
+		token = token->next;
+	}
+}
+
+void	delete_multiple_space(t_token *token)
+{
+	while (token->next != NULL)
+	{
+		while (token->type == WHITE_SPACE && token->next->type == WHITE_SPACE
+				&& token->next->next != NULL)
+			delete_token_node(&token);
+		token = token->next;
+	}
 }

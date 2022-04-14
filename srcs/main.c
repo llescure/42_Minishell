@@ -27,6 +27,8 @@ void	free_all(t_shell *shell)
 	if (shell->path_out != NULL)
 		free(shell->path_out);
 	rl_clear_history();
+	close(shell->fd_in);
+	close(shell->fd_out);
 }
 
 void	free_tab(char **tab)

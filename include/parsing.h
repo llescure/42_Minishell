@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:50:08 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/13 21:11:03 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/14 08:48:05 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void			transform_expand_quote_command(t_token *token);
 void			find_word_in_token(t_token *token);
 void			delete_word_in_command(t_token *token, t_command *command);
 t_type			previous_type(t_token *token);
+void			delete_multiple_space(t_token *token);
+void			delete_empty_word(t_token *token);
 
 /*
 ** ENV MANAGEMENT

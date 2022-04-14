@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:59:45 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/11 07:25:55 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/14 08:22:28 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*find_correct_path(char **path, char *cmd)
 		i++;
 	}
 	free(temp);
-	return (NULL);
+	return (ft_strdup("ERROR"));
 }
 
 char	*create_command_path(char *cmd)

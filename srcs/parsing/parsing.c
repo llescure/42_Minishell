@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 12:23:17 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/13 21:17:24 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/14 08:52:46 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,18 @@ int	parsing(char *user_input, t_shell *shell)
 	if (clean_input(shell) != 0)
 		return (g_signal);
 	transform_expand_quote_command(shell->token);
+	find_word_in_token(shell->token);
+	delete_empty_word(shell->token);
+	delete_multiple_space(shell->token);
 	if (join_clean_input(&shell->token) < 0)
 		return (error_system(shell, MALLOC));
 	if (look_for_grammar_error(shell->token) != 0)
 		return (g_signal);
-	//print_token(shell->token);
-	find_word_in_token(shell->token);
 	if (initialization_command(shell->token, shell) < 0)
 		return (error_system(shell, MALLOC));
 	delete_redirection_in_token(&shell->token, shell);
 	delete_word_in_command(shell->token, shell->command);
+//	print_token(shell->token);
 	return (0);
 }
 
