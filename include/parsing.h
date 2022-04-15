@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:50:08 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/14 08:48:05 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/15 09:10:17 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,10 @@ int				append_redirection_struct(t_redirection **redirection,
 					char *str, t_type type);
 void			free_redirection(t_redirection **list);
 void			print_redirection(t_redirection *redirection);
-void			delete_redirection_in_token(t_token **token, t_shell *shell);
-int				check_lonely_redirection(t_token *token, t_shell *shell);
+void			delete_redirection_in_token(t_token **token, t_shell *shell,
+					t_command *command);
+int				check_lonely_redirection(t_token *token, t_shell *shell,
+					t_command *command);
 
 /*
 ** PIPE MANAGEMENT

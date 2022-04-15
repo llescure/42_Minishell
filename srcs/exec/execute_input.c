@@ -6,7 +6,7 @@ int	execute_input(t_shell *shell, t_token *token, t_command *command)
 	{
 		if (token->type == COMMAND)
 		{
-			handle_builtin(shell, token, command);
+			launch_command(shell, token, command);
 			if (token == NULL)
 				return (0);
 			command = command->next;
@@ -19,7 +19,16 @@ int	execute_input(t_shell *shell, t_token *token, t_command *command)
 	return (0);
 }
 
-void	handle_builtin(t_shell *shell, t_token *token, t_command *command)
+void	launch_command(t_shell *shell, t_token *token, t_command *command)
+{
+	if (command->redirection != NULL)
+		return (handle_redirection(command, shell, token));
+//	if (command->pipe_input == 1 || command->pipe_output == 1)
+//		return (handle_pipe(shell, command));
+	handle_command(shell, token, command);
+}
+
+void	handle_command(t_shell *shell, t_token *token, t_command *command)
 {
 	int	pid;
 
@@ -75,12 +84,4 @@ void	execute_parent_process(t_shell *shell, t_token *token,
 		ft_unset(shell, token);
 	signal(SIGINT, handle_signals);
 	signal(SIGQUIT, handle_signals);
-}
-
-void	handle_pipe(t_shell *shell, t_command *command)
-{
-	if (command->pipe_output == 1)
-		ft_pipe_in(shell);
-	if (command->pipe_input == 1)
-		ft_pipe_out(shell);
 }

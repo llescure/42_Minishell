@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:00:02 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/07 08:00:04 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/15 08:30:31 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ Usage: ./minishell\n", -1, fd_outfile));
 
 int	error_system(t_shell *shell, t_error str)
 {
-	error_message(str, shell->fd_outfile);
+	error_message(str, STDERR_FILENO);
 	free_all(shell);
 	return (g_signal);
 }

@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:01:57 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/11 22:15:12 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/15 09:33:31 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,10 @@ void	look_for_redirection_after_command(t_token *token,
 	}
 }
 
-void	delete_redirection_in_token(t_token **token, t_shell *shell)
+void	delete_redirection_in_token(t_token **token, t_shell *shell,
+		t_command *command)
 {
-	if (check_lonely_redirection(*token, shell) > 0)
+	if (check_lonely_redirection(*token, shell, command) > 0)
 		return ;
 	while ((*token)->next != NULL)
 	{
@@ -102,26 +103,39 @@ void	delete_redirection_in_token(t_token **token, t_shell *shell)
 		*token = (*token)->previous;
 }
 
-int	check_lonely_redirection(t_token *token, t_shell *shell)
+int	check_lonely_redirection(t_token *token, t_shell *shell, t_command *command)
 {
-	t_redirection *redirection;
+	t_redirection	*redir;
+	int				save_infile;
+	int				save_outfile;
 
-	redirection = NULL;
+	if (command != NULL)
+		return (0);
+	redir = NULL;
 	while (token != NULL && (token->type == REDIR_RIGHT
 			|| token->type == REDIR_LEFT || token->type == HEREDOC
 			|| token->type == D_REDIR_RIGHT || token->type == WHITE_SPACE))
 	{
-		if (redirection == NULL && (token->type == REDIR_LEFT
+		if (redir == NULL && (token->type == REDIR_LEFT
 				|| token->type == REDIR_RIGHT
 				|| token->type == HEREDOC || token->type == D_REDIR_RIGHT))
-			redirection = create_redirection_struct(token->content, token->type);
-		else if (redirection != NULL && token->type != WHITE_SPACE)
-			append_redirection_struct(&redirection, token->content, token->type);
+			redir = create_redirection_struct(token->content, token->type);
+		else if (redir != NULL && token->type != WHITE_SPACE)
+			append_redirection_struct(&redir, token->content, token->type);
 		token = token->next;
 	}
 	if (token != NULL)
+	{
+		free_redirection(&redir);
 		return (0);
-	handle_redirection(redirection, shell, 0);
-	free_redirection(&redirection);
+	}
+	if (create_file(redir, shell) < 0)
+	{
+		free_redirection(&redir);
+		return (1);
+	}
+	initialize_redir(shell, &save_infile, &save_outfile);
+	reset_fd(shell, &save_infile, &save_outfile);
+	free_redirection(&redir);
 	return (1);
 }

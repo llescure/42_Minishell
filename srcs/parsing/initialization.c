@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:01:06 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/14 21:08:27 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/15 08:45:44 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	init_struct(t_shell *shell, char **envp)
 	get_env(shell, envp);
 	if (g_signal == -1)
 	{
-		error_message(MALLOC, shell->fd_outfile);
+		error_message(MALLOC, STDERR_FILENO);
 		free_all(shell);
 		return (g_signal);
 	}
@@ -28,6 +28,8 @@ int	init_struct(t_shell *shell, char **envp)
 		if (shell->shlvl == 1)
 			shell->shlvl++;
 	}
+	shell->fd_in = 0;
+	shell->fd_out = 0;
 	modify_shlvl(shell);
 	set_path(shell);
 	return (0);
@@ -96,7 +98,7 @@ void	set_path(t_shell *shell)
 	}
 	else if (temp == NULL && g_signal == -1)
 	{
-		error_message(MALLOC, shell->fd_outfile);
+		error_message(MALLOC, STDERR_FILENO);
 		free_all(shell);
 		return ;
 	}

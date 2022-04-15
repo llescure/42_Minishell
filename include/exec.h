@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/14 21:06:46 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/15 08:37:31 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void		free_all(t_shell *shell);
 */
 
 int			execute_input(t_shell *shell, t_token *token, t_command *command);
-void		handle_builtin(t_shell *shell, t_token *token,
+void		launch_command(t_shell *shell, t_token *token, t_command *command);
+void		handle_command(t_shell *shell, t_token *token,
 		t_command *command);
 void		execute_child_process(t_shell *shell, t_token *token,
 				t_command *command);
@@ -37,9 +38,13 @@ void		execute_parent_process(t_shell *shell, t_token *token,
 ** REDIRECTIONS
 */
 
-int			handle_redirection(t_redirection *redirection, t_shell *shell,
-		int open_fd);
-int			open_file_descriptor(int in, int out, t_shell *shell);
+void		handle_redirection(t_command *command, t_shell *shell,
+		t_token *token);
+int			create_file(t_redirection *redirection, t_shell *shell);
+int			initialize_redir(t_shell *shell, int *save_infile,
+		int *save_outfile);
+void		reset_fd(t_shell *shell, int *save_infile,
+		int *save_outfile);
 int			handle_heredoc(char *file, t_shell *shell);
 void		new_line_until_delimitator(int *fd, char *file);
 
