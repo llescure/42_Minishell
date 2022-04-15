@@ -2,17 +2,18 @@
 
 int	execute_input(t_shell *shell, t_token *token, t_command *command)
 {
+//	ft_putstr_fd("coucou\n", STDERR_FILENO);
 	while (token != NULL)
 	{
 		if (token->type == COMMAND)
 		{
-			launch_command(shell, token, command);
+			if (command->pipe_in == 1 || command->pipe_out == 1)
+				return (handle_pipe(shell, &command, &token));
+			else
+				launch_command(shell, token, command);
 			if (token == NULL)
 				return (0);
 			command = command->next;
-			while (command != NULL && command->command_type == VOID)
-				command = command->next;
-			shell->command_count++;
 		}
 		token = token->next;
 	}
@@ -23,8 +24,6 @@ void	launch_command(t_shell *shell, t_token *token, t_command *command)
 {
 	if (command->redirection != NULL)
 		return (handle_redirection(command, shell, token));
-//	if (command->pipe_input == 1 || command->pipe_output == 1)
-//		return (handle_pipe(shell, command));
 	handle_command(shell, token, command);
 }
 

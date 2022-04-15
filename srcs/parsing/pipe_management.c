@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:01:25 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/11 09:21:57 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/15 10:19:58 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void	define_pipe_input_output(t_command *command, t_token *token)
 {
-	command->pipe_input = 0;
-	command->pipe_output = 0;
+	command->pipe_in = 0;
+	command->pipe_out = 0;
 	if (look_for_type_before_command(token, PIPE) == 1)
-		command->pipe_output = 1;
+		command->pipe_out = 1;
 	if (look_for_type_after_command(token, PIPE) == 1)
-		command->pipe_input = 1;
-	if (command->pipe_input == 0 && command->pipe_output == 0
+		command->pipe_in = 1;
+	if (command->pipe_in == 0 && command->pipe_out == 0
 		&& (token->previous != NULL))
 	{
 		token = token->previous;

@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/15 08:37:31 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/15 16:04:30 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,11 @@ void		handle_exec_signals(int signum);
 ** PIPE
 */
 
-void	ft_pipe_out(t_shell *shell);
-void	ft_copy_fd(int fd_s, int fd_d);
-void	ft_pipe_in(t_shell *shell);
-
-void	handle_pipe(t_shell *shell, t_command *command);
-void	ft_pipe_close_fd(t_shell *shell, t_command *cmd);
+int			handle_pipe(t_shell *shell, t_command **command,
+				t_token **token);
+void		child_process(int *fd, t_shell *shell, t_command *command,
+				t_token *token);
+void		parent_process(int *fd, t_shell *shell, t_command **command,
+				t_token **token);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:58 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/15 08:22:23 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/15 15:01:00 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ typedef struct s_command
 {
 	t_command_type		command_type;
 	t_redirection		*redirection;
-	int					pipe_input;
-	int					pipe_output;
+	int					pipe_in;
+	int					pipe_out;
 	int					id;
 	struct s_command	*next;
 }					t_command;
@@ -125,7 +125,6 @@ typedef struct s_shell
 	t_env				*env;
 	t_token				*token;
 	t_command			*command;
-	int					command_count;
 	int					shlvl;
 }				t_shell;
 
