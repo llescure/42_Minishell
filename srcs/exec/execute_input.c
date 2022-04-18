@@ -29,49 +29,11 @@ void	launch_command(t_shell *shell, t_token *token, t_command *command)
 
 void	handle_command(t_shell *shell, t_token *token, t_command *command)
 {
-	int	pid;
-
-	pid = fork();
-	if (pid < 0)
-		return ;
-	else if (pid == 0)
-	{
-		if (shell->path != NULL)
-			free_tab(shell->path);
-		shell->path = NULL;
-		execute_child_process(shell, token, command);
-	}
-	else
-		execute_parent_process(shell, token, command, pid);
-}
-
-void	execute_child_process(t_shell *shell, t_token *token,
-		t_command *command)
-{
 	if (command->command_type == PWD)
 		ft_pwd(shell);
-	else if (command->command_type == EXIT || command->command_type == CD
-		|| command->command_type == EXPORT || command->command_type == ECHO_CMD
-		|| command->command_type == UNSET || command->command_type == VOID)
-		exit(g_signal);
 	else if (command->command_type == ENV)
-	{
 		print_env(shell->env->env);
-		exit(g_signal);
-	}
-	else if (command->command_type == BINARY)
-		execute_binary(shell, token);
-	else if (command->command_type == EXECUTABLE)
-		execute_executable(shell, token);
-}
-
-void	execute_parent_process(t_shell *shell, t_token *token,
-		t_command *command, int pid)
-{
-	signal(SIGINT, handle_exec_signals);
-	signal(SIGQUIT, handle_exec_signals);
-	waitpid(pid, &g_signal, 0);
-	if (command->command_type == EXIT)
+	else if (command->command_type == EXIT)
 		ft_exit(shell, token);
 	else if (command->command_type == ECHO_CMD)
 		ft_echo(token);
@@ -81,6 +43,33 @@ void	execute_parent_process(t_shell *shell, t_token *token,
 		ft_export(shell, token);
 	else if (command->command_type == UNSET)
 		ft_unset(shell, token);
-	signal(SIGINT, handle_signals);
-	signal(SIGQUIT, handle_signals);
+	else if (command->command_type == BINARY
+			|| command->command_type == EXECUTABLE)
+		execute_child_process(shell, token, command);
+}
+
+int	execute_child_process(t_shell *shell, t_token *token,
+		t_command *command)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid < 0)
+		return (error_system(shell, PIPE_FORK));
+	else if (pid == 0)
+	{
+		if (command->command_type == BINARY)
+			execute_binary(shell, token);
+		else if (command->command_type == EXECUTABLE)
+			execute_executable(shell, token);
+	}
+	else
+	{
+		signal(SIGINT, handle_exec_signals);
+		signal(SIGQUIT, handle_exec_signals);
+		waitpid(pid, &g_signal, 0);
+		signal(SIGINT, handle_signals);
+		signal(SIGQUIT, handle_signals);
+	}
+	return (0);
 }

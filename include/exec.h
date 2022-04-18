@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/15 16:04:30 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/18 12:48:07 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int			execute_input(t_shell *shell, t_token *token, t_command *command);
 void		launch_command(t_shell *shell, t_token *token, t_command *command);
 void		handle_command(t_shell *shell, t_token *token,
 		t_command *command);
-void		execute_child_process(t_shell *shell, t_token *token,
+int			execute_child_process(t_shell *shell, t_token *token,
 				t_command *command);
 void		execute_parent_process(t_shell *shell, t_token *token,
 				t_command *command, int pid);
@@ -92,9 +92,13 @@ void		handle_exec_signals(int signum);
 
 int			handle_pipe(t_shell *shell, t_command **command,
 				t_token **token);
-void		child_process(int *fd, t_shell *shell, t_command *command,
-				t_token *token);
+int			child_process(t_shell *shell, t_command *command,
+				t_token *token, int *fd);
 void		parent_process(int *fd, t_shell *shell, t_command **command,
 				t_token **token);
+void		handle_pipe_builtin(t_shell *shell, t_token *token,
+		t_command *command);
+void		handle_pipe_bin(t_shell *shell, t_token *token,
+		t_command *command);
 
 #endif
