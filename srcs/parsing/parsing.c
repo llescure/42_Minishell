@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 12:23:17 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/15 15:00:34 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:03:32 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ int	clean_input(t_shell *shell)
 
 int	join_clean_input(t_token **token)
 {
-//	char	*str_temp;
-
 	while ((*token)->next != NULL)
 	{
 		if (check_special_condition_cara((*token)->type) == 1)

@@ -1,4 +1,16 @@
-#include "../../include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_binary.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 13:47:55 by llescure          #+#    #+#             */
+/*   Updated: 2022/04/20 14:10:31 by llescure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../../include/minishell.h"
 
 void	execute_binary(t_shell *shell, t_token *token)
 {
@@ -6,7 +18,7 @@ void	execute_binary(t_shell *shell, t_token *token)
 	char	**command;
 
 	if (double_ft_strncmp(token->content, ""))
-			exit(g_signal) ;
+		exit(g_signal);
 	if (shell->path != NULL)
 	{
 		free(shell->path);
@@ -25,7 +37,7 @@ void	execute_binary(t_shell *shell, t_token *token)
 	if (execve(command[0], command, shell->env->env) < 0)
 	{
 		free_tab(command);
-		error_message(COMMAND_ERROR, 1);
+		error_message(COMMAND_ERROR, STDERR_FILENO);
 		exit(g_signal);
 	}
 	free_tab(command);

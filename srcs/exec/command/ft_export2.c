@@ -1,4 +1,16 @@
-#include "../../include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export2.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 13:48:24 by llescure          #+#    #+#             */
+/*   Updated: 2022/04/20 14:11:07 by llescure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../../include/minishell.h"
 
 void	add_new_env_variable(char *new_env_variable, t_shell *shell)
 {

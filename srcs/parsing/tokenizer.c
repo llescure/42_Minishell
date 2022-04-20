@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:06:38 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/13 20:20:29 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:06:11 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	check_command(char *str, t_shell *shell, t_token *token)
 	if (ft_strncmp(str, "/", ft_strlen(str)) == 0)
 		return (0);
 	if (access(str, F_OK) == 0 && (str[0] == '.' || str[0] == '/')
-			&& (token == NULL || only_type_before_token(token, PIPE) == 1 ))
+		&& (token == NULL || only_type_before_token(token, PIPE) == 1))
 		return (1);
 	temp = find_correct_path(shell->path, str);
 	if (temp != NULL)

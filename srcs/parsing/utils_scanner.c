@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:08:04 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/14 09:58:04 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:04:04 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	delimit_expand(char *str, int pos, int initial_pos)
 			|| str[i] == '?'))
 	{
 		if (str[i] == '?')
-			return (i + 1) ;
+			return (i + 1);
 		i++;
 	}
 	return (i);

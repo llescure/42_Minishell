@@ -9,22 +9,26 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -lreadline
 
 SRCS =	./srcs/main.c								\
-		./srcs/exec/other_builtin.c					\
-		./srcs/exec/ft_echo.c						\
-		./srcs/exec/ft_exit.c						\
-		./srcs/exec/ft_unset.c						\
-		./srcs/exec/ft_binary.c						\
+		./srcs/exec/command/ft_echo.c				\
+		./srcs/exec/command/ft_exit.c				\
+		./srcs/exec/command/ft_unset.c				\
+		./srcs/exec/command/ft_binary.c				\
+		./srcs/exec/command/ft_export1.c			\
+		./srcs/exec/command/ft_export2.c			\
+		./srcs/exec/command/ft_cd.c					\
+		./srcs/exec/command/ft_pwd.c				\
+		./srcs/exec/command/ft_executable.c			\
 		./srcs/exec/launch_shell.c					\
 		./srcs/exec/signals.c						\
-		./srcs/exec/ft_export1.c					\
-		./srcs/exec/ft_export2.c					\
-		./srcs/exec/ft_pipe.c						\
+		./srcs/exec/pipe_management.c				\
 		./srcs/exec/execute_input.c					\
 		./srcs/exec/redirections_management.c		\
+		./srcs/exec/heredoc_management.c			\
 		./srcs/parsing/scanner.c					\
 		./srcs/parsing/tokenizer.c					\
 		./srcs/parsing/parsing.c					\
-		./srcs/parsing/utils_parsing.c				\
+		./srcs/parsing/utils_parsing1.c				\
+		./srcs/parsing/utils_parsing2.c				\
 		./srcs/parsing/utils_scanner.c				\
 		./srcs/parsing/utils_tokenizer.c			\
 		./srcs/parsing/initialization.c				\

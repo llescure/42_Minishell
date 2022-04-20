@@ -1,4 +1,16 @@
-#include "../../include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 13:48:03 by llescure          #+#    #+#             */
+/*   Updated: 2022/04/20 14:10:43 by llescure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../../include/minishell.h"
 
 void	ft_echo(t_token *token)
 {
@@ -51,8 +63,8 @@ void	create_buffer_for_echo(t_token *token, char **str)
 	{
 		if (token->type == PIPE)
 			return ;
-		else if (token->type == WHITE_SPACE && (token->next == NULL ||
-				token->next->type == PIPE))
+		else if (token->type == WHITE_SPACE && (token->next == NULL
+				|| token->next->type == PIPE))
 			return ;
 		else
 		{

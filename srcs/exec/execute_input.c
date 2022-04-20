@@ -1,14 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_input.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 13:50:17 by llescure          #+#    #+#             */
+/*   Updated: 2022/04/20 13:51:18 by llescure         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 int	execute_input(t_shell *shell, t_token *token, t_command *command)
 {
-//	ft_putstr_fd("coucou\n", STDERR_FILENO);
 	while (token != NULL)
 	{
 		if (token->type == COMMAND)
 		{
 			if (command->pipe_in == 1 || command->pipe_out == 1)
-				return (handle_pipe(shell, &command, &token));
+				return (handle_pipe(shell, command, token));
 			else
 				launch_command(shell, token, command);
 			if (token == NULL)
@@ -34,17 +45,17 @@ void	handle_command(t_shell *shell, t_token *token, t_command *command)
 	else if (command->command_type == ENV)
 		print_env(shell->env->env);
 	else if (command->command_type == EXIT)
-		ft_exit(shell, token);
+		ft_exit(shell, token, command);
 	else if (command->command_type == ECHO_CMD)
 		ft_echo(token);
 	else if (command->command_type == CD)
-		ft_cd(shell, token);
+		ft_cd(shell, token, command);
 	else if (command->command_type == EXPORT)
 		ft_export(shell, token);
 	else if (command->command_type == UNSET)
 		ft_unset(shell, token);
 	else if (command->command_type == BINARY
-			|| command->command_type == EXECUTABLE)
+		|| command->command_type == EXECUTABLE)
 		execute_child_process(shell, token, command);
 }
 

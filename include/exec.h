@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/18 12:48:07 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:07:26 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void		free_all(t_shell *shell);
 int			execute_input(t_shell *shell, t_token *token, t_command *command);
 void		launch_command(t_shell *shell, t_token *token, t_command *command);
 void		handle_command(t_shell *shell, t_token *token,
-		t_command *command);
+				t_command *command);
 int			execute_child_process(t_shell *shell, t_token *token,
 				t_command *command);
 void		execute_parent_process(t_shell *shell, t_token *token,
@@ -39,12 +39,12 @@ void		execute_parent_process(t_shell *shell, t_token *token,
 */
 
 void		handle_redirection(t_command *command, t_shell *shell,
-		t_token *token);
+				t_token *token);
 int			create_file(t_redirection *redirection, t_shell *shell);
 int			initialize_redir(t_shell *shell, int *save_infile,
-		int *save_outfile);
+				int *save_outfile);
 void		reset_fd(t_shell *shell, int *save_infile,
-		int *save_outfile);
+				int *save_outfile);
 int			handle_heredoc(char *file, t_shell *shell);
 void		new_line_until_delimitator(int *fd, char *file);
 
@@ -55,16 +55,18 @@ void		new_line_until_delimitator(int *fd, char *file);
 void		ft_pwd(t_shell *shell);
 void		ft_echo(t_token *token);
 void		create_buffer_for_echo(t_token *token, char **str);
-void		ft_exit(t_shell *shell, t_token *token);
+void		ft_exit(t_shell *shell, t_token *token, t_command *command);
+void		exit_basic_case(t_shell *shell, t_token *token, t_command *command);
+void		exit_numeric_issue(t_shell *shell, t_command *command);
+int			check_number_of_arguments(t_token *token, int exit_case,
+				t_command *command);
 int			handle_cases_other_than_words(t_token *token);
-void		ft_cd(t_shell *shell, t_token *token);
+void		ft_cd(t_shell *shell, t_token *token, t_command *command);
 void		ft_export(t_shell *shell, t_token *token);
 int			condition_for_token_export(t_type type);
 int			export_without_argument(t_shell *shell, t_token *token);
 char		**create_binary(t_token *token);
 int			command_lenght(t_token *token);
-void		exit_basic_case(t_shell *shell, t_token *token);
-int			check_number_of_arguments(t_token *token, int exit_case);
 int			check_if_variable_already_exists(t_shell *shell,
 				char *new_env_variable);
 void		delete_env_variable(t_shell *shell, char *env_to_delete);
@@ -90,15 +92,14 @@ void		handle_exec_signals(int signum);
 ** PIPE
 */
 
-int			handle_pipe(t_shell *shell, t_command **command,
-				t_token **token);
-int			child_process(t_shell *shell, t_command *command,
-				t_token *token, int *fd);
-void		parent_process(int *fd, t_shell *shell, t_command **command,
-				t_token **token);
+int			handle_pipe(t_shell *shell, t_command *command,
+				t_token *token);
+void		child_process(t_shell *shell, t_token *token, t_command *command,
+				int *fd);
+void		parent_process(pid_t pid, int *fd, t_shell *shell);
 void		handle_pipe_builtin(t_shell *shell, t_token *token,
-		t_command *command);
+				t_command *command);
 void		handle_pipe_bin(t_shell *shell, t_token *token,
-		t_command *command);
+				t_command *command);
 
 #endif
