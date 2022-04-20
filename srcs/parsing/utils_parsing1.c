@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:07:52 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/20 14:23:12 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/20 15:43:20 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	transform_expand_quote_command(t_token *token)
 			if (ft_isascii(str[0]) == 1)
 				token->type = COMMAND;
 		}
-			token = token->next;
+		token = token->next;
 	}
 }
 
@@ -76,13 +76,16 @@ void	find_word_in_token(t_token *token)
 			token = token->next;
 	}
 	if (token->type != PIPE)
-	{
-		if (token->type == COMMAND
-			&& previous_type(token->previous) != PIPE
-			&& previous_type(token->previous) != ERROR)
-			token->type = WORD;
-		else if (token->type == EXPAND || token->type == D_QUOTE
-			|| token->type == QUOTE || token->type == ERROR)
-			token->type = WORD;
-	}
+		change_type_to_word(token);
+}
+
+void	change_type_to_word(t_token *token)
+{
+	if (token->type == COMMAND
+		&& previous_type(token->previous) != PIPE
+		&& previous_type(token->previous) != ERROR)
+		token->type = WORD;
+	else if (token->type == EXPAND || token->type == D_QUOTE
+		|| token->type == QUOTE || token->type == ERROR)
+		token->type = WORD;
 }

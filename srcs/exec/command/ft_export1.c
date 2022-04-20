@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:48:18 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/20 14:11:00 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:42:34 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,7 @@ void	ft_export(t_shell *shell, t_token *token)
 	while (token != NULL && condition_for_token_export(token->type) == 1)
 	{
 		if (token->type == WORD || token->type == COMMAND)
-		{
-			if (token->next == NULL)
-				return (create_lonely_env_variable(shell, token));
-			token = token->next;
-			if (token->type == WHITE_SPACE && token->next != NULL
-				&& token->next->type == EQUAL)
-			{
-				create_lonely_env_variable(shell, token);
-				return (error_message(EXPORT_ERROR, 1));
-			}
-			else if (token->type == WHITE_SPACE)
-				create_lonely_env_variable(shell, token);
-			else if (token->type == EQUAL)
-				create_new_env_variable(shell, token);
-		}
+			check_variable_needs_to_be_created(shell, token);
 		else if (token->type == EQUAL)
 			return (error_message(EXPORT_ERROR, 1));
 		if (token == NULL)
@@ -90,14 +76,19 @@ int	condition_for_token_export(t_type type)
 	return (0);
 }
 
-void	print_tab(char	**tab)
+void	check_variable_needs_to_be_created(t_shell *shell, t_token *token)
 {
-	int	i;
-
-	i = 0;
-	while (tab[i] != NULL)
+	if (token->next == NULL)
+		return (create_lonely_env_variable(shell, token));
+	token = token->next;
+	if (token->type == WHITE_SPACE && token->next != NULL
+		&& token->next->type == EQUAL)
 	{
-		printf("%s\n", tab[i]);
-		i++;
+		create_lonely_env_variable(shell, token);
+		return (error_message(EXPORT_ERROR, 1));
 	}
+	else if (token->type == WHITE_SPACE)
+		create_lonely_env_variable(shell, token);
+	else if (token->type == EQUAL)
+		create_new_env_variable(shell, token);
 }

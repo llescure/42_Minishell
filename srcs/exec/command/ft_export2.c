@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:48:24 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/20 14:11:07 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:42:19 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,19 +71,6 @@ int	export_without_argument(t_shell *shell, t_token *token)
 	return (0);
 }
 
-void	print_env(char	**tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i] != NULL)
-	{
-		if (find_cara_in_word(tab[i], '=') != -1)
-			printf("%s\n", tab[i]);
-		i++;
-	}
-}
-
 char	**export_tab(char **tab)
 {
 	char	*env;
@@ -100,4 +87,16 @@ char	**export_tab(char **tab)
 		i++;
 	}
 	return (tab);
+}
+
+void	print_tab(char	**tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i] != NULL)
+	{
+		printf("%s\n", tab[i]);
+		i++;
+	}
 }

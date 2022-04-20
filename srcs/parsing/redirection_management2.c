@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:06:15 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/07 08:06:17 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/20 15:53:06 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,20 @@ void	print_redirection(t_redirection	*redirection)
 		redirection = redirection->next;
 	}
 	printf("compt = %d content = %s\n", compt, (*redirection).file);
+}
+
+int	check_creation_file(t_redirection *redir, t_shell *shell,
+		t_token *token)
+{
+	if (token != NULL)
+	{
+		free_redirection(&redir);
+		return (0);
+	}
+	if (create_file(redir, shell) < 0)
+	{
+		free_redirection(&redir);
+		return (1);
+	}
+	return (42);
 }

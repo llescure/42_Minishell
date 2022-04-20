@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:01:57 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/15 09:33:31 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/20 15:53:03 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,16 +124,8 @@ int	check_lonely_redirection(t_token *token, t_shell *shell, t_command *command)
 			append_redirection_struct(&redir, token->content, token->type);
 		token = token->next;
 	}
-	if (token != NULL)
-	{
-		free_redirection(&redir);
-		return (0);
-	}
-	if (create_file(redir, shell) < 0)
-	{
-		free_redirection(&redir);
-		return (1);
-	}
+	if (check_creation_file(redir, shell, token) != 42)
+		return (check_creation_file(redir, shell, token));
 	initialize_redir(shell, &save_infile, &save_outfile);
 	reset_fd(shell, &save_infile, &save_outfile);
 	free_redirection(&redir);

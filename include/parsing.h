@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:50:08 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/15 09:10:17 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/20 15:51:44 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void			delete_word_in_command(t_token *token, t_command *command);
 t_type			previous_type(t_token *token);
 void			delete_multiple_space(t_token *token);
 void			delete_empty_word(t_token *token);
+void			change_type_to_word(t_token *token);
 
 /*
 ** ENV MANAGEMENT
@@ -142,6 +143,8 @@ void			delete_redirection_in_token(t_token **token, t_shell *shell,
 					t_command *command);
 int				check_lonely_redirection(t_token *token, t_shell *shell,
 					t_command *command);
+int				check_creation_file(t_redirection *redir, t_shell *shell,
+					t_token *token);
 
 /*
 ** PIPE MANAGEMENT

@@ -17,6 +17,7 @@ SRCS =	./srcs/main.c								\
 		./srcs/exec/command/ft_export2.c			\
 		./srcs/exec/command/ft_cd.c					\
 		./srcs/exec/command/ft_pwd.c				\
+		./srcs/exec/command/ft_env.c				\
 		./srcs/exec/command/ft_executable.c			\
 		./srcs/exec/launch_shell.c					\
 		./srcs/exec/signals.c						\
