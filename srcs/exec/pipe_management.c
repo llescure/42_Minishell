@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:47:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/20 14:16:40 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:31:20 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	handle_pipe(t_shell *shell, t_command *command, t_token *token)
 		{
 			parent_process(pid, fd, shell);
 			command = command->next;
-			while (command != NULL && token->id < command->id)
+			while (command != NULL && token != NULL && token->id < command->id)
 				token = token->next;
 		}
 	}
@@ -40,6 +40,12 @@ int	handle_pipe(t_shell *shell, t_command *command, t_token *token)
 
 void	handle_pipe_bin(t_shell *shell, t_token *token, t_command *command)
 {
+	if (shell->path != NULL)
+	{
+		free_tab(shell->path);
+		shell->path = NULL;
+	}
+	set_path(shell);
 	if (command->command_type == BINARY)
 		execute_binary(shell, token);
 	else if (command->command_type == EXECUTABLE)

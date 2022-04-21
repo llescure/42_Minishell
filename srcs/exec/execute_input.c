@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:50:17 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/20 13:51:18 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/21 17:36:08 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,15 @@ void	handle_command(t_shell *shell, t_token *token, t_command *command)
 		ft_unset(shell, token);
 	else if (command->command_type == BINARY
 		|| command->command_type == EXECUTABLE)
+	{
+		if (shell->path != NULL)
+		{
+			free_tab(shell->path);
+			shell->path = NULL;
+		}
+		set_path(shell);
 		execute_child_process(shell, token, command);
+	}
 }
 
 int	execute_child_process(t_shell *shell, t_token *token,

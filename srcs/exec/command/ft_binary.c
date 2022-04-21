@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:47:55 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/20 14:10:31 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/20 20:52:12 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,6 @@ void	execute_binary(t_shell *shell, t_token *token)
 
 	if (double_ft_strncmp(token->content, ""))
 		exit(g_signal);
-	if (shell->path != NULL)
-	{
-		free(shell->path);
-		shell->path = NULL;
-	}
-	set_path(shell);
 	command = create_binary(token);
 	if (command == NULL)
 		exit(error_system(shell, MALLOC));

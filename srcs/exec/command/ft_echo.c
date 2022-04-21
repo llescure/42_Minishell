@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:48:03 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/20 14:10:43 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:57:16 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,10 @@ void	create_buffer_for_echo(t_token *token, char **str)
 			return ;
 		else
 		{
+			if (token->type == EMPTY)
+				token = token->next;
+			if (token == NULL)
+				return ;
 			temp = *str;
 			*str = ft_strjoin(*str, token->content);
 			free(temp);

@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 14:21:24 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/20 14:22:41 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/21 17:37:06 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,9 @@ void	delete_multiple_space(t_token *token)
 {
 	while (token->next != NULL)
 	{
-		while (token->type == WHITE_SPACE && token->next->type == WHITE_SPACE
-			&& token->next->next != NULL)
+		while (token->type == WHITE_SPACE && token->next->next != NULL
+			&& (token->next->type == WHITE_SPACE
+				|| token->next->type == EMPTY))
 			delete_token_node(&token);
 		token = token->next;
 	}

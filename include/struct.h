@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:58 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/20 13:26:17 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:35:36 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ typedef enum e_type
 	REDIR_RIGHT,
 	REDIR_LEFT,
 	D_REDIR_RIGHT,
-	HEREDOC
+	HEREDOC,
+	EMPTY
 }				t_type;
 
 typedef struct s_token

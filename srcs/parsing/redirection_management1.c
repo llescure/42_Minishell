@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:01:57 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/20 15:53:03 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:57:50 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,19 +86,14 @@ void	delete_redirection_in_token(t_token **token, t_shell *shell,
 				|| (*token)->type == REDIR_LEFT
 				|| (*token)->type == D_REDIR_RIGHT
 				|| (*token)->type == HEREDOC))
-		{
-			if ((*token)->id == 0)
-				delete_first_token_node(token);
-			else
-				delete_token_node(token);
-		}
+			(*token)->type = EMPTY;
 		if ((*token)->next == NULL)
 			break ;
 		*token = (*token)->next;
 	}
 	if ((*token)->type == REDIR_RIGHT || (*token)->type == REDIR_LEFT
 		|| (*token)->type == D_REDIR_RIGHT || (*token)->type == HEREDOC)
-		delete_last_token_node(token);
+			(*token)->type = EMPTY;
 	while ((*token)->previous != NULL)
 		*token = (*token)->previous;
 }

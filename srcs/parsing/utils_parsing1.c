@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:07:52 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/20 15:43:20 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/21 14:26:57 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	check_special_condition_cara(t_type type)
 {
 	if (type == QUOTE || type == WORD || type == D_QUOTE
-		|| type == EXPAND)
+		|| type == EXPAND || type == COMMAND)
 		return (1);
 	return (0);
 }

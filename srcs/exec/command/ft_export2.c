@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:48:24 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/20 14:42:19 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/21 10:25:14 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ int	check_if_variable_already_exists(t_shell *shell, char *new_env_variable)
 	return (0);
 }
 
-int	export_without_argument(t_shell *shell, t_token *token)
+int	export_without_argument(t_shell *shell, t_token **token)
 {
-	while (token != NULL && token->type == WHITE_SPACE)
-		token = token->next;
-	if (token == NULL)
+	while (*token != NULL && (*token)->type == WHITE_SPACE)
+		*token = (*token)->next;
+	if (*token == NULL)
 	{
 		if (shell->env->alpha != NULL)
 			free_tab(shell->env->alpha);
