@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/21 12:50:38 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/22 09:26:02 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,6 @@ void		handle_pipe_builtin(t_shell *shell, t_token *token,
 				t_command *command);
 void		handle_pipe_bin(t_shell *shell, t_token *token,
 				t_command *command);
+void		pipe_redirection(t_shell *shell, t_command *command, int *fd);
 
 #endif

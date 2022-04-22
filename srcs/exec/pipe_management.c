@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:47:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/21 16:31:20 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/22 09:25:51 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,15 @@ void	handle_pipe_builtin(t_shell *shell, t_token *token, t_command *command)
 void	child_process(t_shell *shell, t_token *token, t_command *command,
 		int	*fd)
 {
-	dup2(shell->fd_pipe_in, STDIN_FILENO);
-	if (command->next != NULL)
-		dup2(fd[1], STDOUT_FILENO);
-	close(fd[0]);
+	if (command->redirection == NULL)
+	{
+		dup2(shell->fd_pipe_in, STDIN_FILENO);
+		if (command->next != NULL)
+			dup2(fd[1], STDOUT_FILENO);
+		close(fd[0]);
+	}
+	else
+		pipe_redirection(shell, command, fd);
 	if (command->command_type == BINARY
 		|| command->command_type == EXECUTABLE)
 		handle_pipe_bin(shell, token, command);
@@ -96,4 +101,25 @@ void	parent_process(pid_t pid, int *fd, t_shell *shell)
 	signal(SIGQUIT, handle_signals);
 	close(fd[1]);
 	shell->fd_pipe_in = fd[0];
+}
+
+void	pipe_redirection(t_shell *shell, t_command *command, int *fd)
+{
+	int	save_infile;
+	int	save_outfile;
+
+	save_infile = -1;
+	save_outfile = -1;
+	if (create_file(command->redirection, shell) < 0)
+		return ;
+	initialize_redir(shell, &save_infile, &save_outfile);
+	if (shell->fd_in != 0)
+		dup2(shell->fd_in, STDIN_FILENO);
+	else
+		dup2(shell->fd_pipe_in, STDIN_FILENO);
+	if (command->next != NULL && shell->fd_out != 0)
+		dup2(shell->fd_out, STDOUT_FILENO);
+	else if (command->next != NULL && shell->fd_out == 0)
+		dup2(fd[1], STDOUT_FILENO);
+	close(fd[0]);
 }
