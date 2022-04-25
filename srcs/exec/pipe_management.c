@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:47:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/22 09:25:51 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/22 10:41:45 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	parent_process(pid_t pid, int *fd, t_shell *shell)
 	signal(SIGINT, handle_exec_signals);
 	signal(SIGQUIT, handle_exec_signals);
 	waitpid(pid, &g_signal, 0);
+	g_signal = WEXITSTATUS(g_signal);
 	signal(SIGINT, handle_signals);
 	signal(SIGQUIT, handle_signals);
 	close(fd[1]);

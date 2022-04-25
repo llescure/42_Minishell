@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:50:17 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/21 17:36:08 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/22 10:41:04 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	execute_input(t_shell *shell, t_token *token, t_command *command)
 {
+	shell->fd_in = 0;
+	shell->fd_out = 0;
 	while (token != NULL)
 	{
 		if (token->type == COMMAND)
@@ -87,6 +89,7 @@ int	execute_child_process(t_shell *shell, t_token *token,
 		signal(SIGINT, handle_exec_signals);
 		signal(SIGQUIT, handle_exec_signals);
 		waitpid(pid, &g_signal, 0);
+		g_signal = WEXITSTATUS(g_signal);
 		signal(SIGINT, handle_signals);
 		signal(SIGQUIT, handle_signals);
 	}

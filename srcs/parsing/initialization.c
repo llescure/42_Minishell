@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:01:06 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/15 08:45:44 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/22 10:11:30 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ int	init_struct(t_shell *shell, char **envp)
 		if (shell->shlvl == 1)
 			shell->shlvl++;
 	}
-	shell->fd_in = 0;
-	shell->fd_out = 0;
 	modify_shlvl(shell);
 	set_path(shell);
 	return (0);
