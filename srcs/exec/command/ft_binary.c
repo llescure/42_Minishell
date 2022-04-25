@@ -6,13 +6,13 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:47:55 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/25 14:03:40 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/25 20:31:09 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/minishell.h"
 
-void	execute_binary(t_shell *shell, t_token *token)
+void	execute_binary(t_shell *shell, t_token *token, int exit_or_return)
 {
 	char	*temp;
 	char	**command;
@@ -32,7 +32,11 @@ void	execute_binary(t_shell *shell, t_token *token)
 	{
 		free_tab(command);
 		error_message(COMMAND_ERROR, STDERR_FILENO);
-		exit(g_signal);
+		if (shell->fd_pipe_in != STDIN_FILENO)
+			close(shell->fd_pipe_in);
+		if (exit_or_return == 1)
+			exit(g_signal);
+		return ;
 	}
 	free_tab(command);
 }

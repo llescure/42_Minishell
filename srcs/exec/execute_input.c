@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:50:17 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/22 10:41:04 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/25 20:32:01 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	execute_child_process(t_shell *shell, t_token *token,
 	else if (pid == 0)
 	{
 		if (command->command_type == BINARY)
-			execute_binary(shell, token);
+			execute_binary(shell, token, 1);
 		else if (command->command_type == EXECUTABLE)
 			execute_executable(shell, token);
 	}

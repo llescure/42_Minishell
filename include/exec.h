@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/22 09:26:02 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/25 20:32:54 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int			check_if_variable_already_exists(t_shell *shell,
 void		delete_env_variable(t_shell *shell, char *env_to_delete);
 void		ft_unset(t_shell *shell, t_token *token);
 char		**copy_previous_env_variable(t_shell *shell, char *env_to_delete);
-void		execute_binary(t_shell *shell, t_token *token);
+void		execute_binary(t_shell *shell, t_token *token, int exit_or_return);
 void		create_new_env_variable(t_shell *shell, t_token **token);
 void		create_lonely_env_variable(t_shell *shell, t_token *token);
 void		add_new_env_variable(char *new_env_variable, t_shell *shell);

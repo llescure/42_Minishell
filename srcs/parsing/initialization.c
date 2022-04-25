@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:01:06 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/22 10:11:30 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/25 17:01:25 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	init_struct(t_shell *shell, char **envp)
 		return (g_signal);
 	}
 	shell->pwd = NULL;
+	shell->fd_pipe_in = STDIN_FILENO;
+	shell->fd_pipe_out = STDOUT_FILENO;
 	if (find_variable_value_env(shell, "SHLVL") != NULL)
 	{
 		shell->shlvl = ft_atoi(find_variable_value_env(shell, "SHLVL"));
