@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:47:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/22 10:41:45 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/25 15:41:22 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	handle_pipe(t_shell *shell, t_command *command, t_token *token)
 				token = token->next;
 		}
 	}
+	close(fd[0]);
 	return (0);
 }
 
@@ -88,6 +89,7 @@ void	child_process(t_shell *shell, t_token *token, t_command *command,
 	else
 	{
 		handle_pipe_builtin(shell, token, command);
+		close(fd[1]);
 		exit(g_signal);
 	}
 }
@@ -101,6 +103,8 @@ void	parent_process(pid_t pid, int *fd, t_shell *shell)
 	signal(SIGINT, handle_signals);
 	signal(SIGQUIT, handle_signals);
 	close(fd[1]);
+	if (shell->fd_pipe_in != STDIN_FILENO)
+		close(shell->fd_pipe_in);
 	shell->fd_pipe_in = fd[0];
 }
 
