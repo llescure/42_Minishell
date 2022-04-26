@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:58:49 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/20 13:59:21 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/26 09:27:00 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ int	handle_heredoc(char *file, t_shell *shell)
 	if (reader < 0)
 		return (error_system(shell, PIPE_FORK));
 	if (reader == 0)
+	{
 		new_line_until_delimitator(fd, file);
+		close(fd[1]);
+		exit(g_signal);
+	}
 	else
 	{
 		waitpid(reader, &g_signal, 0);
@@ -44,7 +48,7 @@ void	new_line_until_delimitator(int *fd, char *file)
 		if (ft_strncmp(line, file, ft_strlen(file)) == 0)
 		{
 			free(line);
-			exit(g_signal);
+			return ;
 		}
 		ft_putstr_fd("> ", STDOUT_FILENO);
 		ft_putstr_fd(line, fd[1]);

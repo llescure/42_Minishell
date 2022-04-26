@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:58 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/25 16:15:19 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/25 21:05:11 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ typedef struct s_shell
 	int					fd_out;
 	int					fd_pipe_in;
 	int					fd_pipe_out;
+	int					save_infile;
+	int					save_outfile;
 	t_env				*env;
 	t_token				*token;
 	t_command			*command;

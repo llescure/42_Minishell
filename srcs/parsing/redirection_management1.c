@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 08:01:57 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/21 16:57:50 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/25 21:10:00 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,6 @@ void	delete_redirection_in_token(t_token **token, t_shell *shell,
 int	check_lonely_redirection(t_token *token, t_shell *shell, t_command *command)
 {
 	t_redirection	*redir;
-	int				save_infile;
-	int				save_outfile;
 
 	if (command != NULL)
 		return (0);
@@ -121,8 +119,8 @@ int	check_lonely_redirection(t_token *token, t_shell *shell, t_command *command)
 	}
 	if (check_creation_file(redir, shell, token) != 42)
 		return (check_creation_file(redir, shell, token));
-	initialize_redir(shell, &save_infile, &save_outfile);
-	reset_fd(shell, &save_infile, &save_outfile);
+	initialize_redir(shell);
+	reset_fd(shell);
 	free_redirection(&redir);
 	return (1);
 }

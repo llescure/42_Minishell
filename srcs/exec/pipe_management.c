@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:47:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/25 20:48:25 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/25 21:26:15 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ void	child_process(t_shell *shell, t_token *token, t_command *command,
 		handle_pipe_builtin(shell, token, command);
 		if (shell->fd_pipe_in != STDIN_FILENO)
 			close(shell->fd_pipe_in);
+		if (command->redirection != NULL)
+			reset_fd(shell);
 		close(fd[0]);
 		close(fd[1]);
 		exit(g_signal);
@@ -121,14 +123,9 @@ void	parent_process(pid_t pid, int *fd, t_shell *shell)
 
 void	pipe_redirection(t_shell *shell, t_command *command, int *fd)
 {
-	int	save_infile;
-	int	save_outfile;
-
-	save_infile = -1;
-	save_outfile = -1;
 	if (create_file(command->redirection, shell) < 0)
 		return ;
-	initialize_redir(shell, &save_infile, &save_outfile);
+	initialize_redir(shell);
 	if (shell->fd_in != 0)
 		dup2(shell->fd_in, STDIN_FILENO);
 	else
