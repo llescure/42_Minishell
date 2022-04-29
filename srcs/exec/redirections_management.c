@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:49:00 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/26 10:11:01 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/29 19:18:56 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,14 @@ int	initialize_redir(t_shell *shell)
 
 void	reset_fd(t_shell *shell)
 {
-	if (shell->fd_in != 0)
+	if (shell->fd_in > 0)
 	{
 		dup2(shell->save_infile, STDIN_FILENO);
 		close(shell->fd_in);
 		shell->fd_in = 0;
 		close(shell->save_infile);
 	}
-	if (shell->fd_out != 0)
+	if (shell->fd_out > 0)
 	{
 		dup2(shell->save_outfile, STDOUT_FILENO);
 		close(shell->fd_out);

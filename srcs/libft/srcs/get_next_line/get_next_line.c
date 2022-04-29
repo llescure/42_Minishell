@@ -6,18 +6,22 @@
 /*   By: llescure <llescure@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 21:49:03 by llescure          #+#    #+#             */
-/*   Updated: 2021/12/14 16:38:48 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/29 19:53:07 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/libft.h"
 
-int	return_value(int char_read, char **temp)
+int	return_value(int char_read, char **temp, char *delimitor, char *line)
 {
 	if (char_read < 0)
 		return (-1);
 	if (char_read > 0)
+	{
+		if (ft_strncmp(line, delimitor, ft_strlen(delimitor)) == 0)
+			free(*temp);
 		return (1);
+	}
 	free(*temp);
 	*temp = NULL;
 	return (0);
@@ -60,7 +64,7 @@ char	*copy_to_get_temp(char *temp)
 	return (temp);
 }
 
-int	get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line, char *delimitor)
 {
 	char				*buf;
 	static char			*temp = NULL;
@@ -83,5 +87,5 @@ int	get_next_line(int fd, char **line)
 	free(buf);
 	*line = ft_trim(temp, '\n');
 	temp = copy_to_get_temp(temp);
-	return (return_value(char_read, &temp));
+	return (return_value(char_read, &temp, delimitor, *line));
 }

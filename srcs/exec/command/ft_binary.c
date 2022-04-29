@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:47:55 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/25 20:31:09 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/29 17:13:30 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ void	execute_binary(t_shell *shell, t_token *token, int exit_or_return)
 		error_message(COMMAND_ERROR, STDERR_FILENO);
 		if (shell->fd_pipe_in != STDIN_FILENO)
 			close(shell->fd_pipe_in);
-		free_all(shell);
 		if (exit_or_return == 1)
+		{
+			free_all(shell);
 			exit(g_signal);
+		}
 		return ;
 	}
 	free_tab(command);

@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 20:02:11 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/26 10:12:22 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/29 19:53:36 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,9 @@ void			ft_double_free_list(t_double_list **lst, int free_content);
  ** Get_next_line
 */
 
-int				get_next_line(int fd, char **line);
-int				return_value(int char_read, char **temp);
+int				get_next_line(int fd, char **line, char *delimitor);
+int				return_value(int char_read, char **temp, char *delimitor,
+					char *line);
 int				error_case(int fd, char **line, char **temp, char **buf);
 char			*copy_to_join(char *temp, char *buf);
 char			*copy_to_get_temp(char *temp);
