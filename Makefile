@@ -6,7 +6,7 @@ LIBFT_DIR	=	./srcs/libft
 
 OBJS = $(SRCS:.c=.o)
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -lreadline
+CFLAGS = -Wall -Wextra -Werror -g3 -lreadline
 
 SRCS =	./srcs/main.c								\
 		./srcs/exec/command/ft_echo.c				\

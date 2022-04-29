@@ -34,6 +34,6 @@
  ** GLOBAL VARIABLE
 */
 
-int		g_signal;
+extern int		g_signal;
 
 #endif
