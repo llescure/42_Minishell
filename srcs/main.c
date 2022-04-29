@@ -66,7 +66,6 @@ int	main(int argc, char **argv, char **envp)
 		|| argc != 1)
 	{
 		error_message(PARAMETERS, 1);
-		free_all(&shell);
 		return (g_signal);
 	}
 	if (init_struct(&shell, envp) < 0)
