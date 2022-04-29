@@ -90,6 +90,7 @@ void	child_process(t_shell *shell, t_token *token, t_command *command,
 		handle_pipe_bin(shell, token, command);
 		close(fd[1]);
 		close(fd[0]);
+		free_all(shell);
 		exit(g_signal);
 	}
 	else
@@ -101,6 +102,7 @@ void	child_process(t_shell *shell, t_token *token, t_command *command,
 			reset_fd(shell);
 		close(fd[0]);
 		close(fd[1]);
+		free_all(shell);
 		exit(g_signal);
 	}
 }

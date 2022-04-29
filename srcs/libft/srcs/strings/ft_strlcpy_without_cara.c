@@ -23,6 +23,8 @@ int	ft_strlcpy_without_cara(char *dst, char *src, char cara)
 	{
 		while (src[j] == cara)
 			j++;
+		if (src[j] == '\0')
+			break;
 		dst[i] = src[j];
 		i++;
 		j++;
