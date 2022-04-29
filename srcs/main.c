@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+int		g_signal;
 
 void	free_all(t_shell *shell)
 {

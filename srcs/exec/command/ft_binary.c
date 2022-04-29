@@ -34,6 +34,7 @@ void	execute_binary(t_shell *shell, t_token *token, int exit_or_return)
 		error_message(COMMAND_ERROR, STDERR_FILENO);
 		if (shell->fd_pipe_in != STDIN_FILENO)
 			close(shell->fd_pipe_in);
+		free_all(shell);
 		if (exit_or_return == 1)
 			exit(g_signal);
 		return ;
