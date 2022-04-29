@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:49:00 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/29 19:18:56 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/29 21:28:47 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,10 @@ int	create_file(t_redirection *redirection, t_shell *shell)
 {
 	while (redirection != NULL)
 	{
-		if (redirection->type == REDIR_RIGHT)
-		{
-			if (shell->fd_out != 0)
-				close(shell->fd_out);
-			shell->fd_out = open(redirection->file, O_WRONLY | O_CREAT
-					| O_TRUNC, 0777);
-		}
-		else if (redirection->type == D_REDIR_RIGHT)
-		{
-			if (shell->fd_out != 0)
-				close(shell->fd_out);
-			shell->fd_out = open(redirection->file, O_WRONLY | O_CREAT
-					| O_APPEND, 0777);
-		}
-		else if (redirection->type == REDIR_LEFT)
-		{
-			if (shell->fd_in != 0)
-				close(shell->fd_in);
-			shell->fd_in = open(redirection->file, O_RDONLY);
-		}
+		if (redirection->type == REDIR_RIGHT
+			|| redirection->type == D_REDIR_RIGHT
+			|| redirection->type == REDIR_LEFT)
+			open_fd(shell, redirection);
 		else if (redirection->type == HEREDOC)
 		{
 			if (handle_heredoc(redirection->file, shell) < 0)
@@ -92,5 +76,29 @@ void	reset_fd(t_shell *shell)
 		close(shell->fd_out);
 		shell->fd_out = 0;
 		close(shell->save_outfile);
+	}
+}
+
+void	open_fd(t_shell *shell, t_redirection *redirection)
+{
+	if (redirection->type == REDIR_RIGHT)
+	{
+		if (shell->fd_out > 0)
+			close(shell->fd_out);
+		shell->fd_out = open(redirection->file, O_WRONLY | O_CREAT
+				| O_TRUNC, 0777);
+	}
+	else if (redirection->type == D_REDIR_RIGHT)
+	{
+		if (shell->fd_out > 0)
+			close(shell->fd_out);
+		shell->fd_out = open(redirection->file, O_WRONLY | O_CREAT
+				| O_APPEND, 0777);
+	}
+	else if (redirection->type == REDIR_LEFT)
+	{
+		if (shell->fd_in > 0)
+			close(shell->fd_in);
+		shell->fd_in = open(redirection->file, O_RDONLY);
 	}
 }

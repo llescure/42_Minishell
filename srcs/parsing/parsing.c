@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 12:23:17 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/21 17:00:07 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/29 20:49:55 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,9 @@ int	parsing(char *user_input, t_shell *shell)
 		return (g_signal);
 	if (initialization_command(shell->token, shell) < 0)
 		return (error_system(shell, MALLOC));
-	//print_token(shell->token);
 	delete_redirection_in_token(&shell->token, shell, shell->command);
 	delete_multiple_space(shell->token);
 	delete_word_in_command(shell->token, shell->command);
-//	print_token(shell->token);
 	return (0);
 }
 

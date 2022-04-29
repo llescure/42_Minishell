@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:48:03 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/21 16:57:16 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/29 20:47:37 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	ft_echo(t_token *token)
 		token = token->next;
 	str = ft_strdup("");
 	create_buffer_for_echo(token, &str);
-	ft_putstr_fd(str, 1);
+	printf("%s", str);
 	if (command_option_active == 0)
-		ft_putstr_fd("\n", 1);
+		printf("\n");
 	free(str);
 }
 
@@ -40,7 +40,7 @@ int	handle_cases_other_than_words(t_token *token)
 	command_option_active = 0;
 	if (token == NULL)
 	{
-		ft_putstr_fd("\n", 1);
+		printf("\n");
 		return (-1);
 	}
 	while (token != NULL && ((token->type == COMMAND_OPTION

@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:58:49 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/29 19:48:16 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/29 20:25:16 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	handle_heredoc(char *file, t_shell *shell)
 	else
 	{
 		waitpid(reader, &g_signal, 0);
+		g_signal = WEXITSTATUS(g_signal);
 		close(fd[1]);
 		close(fd[0]);
 	}

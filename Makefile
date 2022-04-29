@@ -21,7 +21,8 @@ SRCS =	./srcs/main.c								\
 		./srcs/exec/command/ft_executable.c			\
 		./srcs/exec/launch_shell.c					\
 		./srcs/exec/signals.c						\
-		./srcs/exec/pipe_management.c				\
+		./srcs/exec/pipe_management1.c				\
+		./srcs/exec/pipe_management2.c				\
 		./srcs/exec/execute_input.c					\
 		./srcs/exec/redirections_management.c		\
 		./srcs/exec/heredoc_management.c			\

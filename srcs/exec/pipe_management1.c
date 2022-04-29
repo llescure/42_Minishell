@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_management.c                                  :+:      :+:    :+:   */
+/*   pipe_management1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:47:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/25 21:26:15 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/29 20:59:02 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,38 +40,6 @@ int	handle_pipe(t_shell *shell, t_command *command, t_token *token)
 	return (0);
 }
 
-void	handle_pipe_bin(t_shell *shell, t_token *token, t_command *command)
-{
-	if (shell->path != NULL)
-	{
-		free_tab(shell->path);
-		shell->path = NULL;
-	}
-	set_path(shell);
-	if (command->command_type == BINARY)
-		execute_binary(shell, token, 0);
-	else if (command->command_type == EXECUTABLE)
-		execute_executable(shell, token);
-}
-
-void	handle_pipe_builtin(t_shell *shell, t_token *token, t_command *command)
-{
-	if (command->command_type == PWD)
-		ft_pwd(shell);
-	else if (command->command_type == ENV)
-		print_env(shell->env->env);
-	else if (command->command_type == EXIT)
-		ft_exit(shell, token, command);
-	else if (command->command_type == ECHO_CMD)
-		ft_echo(token);
-	else if (command->command_type == CD)
-		ft_cd(shell, token, command);
-	else if (command->command_type == EXPORT)
-		ft_export(shell, token);
-	else if (command->command_type == UNSET)
-		ft_unset(shell, token);
-}
-
 void	child_process(t_shell *shell, t_token *token, t_command *command,
 		int	*fd)
 {
@@ -88,10 +56,7 @@ void	child_process(t_shell *shell, t_token *token, t_command *command,
 		|| command->command_type == EXECUTABLE)
 	{
 		handle_pipe_bin(shell, token, command);
-		close(fd[1]);
-		close(fd[0]);
-		free_all(shell);
-		exit(g_signal);
+		clean_after_pipe(shell, fd);
 	}
 	else
 	{
@@ -100,11 +65,16 @@ void	child_process(t_shell *shell, t_token *token, t_command *command,
 			close(shell->fd_pipe_in);
 		if (command->redirection != NULL)
 			reset_fd(shell);
-		close(fd[0]);
-		close(fd[1]);
-		free_all(shell);
-		exit(g_signal);
+		clean_after_pipe(shell, fd);
 	}
+}
+
+void	clean_after_pipe(t_shell *shell, int *fd)
+{
+	close(fd[0]);
+	close(fd[1]);
+	free_all(shell);
+	exit(g_signal);
 }
 
 void	parent_process(pid_t pid, int *fd, t_shell *shell)

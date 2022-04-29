@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/25 21:07:22 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/29 21:27:20 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int			initialize_redir(t_shell *shell);
 void		reset_fd(t_shell *shell);
 int			handle_heredoc(char *file, t_shell *shell);
 void		new_line_until_delimitator(int *fd, char *file);
+void		open_fd(t_shell *shell, t_redirection *redirection);
 
 /*
 ** COMMAND
@@ -65,6 +66,8 @@ void		check_variable_needs_to_be_created(t_shell *shell, t_token **token);
 int			export_without_argument(t_shell *shell, t_token **token);
 char		**create_binary(t_token *token);
 int			command_lenght(t_token *token);
+void		case_execve_fail(t_shell *shell, int exit_or_return,
+				char **command);
 int			check_if_variable_already_exists(t_shell *shell,
 				char *new_env_variable);
 void		delete_env_variable(t_shell *shell, char *env_to_delete);
@@ -100,5 +103,6 @@ void		handle_pipe_builtin(t_shell *shell, t_token *token,
 void		handle_pipe_bin(t_shell *shell, t_token *token,
 				t_command *command);
 void		pipe_redirection(t_shell *shell, t_command *command, int *fd);
+void		clean_after_pipe(t_shell *shell, int *fd);
 
 #endif

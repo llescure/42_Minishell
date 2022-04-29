@@ -6,11 +6,12 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 14:06:31 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/20 14:06:34 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/29 20:51:24 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
 int		g_signal;
 
 void	free_all(t_shell *shell)

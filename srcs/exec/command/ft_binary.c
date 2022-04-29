@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:47:55 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/29 17:13:30 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/29 21:06:58 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,7 @@ void	execute_binary(t_shell *shell, t_token *token, int exit_or_return)
 	}
 	if (execve(command[0], command, shell->env->env) < 0)
 	{
-		free_tab(command);
-		error_message(COMMAND_ERROR, STDERR_FILENO);
-		if (shell->fd_pipe_in != STDIN_FILENO)
-			close(shell->fd_pipe_in);
-		if (exit_or_return == 1)
-		{
-			free_all(shell);
-			exit(g_signal);
-		}
+		case_execve_fail(shell, exit_or_return, command);
 		return ;
 	}
 	free_tab(command);
@@ -88,4 +80,19 @@ int	command_lenght(t_token *token)
 		token = token->next;
 	}
 	return (size);
+}
+
+void	case_execve_fail(t_shell *shell, int exit_or_return, char **command)
+{
+	free_tab(command);
+	error_message(COMMAND_ERROR, STDERR_FILENO);
+	if (shell->fd_pipe_in != STDIN_FILENO)
+		close(shell->fd_pipe_in);
+	if (shell->fd_in > 0 || shell->fd_out > 0)
+		reset_fd(shell);
+	if (exit_or_return == 1)
+	{
+		free_all(shell);
+		exit(g_signal);
+	}
 }

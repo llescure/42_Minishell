@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 17:42:21 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/06 14:59:01 by llescure         ###   ########.fr       */
+/*   Updated: 2022/04/29 20:50:42 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_strlcpy_without_cara(char *dst, char *src, char cara)
 		while (src[j] == cara)
 			j++;
 		if (src[j] == '\0')
-			break;
+			break ;
 		dst[i] = src[j];
 		i++;
 		j++;
