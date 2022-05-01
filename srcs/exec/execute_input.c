@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:50:17 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/25 21:16:12 by llescure         ###   ########.fr       */
+/*   Updated: 2022/05/01 18:36:26 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 int	execute_input(t_shell *shell, t_token *token, t_command *command)
 {
-	shell->fd_in = 0;
-	shell->fd_out = 0;
 	while (token != NULL)
 	{
 		if (token->type == COMMAND)

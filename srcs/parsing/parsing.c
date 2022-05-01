@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 12:23:17 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/29 20:49:55 by llescure         ###   ########.fr       */
+/*   Updated: 2022/05/01 18:36:23 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 
 int	parsing(char *user_input, t_shell *shell)
 {
+	shell->fd_in = 0;
+	shell->fd_out = 0;
 	if (user_input[0] == '\0')
 		return (0);
 	if (scanner(user_input, shell) < 0)

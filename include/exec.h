@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 07:49:46 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/29 21:27:20 by llescure         ###   ########.fr       */
+/*   Updated: 2022/05/01 18:56:40 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,12 @@ void		execute_parent_process(t_shell *shell, t_token *token,
 
 void		handle_redirection(t_command *command, t_shell *shell,
 				t_token *token);
-int			create_file(t_redirection *redirection, t_shell *shell);
+int			create_file(t_redirection *redirection, t_shell *shell,
+				t_command *command);
 int			initialize_redir(t_shell *shell);
 void		reset_fd(t_shell *shell);
-int			handle_heredoc(char *file, t_shell *shell);
+int			handle_heredoc(t_redirection *redirection, t_shell *shell,
+				t_command *command);
 void		new_line_until_delimitator(int *fd, char *file);
 void		open_fd(t_shell *shell, t_redirection *redirection);
 
@@ -59,6 +61,7 @@ void		exit_basic_case(t_shell *shell, t_token *token, t_command *command);
 void		exit_numeric_issue(t_shell *shell, t_command *command);
 int			check_number_of_arguments(t_token *token, int exit_case,
 				t_command *command);
+void		close_fd(t_shell *shell, t_command *command);
 int			handle_cases_other_than_words(t_token *token);
 void		ft_cd(t_shell *shell, t_token *token, t_command *command);
 void		ft_export(t_shell *shell, t_token *token);
@@ -95,14 +98,13 @@ void		handle_exec_signals(int signum);
 
 int			handle_pipe(t_shell *shell, t_command *command,
 				t_token *token);
-void		child_process(t_shell *shell, t_token *token, t_command *command,
-				int *fd);
-void		parent_process(pid_t pid, int *fd, t_shell *shell);
+void		child_process(t_shell *shell, t_token *token, t_command *command);
+void		parent_process(pid_t pid, t_shell *shell);
 void		handle_pipe_builtin(t_shell *shell, t_token *token,
 				t_command *command);
 void		handle_pipe_bin(t_shell *shell, t_token *token,
 				t_command *command);
-void		pipe_redirection(t_shell *shell, t_command *command, int *fd);
-void		clean_after_pipe(t_shell *shell, int *fd);
+void		pipe_redirection(t_shell *shell, t_command *command);
+void		clean_after_pipe(t_shell *shell);
 
 #endif

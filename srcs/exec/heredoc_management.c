@@ -6,13 +6,14 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:58:49 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/29 20:25:16 by llescure         ###   ########.fr       */
+/*   Updated: 2022/05/01 18:54:58 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	handle_heredoc(char *file, t_shell *shell)
+int	handle_heredoc(t_redirection *redirection, t_shell *shell,
+		t_command *command)
 {
 	int	fd[2];
 	int	reader;
@@ -24,8 +25,10 @@ int	handle_heredoc(char *file, t_shell *shell)
 		return (error_system(shell, PIPE_FORK));
 	if (reader == 0)
 	{
-		new_line_until_delimitator(fd, file);
+		new_line_until_delimitator(fd, redirection->file);
 		close(fd[1]);
+		if (command == NULL)
+			free_redirection(&redirection);
 		free_all(shell);
 		exit(g_signal);
 	}

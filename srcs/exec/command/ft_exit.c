@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:48:10 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/20 14:10:52 by llescure         ###   ########.fr       */
+/*   Updated: 2022/05/01 17:58:46 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	ft_exit(t_shell *shell, t_token *token, t_command *command)
 	{
 		if (command->pipe_in == 0 && command->pipe_out == 0)
 			ft_putstr_fd("exit\n", 1);
+		close_fd(shell, command);
 		free_all(shell);
 		exit(g_signal);
 	}
@@ -42,8 +43,9 @@ void	exit_basic_case(t_shell *shell, t_token *token, t_command *command)
 	{
 		if (command->pipe_in == 0 && command->pipe_out == 0)
 			ft_putstr_fd("exit\n", 1);
+		close_fd(shell, command);
 		free_all(shell);
-		exit (g_signal);
+		exit(g_signal);
 	}
 }
 
@@ -52,6 +54,7 @@ void	exit_numeric_issue(t_shell *shell, t_command *command)
 	if (command->pipe_in == 0 && command->pipe_out == 0)
 		ft_putstr_fd("exit\n", 1);
 	error_message(EXIT_ERROR, STDERR_FILENO);
+	close_fd(shell, command);
 	free_all(shell);
 	exit(g_signal);
 }
@@ -78,4 +81,21 @@ int	check_number_of_arguments(t_token *token, int exit_case, t_command *command)
 		}
 	}
 	return (0);
+}
+
+void	close_fd(t_shell *shell, t_command *command)
+{
+	if (shell->fd_pipe_in > 0)
+		close(shell->fd_pipe_in);
+	if (shell->fd_pipe_out > 0)
+		close(shell->fd_pipe_out);
+	if (shell->fd_in > 0)
+		close(shell->fd_in);
+	if (shell->fd_out > 0)
+		close(shell->fd_out);
+	if (command->pipe_in != 0 || command->pipe_out != 0)
+	{
+		close(shell->fd[0]);
+		close(shell->fd[1]);
+	}
 }

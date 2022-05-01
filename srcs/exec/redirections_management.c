@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:49:00 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/29 21:28:47 by llescure         ###   ########.fr       */
+/*   Updated: 2022/05/01 18:55:24 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	handle_redirection(t_command *command, t_shell *shell, t_token *token)
 {
-	if (create_file(command->redirection, shell) < 0)
+	if (create_file(command->redirection, shell, command) < 0)
 		return ;
 	initialize_redir(shell);
 	handle_command(shell, token, command);
 	reset_fd(shell);
 }
 
-int	create_file(t_redirection *redirection, t_shell *shell)
+int	create_file(t_redirection *redirection, t_shell *shell, t_command *command)
 {
 	while (redirection != NULL)
 	{
@@ -31,7 +31,7 @@ int	create_file(t_redirection *redirection, t_shell *shell)
 			open_fd(shell, redirection);
 		else if (redirection->type == HEREDOC)
 		{
-			if (handle_heredoc(redirection->file, shell) < 0)
+			if (handle_heredoc(redirection, shell, command) < 0)
 				return (g_signal);
 		}
 		redirection = redirection->next;
