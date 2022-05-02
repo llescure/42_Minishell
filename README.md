@@ -3,7 +3,7 @@
 ### Project ###
 Reproduce some behaviors of bash --posix :
 - Pipe
-- Redirections > >> < <<
+- Redirections >, >>, <, <<
 - Builtin : echo with -n option, ls, pwd, unset, export, env, cd
 - Quote and double quote management
 
