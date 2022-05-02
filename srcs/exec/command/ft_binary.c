@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:47:55 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/29 21:06:58 by llescure         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:39:53 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	execute_binary(t_shell *shell, t_token *token, int exit_or_return)
 		command[0] = find_correct_path(shell->path, command[0]);
 		free(temp);
 	}
+	g_signal = 0;
 	if (execve(command[0], command, shell->env->env) < 0)
 	{
 		case_execve_fail(shell, exit_or_return, command);

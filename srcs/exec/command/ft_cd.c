@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 14:12:42 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/20 14:13:06 by llescure         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:39:12 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	ft_cd(t_shell *shell, t_token *token, t_command *command)
 	if (token == NULL)
 	{
 		chdir(shell->absolute_path);
+		g_signal = 0;
 		return ;
 	}
 	if (token->next != NULL)

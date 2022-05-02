@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:48:52 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/20 14:15:04 by llescure         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:40:20 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	execute_executable(t_shell *shell, t_token *token)
 {
 	char	**command;
 
+	g_signal = 0;
 	command = create_binary(token);
 	if (double_ft_strncmp(command[0], "./minishell") == 1)
 	{

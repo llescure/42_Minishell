@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:48:10 by llescure          #+#    #+#             */
-/*   Updated: 2022/05/01 17:58:46 by llescure         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:41:34 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ft_exit(t_shell *shell, t_token *token, t_command *command)
 {
 	long long	number;
 
+	g_signal = 0;
 	number = 0;
 	while (token->next != NULL && token->next->type == WHITE_SPACE)
 		token = token->next;

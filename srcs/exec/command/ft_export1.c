@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:48:18 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/21 14:15:12 by llescure         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:40:44 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_export(t_shell *shell, t_token *token)
 {
+	g_signal = 0;
 	token = token->next;
 	if (export_without_argument(shell, &token) == 1)
 		return ;

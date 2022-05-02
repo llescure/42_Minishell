@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:48:03 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/29 20:47:37 by llescure         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:38:53 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	ft_echo(t_token *token)
 	if (command_option_active == 0)
 		printf("\n");
 	free(str);
+	g_signal = 0;
 }
 
 int	handle_cases_other_than_words(t_token *token)
@@ -41,6 +42,7 @@ int	handle_cases_other_than_words(t_token *token)
 	if (token == NULL)
 	{
 		printf("\n");
+		g_signal = 0;
 		return (-1);
 	}
 	while (token != NULL && ((token->type == COMMAND_OPTION

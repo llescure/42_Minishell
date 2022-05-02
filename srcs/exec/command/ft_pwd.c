@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 14:13:12 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/29 20:46:11 by llescure         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:41:05 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ft_pwd(t_shell *shell)
 {
 	char	cwd[PATH_MAX];
 
+	g_signal = 0;
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
 		if (shell->pwd != NULL)

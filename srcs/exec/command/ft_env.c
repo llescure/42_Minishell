@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 14:39:59 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/20 14:40:52 by llescure         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:39:25 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,5 @@ void	print_env(char	**tab)
 			printf("%s\n", tab[i]);
 		i++;
 	}
+	g_signal = 0;
 }

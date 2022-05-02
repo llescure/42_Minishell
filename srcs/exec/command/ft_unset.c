@@ -6,7 +6,7 @@
 /*   By: llescure <llescure@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:48:33 by llescure          #+#    #+#             */
-/*   Updated: 2022/04/20 14:11:14 by llescure         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:41:17 by llescure         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_unset(t_shell *shell, t_token *token)
 {
+	g_signal = 0;
 	token = token->next;
 	while (token != NULL && (token->type == WHITE_SPACE
 			|| token->type == WORD || token->type == COMMAND))
